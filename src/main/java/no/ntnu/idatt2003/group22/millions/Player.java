@@ -25,7 +25,7 @@ public class Player {
     public void addMoney(BigDecimal amount) {
         money = money.add(amount);
     }
-    public withdrawMoney(BigDecimal amount){
+    public void withdrawMoney(BigDecimal amount){
         money = money.subtract(amount);
     }
     public Portfolio getPortfolio() {
@@ -34,6 +34,6 @@ public class Player {
     public TransactionArchive getTransactionArchive() {
         return transactionArchive;
     }
-    
+
 
 }
