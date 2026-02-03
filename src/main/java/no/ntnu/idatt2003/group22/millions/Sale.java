@@ -2,7 +2,7 @@ package no.ntnu.idatt2003.group22.millions;
 
 public class Sale extends Transaction {
     public Sale(Share share, int week){
-        super(share, week, new SaleCalculator(share));
+        super(share, week, (TransactionCalculator) new SaleCalculator(share));
     }
 
     public<Player> void commit(Player player){
