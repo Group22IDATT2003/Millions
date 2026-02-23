@@ -2,7 +2,7 @@ package no.ntnu.idatt2003.group22.millions;
 
 import java.math.BigDecimal;
 
-public class SaleCalculator {
+public class SaleCalculator implements TransactionCalculator{
     private final BigDecimal purchasePrice;
     private final BigDecimal salePrice;
     private final BigDecimal quantity;
@@ -26,6 +26,8 @@ public class SaleCalculator {
     }
 
     public BigDecimal calculateTotal() {
-        return calculateGross().add(calculateCommission()).add(calculateTax());
+        return calculateGross()
+                .add(calculateCommission())
+                .add(calculateTax());
     }
 }

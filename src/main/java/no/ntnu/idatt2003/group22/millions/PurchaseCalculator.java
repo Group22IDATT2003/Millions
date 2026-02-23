@@ -24,6 +24,8 @@ public final class PurchaseCalculator implements TransactionCalculator{
     }
 
     public BigDecimal calculateTotal(){
-        return calculateGross().add(calculateCommission()).add(calculateTax());
+        return calculateGross()
+                .add(calculateCommission())
+                .add(calculateTax());
     }
 }
