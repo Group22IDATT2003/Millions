@@ -3,13 +3,13 @@ package no.ntnu.idatt2003.group22.millions;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Purchase2 extends Transaction2{
-    public Purchase2(Share share, int week){
+public class Purchase extends Transaction{
+    public Purchase(Share share, int week){
         super(share, week, new PurchaseCalculator(share));
     }
 
     @Override
-    protected void doCommit(Player player){
+    protected void doCommitt(Player player){
         Objects.requireNonNull(player, "player can not be null");
 
         // finner total kostnad
@@ -21,13 +21,14 @@ public class Purchase2 extends Transaction2{
         }
 
         // trekker penger
-        player.withdrawMoney(player.getMoney().subtract(totalCost));
+        player.withdrawMoney(totalCost);
 
         // legger akjsen i portoføljen
         player.getPortfolio().addShare(getShare());
 
         // arkiverer transaksjonen
-        player.getTransactionArchive().add(this);
+        player.getTransactionArchive()
+        .add(this);
     }
     
 }

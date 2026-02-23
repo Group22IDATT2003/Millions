@@ -1,29 +1,39 @@
 package no.ntnu.idatt2003.group22.millions;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class PurchaseCalculator implements TransactionCalculator{
     private BigDecimal purchasePrice;
     private BigDecimal quantity;
 
     public PurchaseCalculator(Share share){
-        purchasePrice = share.getPurchasePrice();
-        quantity = share.getQuantity();
+        Objects.requireNonNull(share, "share can not be null");
+        this.purchasePrice = share.getPurchasePrice();
+        this.quantity = share.getQuantity();
     }
 
+    @Override
     public BigDecimal calculateGross(){
         return purchasePrice.multiply(quantity);
     }
 
+    @Override
     public BigDecimal calculateCommission(){
-        return BigDecimal.ZERO;
+        return calculateGross()
+        .multiply(BigDecimal.valueOf(0.005))
+        .setScale(2);
     }
 
+    @Override
     public BigDecimal calculateTax(){
         return BigDecimal.ZERO;
     }
 
-    public BigDecimal calculateTotal(){
-        return calculateGross().add(calculateCommission()).add(calculateTax());
+    @Override
+    public BigDecimal calculateNetAmount(){
+        return calculateGross()
+        .add(calculateCommission())
+        .add(calculateTax());
     }
 }
