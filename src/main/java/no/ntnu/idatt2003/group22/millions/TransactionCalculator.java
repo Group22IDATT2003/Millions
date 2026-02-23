@@ -10,5 +10,5 @@ public interface TransactionCalculator {
 
     BigDecimal calculateTax();
 
-    BigDecimal calculateTotal();
+    BigDecimal calculateNetAmount();
 }
