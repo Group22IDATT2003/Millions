@@ -2,9 +2,9 @@ package no.ntnu.idatt2003.group22.millions;
 
 import java.math.BigDecimal;
 
-public class PurchaseCalculator implements TransactionCalculator{
-    private BigDecimal purchasePrice;
-    private BigDecimal quantity;
+public final class PurchaseCalculator implements TransactionCalculator{
+    private final  BigDecimal purchasePrice;
+    private final BigDecimal quantity;
 
     public PurchaseCalculator(Share share){
         purchasePrice = share.getPurchasePrice();

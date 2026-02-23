@@ -3,13 +3,28 @@ package no.ntnu.idatt2003.group22.millions;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+/**
+ * Represents a sale transaction where a player sells a share.
+ * A sale adds the share to the player's portfolio,
+ * calculates the total cost of the transaction,
+ * and deducts the total cost from the player's balance.
+ */
 public class Sale extends Transaction {
     public Sale(Share share, int week){
-        super(share, week, new SaleCalculator(share));
+        super(share, week, (TransactionCalculator) new SaleCalculator(share));
     }
 
+    /**
+     * Executes the sale logic for this transaction.
+     * This method checks that the player owns the share to be sold,
+     * removes the share from the player's portfolio,
+     * calculates the total cost of the transaction,
+     * and deducts the total cost from the player's balance.
+     * If any of these steps fail, an exception is thrown.
+     * @param player the player involved in the transaction.
+     */
     @Override
-    protected void doCommit(Player player){
+    public void doCommit(Player player){
         Objects.requireNonNull(player, "player can not be null");
 
         if(!player.getPortfolio().contains(getShare())){
@@ -21,21 +36,22 @@ public class Sale extends Transaction {
             throw new IllegalStateException("Failed to remove share from portfolio");
         }
 
-        // finner total kostnad
+        // calculate the total cost of the transaction
         BigDecimal payout = getCalculator().calculateNetAmount();
 
-        // sjekker at brukeren har nok penger
+        // Checks if the user has enough money 
+        BigDecimal totalCost = null;
         if(player.getMoney().compareTo(totalCost) < 0){
             throw new IllegalStateException("Not enough cash to complete purchase");
         }
 
-        // trekker penger
+        // withdrawer aksjen fra portoføljen
         player.getPortfolio().removeShare(getShare());
 
-        // legger akjsen i portoføljen
+        // add money to player
         player.addMoney(payout);
 
-        // arkiverer transaksjonen
+        // add transaction to the archive
         player.getTransactionArchive().add(this);
     }
 }

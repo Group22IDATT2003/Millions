@@ -117,7 +117,7 @@ public abstract class Transaction {
      *
      * @param player the player involved in the transaction.
      */
-    protected abstract void doCommit(Player player);
+    public abstract void doCommit(Player player);
 
 }
 

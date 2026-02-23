@@ -33,7 +33,7 @@ public class Purchase extends Transaction {
      * which ensures that the transaction is only committed once and that the player object is valid.
      */
     @Override
-    protected void doCommit(Player player) {
+    public void doCommit(Player player) {
         Objects.requireNonNull(player, "player can not be null");
 
         // find the total cost of the purchase
