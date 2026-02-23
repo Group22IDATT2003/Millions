@@ -3,9 +3,9 @@ package no.ntnu.idatt2003.group22.millions;
 import java.math.BigDecimal;
 
 public class SaleCalculator {
-    private BigDecimal purchasePrice;
-    private BigDecimal salePrice;
-    private BigDecimal quantity;
+    private final BigDecimal purchasePrice;
+    private final BigDecimal salePrice;
+    private final BigDecimal quantity;
 
     public SaleCalculator(Share share) {
         purchasePrice = share.getPurchasePrice();
