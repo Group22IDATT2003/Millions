@@ -37,7 +37,7 @@ public class Purchase extends Transaction {
         Objects.requireNonNull(player, "player can not be null");
 
         // find the total cost of the purchase
-        BigDecimal totalCost = getCalculator().calculateNetAmount();
+        BigDecimal totalCost = getCalculator().calculateTotal();
 
         // checks if the user has enough money to complete the purchase
         if (player.getMoney().compareTo(totalCost) < 0) {
