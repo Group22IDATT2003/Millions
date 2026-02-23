@@ -24,10 +24,6 @@ public class Sale extends Transaction {
         // finner total kostnad
         BigDecimal payout = getCalculator().calculateNetAmount();
 
-        // sjekker at brukeren har nok penger
-        if(player.getMoney().compareTo(totalCost) < 0){
-            throw new IllegalStateException("Not enough cash to complete purchase");
-        }
 
         // trekker penger
         player.getPortfolio().removeShare(getShare());

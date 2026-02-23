@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class SaleCalculator implements TransactionCalculator{
-    private static final BigDecimal commission_Rate = BigDecimal.valueOf(0.01);
-    private static final BigDecimal tax_Rate = BigDecimal.valueOf(0.30);
+    private static final BigDecimal COMMISION_RATE = BigDecimal.valueOf(0.01);
+    private static final BigDecimal TAX_RATE = BigDecimal.valueOf(0.30);
     
     private final BigDecimal purchasePrice;
     private final BigDecimal salePrice;
@@ -26,7 +26,7 @@ public class SaleCalculator implements TransactionCalculator{
     @Override
     public BigDecimal calculateCommission() {
         return calculateGross()
-        .multiply(commission_Rate)
+        .multiply(COMMISION_RATE)
         .setScale(2);
     }
 
@@ -42,10 +42,11 @@ public class SaleCalculator implements TransactionCalculator{
             return BigDecimal.ZERO.setScale(2);
         }
 
-        return profit.multiply(tax_Rate)
+        return profit.multiply(TAX_RATE)
         .setScale(2);
     }
 
+    @Override
     public BigDecimal calculateNetAmount() {
         return calculateGross()
         .subtract(calculateCommission())
