@@ -2,21 +2,11 @@ package no.ntnu.idatt2003.group22.millions;
 
 import java.util.Objects;
 
-<<<<<<< Updated upstream
-public class Transaction2 {
-    private final Share share;
-    private final int week;
-    private final TransactionCalculator calculator;
-
-    private boolean commited = false;
-
-    protected Transaction2(Share share, int week, TransactionCalculator calculator) {
-=======
 /**
- *  Abstract class representing a financial transaction involving shares.
- *  This class provides a template for specific types of transactions,
- *  such as purchases and sales,
- *  and ensures that all transactions adhere to a consistent structure and behavior.
+ * Abstract class representing a financial transaction involving shares.
+ * This class provides a template for specific types of transactions,
+ * such as purchases and sales,
+ * and ensures that all transactions adhere to a consistent structure and behavior.
  *
  */
 public abstract class Transaction {
@@ -31,12 +21,11 @@ public abstract class Transaction {
      * The constructor performs validation to ensure that the share and calculator are not null
      * and that the week is greater than or equal to 1.
      *
-     * @param share the share involved in the transaction. Cannot be null.
-     * @param week the week of the transaction. Must be >= 1.
-     * @param calculator  the calculator to compute the transaction's financial details. Cannot be null.
+     * @param share      the share involved in the transaction. Cannot be null.
+     * @param week       the week of the transaction. Must be >= 1.
+     * @param calculator the calculator to compute the transaction's financial details. Cannot be null.
      */
     protected Transaction(Share share, int week, TransactionCalculator calculator) {
->>>>>>> Stashed changes
         this.share = Objects.requireNonNull(share, "share can not be null");
         this.calculator = Objects.requireNonNull(calculator, "calculator can not be null");
 
@@ -46,11 +35,6 @@ public abstract class Transaction {
         this.week = week;
     }
 
-<<<<<<< Updated upstream
-    public final void commit(Player player) {
-        Objects.requireNonNull(player, "player can not be null");
-        if(commited){
-=======
     /**
      * Commits the transaction.
      * This method checks if the transaction has already been committed
@@ -62,39 +46,15 @@ public abstract class Transaction {
      *
      * @param player the player involved in the transaction. Cannot be null.
      * @throws IllegalStateException if the transaction has already been committed.
-     * @throws NullPointerException if the player is null.
+     * @throws NullPointerException  if the player is null.
      */
     public final void commit(Player player) {
         Objects.requireNonNull(player, "player can not be null");
-        if(committed){
->>>>>>> Stashed changes
+        if (committed) {
+
             throw new IllegalStateException("Transaction already commited");
         }
         doCommit(player);
-
-<<<<<<< Updated upstream
-        commited = true;
-    }
-
-    protected abstract void doCommit(Player player);
-
-    public final boolean isCommited() {
-        return committed;
-    }
-
-    public final Share getShare(){
-        return share;
-    }
-    
-    public final int getWeek(){
-        return week;
-    }
-
-    public final TransactionCalculator getCalculator(){
-        return calculator;
-    }
-    
-=======
         committed = true;
     }
 
@@ -105,7 +65,7 @@ public abstract class Transaction {
      *
      * @return the share involved in the transaction.
      */
-    public final Share getShare(){
+    public final Share getShare() {
         return share;
     }
 
@@ -117,7 +77,7 @@ public abstract class Transaction {
      *
      * @return the week of the transaction.
      */
-    public final int getWeek(){
+    public final int getWeek() {
         return week;
     }
 
@@ -128,7 +88,7 @@ public abstract class Transaction {
      *
      * @return the calculator used for this transaction.
      */
-    public final TransactionCalculator getCalculator(){
+    public final TransactionCalculator getCalculator() {
         return calculator;
     }
 
@@ -159,5 +119,5 @@ public abstract class Transaction {
      */
     protected abstract void doCommit(Player player);
 
->>>>>>> Stashed changes
 }
+
