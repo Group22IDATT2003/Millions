@@ -1,39 +1,50 @@
 package no.ntnu.idatt2003.group22.millions;
 
-import java.math.BigDecimal;
+import java.util.Objects;
 
-public abstract class Transaction {
-    private Share share;
-    private int week;
-    private TransactionCalculator calculator;
-    private boolean committed;
+public class Transaction2 {
+    private final Share share;
+    private final int week;
+    private final TransactionCalculator calculator;
 
-    protected Transaction(Share share, int week, TransactionCalculator calculator) {
-        this.share = share;
+    private boolean commited = false;
+
+    protected Transaction2(Share share, int week, TransactionCalculator calculator) {
+        this.share = Objects.requireNonNull(share, "share can not be null");
+        this.calculator = Objects.requireNonNull(calculator, "calculator can not be null");
+
+        if (week < 1) {
+            throw new IllegalArgumentException("week must be >= 1");
+        }
         this.week = week;
-        this.calculator = calculator;
     }
 
+    public final void commit(Player player) {
+        Objects.requireNonNull(player, "player can not be null");
+        if(commited){
+            throw new IllegalStateException("Transaction already commited");
+        }
+        doCommit(player);
 
-    public Share getShare() {
-        return share;
+        commited = true;
     }
 
-    public int getWeek() {
-        return week;
-    }
+    protected abstract void doCommit(Player player);
 
-    public TransactionCalculator getCalculator() {
-        return calculator;
-    }
-
-    public boolean isCommitted() {
+    public final boolean isCommited() {
         return committed;
     }
 
-    public <Player> void commit(Player player) {
-        committed = true;
+    public final Share getShare(){
+        return share;
+    }
+    
+    public final int getWeek(){
+        return week;
     }
 
-
+    public final TransactionCalculator getCalculator(){
+        return calculator;
+    }
+    
 }
