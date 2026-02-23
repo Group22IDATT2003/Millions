@@ -2,12 +2,12 @@ package no.ntnu.idatt2003.group22.millions;
 
 import java.util.Objects;
 
-public class Transaction2 {
+public abstract class Transaction2 {
     private final Share share;
     private final int week;
     private final TransactionCalculator calculator;
 
-    private boolean commited = false;
+    private boolean committed = false;
 
     protected Transaction2(Share share, int week, TransactionCalculator calculator) {
         this.share = Objects.requireNonNull(share, "share can not be null");
@@ -21,19 +21,14 @@ public class Transaction2 {
 
     public final void commit(Player player) {
         Objects.requireNonNull(player, "player can not be null");
-        if(commited){
+        if(committed){
             throw new IllegalStateException("Transaction already commited");
         }
         doCommit(player);
 
-        commited = true;
+        committed = true;
     }
 
-    protected abstract void doCommit(Player player);
-
-    public final boolean isCommited() {
-        return committed;
-    }
 
     public final Share getShare(){
         return share;
@@ -46,5 +41,11 @@ public class Transaction2 {
     public final TransactionCalculator getCalculator(){
         return calculator;
     }
+
+    public final boolean isCommitted() {
+        return committed;
+    }
+
+    protected abstract void doCommit(Player player);
     
 }
