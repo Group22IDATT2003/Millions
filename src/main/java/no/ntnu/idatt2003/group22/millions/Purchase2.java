@@ -16,15 +16,15 @@ public class Purchase2 extends Transaction2{
         BigDecimal totalCost = getCalculator().calculateNetAmount();
 
         // sjekker at brukeren har nok penger
-        if(player.getCash().compareTo(TotalCost) < 0){
+        if(player.getMoney().compareTo(totalCost) < 0){
             throw new IllegalStateException("Not enough cash to complete purchase");
         }
 
         // trekker penger
-        player.setCash(player.getCash().subtract(totalCost));
+        player.withdrawMoney(player.getMoney().subtract(totalCost));
 
         // legger akjsen i portoføljen
-        player.getPortofolio().addShare(getShare());
+        player.getPortfolio().addShare(getShare());
 
         // arkiverer transaksjonen
         player.getTransactionArchive().add(this);
