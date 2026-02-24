@@ -3,7 +3,6 @@ package no.ntnu.idatt2003.group22.millions;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-/**
  /**
  * Represents a purchase transaction where a player buys a share.
  *
@@ -33,7 +32,7 @@ public class Purchase extends Transaction {
      * which ensures that the transaction is only committed once and that the player object is valid.
      */
     @Override
-    public void doCommit(Player player) {
+    protected void doCommit(Player player) {
         Objects.requireNonNull(player, "player can not be null");
 
         // find the total cost of the purchase
@@ -44,14 +43,15 @@ public class Purchase extends Transaction {
             throw new IllegalStateException("Not enough cash to complete purchase");
         }
 
-        // withdraws money from the player
-        player.withdrawMoney(player.getMoney().subtract(totalCost));
+        // trekker penger
+        player.withdrawMoney(totalCost);
 
         // places the share in the player's portfolio
         player.getPortfolio().addShare(getShare());
 
         // place the transaction in the player's transaction archive
-        player.getTransactionArchive().add(this);
+        player.getTransactionArchive()
+        .add(this);
     }
 
 }

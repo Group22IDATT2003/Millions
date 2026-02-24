@@ -52,7 +52,7 @@ public abstract class Transaction {
         Objects.requireNonNull(player, "player can not be null");
         if (committed) {
 
-            throw new IllegalStateException("Transaction already commited");
+            throw new IllegalStateException("Transaction already committed");
         }
         doCommit(player);
         committed = true;
@@ -117,7 +117,7 @@ public abstract class Transaction {
      *
      * @param player the player involved in the transaction.
      */
-    public abstract void doCommit(Player player);
+    protected abstract void doCommit(Player player);
 
 }
 

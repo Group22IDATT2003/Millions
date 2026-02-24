@@ -24,10 +24,11 @@ public class Sale extends Transaction {
      * @param player the player involved in the transaction.
      */
     @Override
-    public void doCommit(Player player){
+
+    protected void doCommit(Player player){
         Objects.requireNonNull(player, "player can not be null");
 
-        if(!player.getPortfolio().contains(getShare())){
+        if(!player.getPortfolio().containsShare(getShare())){
             throw new IllegalStateException("Player does not own this share");
         }
 
@@ -37,13 +38,7 @@ public class Sale extends Transaction {
         }
 
         // calculate the total cost of the transaction
-        BigDecimal payout = getCalculator().calculateNetAmount();
-
-        // Checks if the user has enough money 
-        BigDecimal totalCost = null;
-        if(player.getMoney().compareTo(totalCost) < 0){
-            throw new IllegalStateException("Not enough cash to complete purchase");
-        }
+        BigDecimal payout = getCalculator().calculateTotal();
 
         // withdrawer aksjen fra portoføljen
         player.getPortfolio().removeShare(getShare());

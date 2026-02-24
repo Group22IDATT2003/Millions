@@ -7,9 +7,9 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Exchange {
-    private String name;
+    private final String name;
     private int week;
-    private Map<String, Stock> stockMap;
+    private final Map<String, Stock> stockMap;
     private Random random;
 
     public Exchange(String name, int week, Map<String, Stock> stockMap) {
