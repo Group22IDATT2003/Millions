@@ -3,10 +3,22 @@ package no.ntnu.idatt2003.group22.millions;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+/**
+ * Represents a calculator for purchase transactions.
+ * This class implements the TransactionCalculator interface and provides
+ * methods to calculate the gross amount, commission, tax, and total cost
+ * of a purchase transaction based on the purchase price and quantity of the share.
+ */
 public final class PurchaseCalculator implements TransactionCalculator{
     private final  BigDecimal purchasePrice;
     private final BigDecimal quantity;
 
+    /**
+     * Constructor for PurchaseCalculator.
+     * Initializes the calculator with the purchase price and quantity of the share being purchased.
+     *
+     * @param share the share being purchased. Must not be null.
+     */
     public PurchaseCalculator(Share share){
         Objects.requireNonNull(share, "share can not be null");
         this.purchasePrice = share.getPurchasePrice();

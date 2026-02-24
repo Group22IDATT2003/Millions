@@ -3,6 +3,14 @@ package no.ntnu.idatt2003.group22.millions;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+/**
+ * Represents a sale transaction where a player sells a share.
+ * A sale adds the share to the player's portfolio,
+ * calculates the total cost of the transaction,
+ * and deducts the total cost from the player's balance.
+ * An exception is thrown if the player does not own the share being sold
+ * or if the transaction is committed more than once.
+ */
 public class SaleCalculator implements TransactionCalculator{
     private static final BigDecimal COMMISION_RATE = BigDecimal.valueOf(0.01);
     private static final BigDecimal TAX_RATE = BigDecimal.valueOf(0.30);
@@ -11,6 +19,13 @@ public class SaleCalculator implements TransactionCalculator{
     private final BigDecimal salePrice;
     private final BigDecimal quantity;
 
+    /**
+     * Constructor for SaleCalculator.
+     * Initializes the calculator with the purchase price,
+     * sale price, and quantity of the share being sold.
+     *
+     * @param share the share being sold. Must not be null.
+     */
     public SaleCalculator(Share share) {
         Objects.requireNonNull(share, "share can not be null");
         this.purchasePrice = share.getPurchasePrice();
