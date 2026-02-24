@@ -13,9 +13,9 @@ public class SaleCalculator implements TransactionCalculator{
 
     public SaleCalculator(Share share) {
         Objects.requireNonNull(share, "share can not be null");
-        purchasePrice = share.getPurchasePrice();
-        salePrice = share.getStock().getSalesPrice();
-        quantity = share.getQuantity();
+        this.purchasePrice = share.getPurchasePrice();
+        this.salePrice = share.getStock().getSalesPrice();
+        this.quantity = share.getQuantity();
     }
 
     @Override
@@ -45,9 +45,9 @@ public class SaleCalculator implements TransactionCalculator{
         return profit.multiply(TAX_RATE)
         .setScale(2);
     }
-
+    
     @Override
-    public BigDecimal calculateNetAmount() {
+    public BigDecimal calculateTotal() {
         return calculateGross()
         .subtract(calculateCommission())
         .subtract(calculateTax())

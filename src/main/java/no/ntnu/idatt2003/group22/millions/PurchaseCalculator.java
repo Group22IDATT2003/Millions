@@ -3,8 +3,8 @@ package no.ntnu.idatt2003.group22.millions;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class PurchaseCalculator implements TransactionCalculator{
-    private final BigDecimal purchasePrice;
+public final class PurchaseCalculator implements TransactionCalculator{
+    private final  BigDecimal purchasePrice;
     private final BigDecimal quantity;
 
     public PurchaseCalculator(Share share){
@@ -31,9 +31,9 @@ public class PurchaseCalculator implements TransactionCalculator{
     }
 
     @Override
-    public BigDecimal calculateNetAmount(){
+    public BigDecimal calculateTotal(){
         return calculateGross()
-        .add(calculateCommission())
-        .add(calculateTax());
+                .add(calculateCommission())
+                .add(calculateTax());
     }
 }
