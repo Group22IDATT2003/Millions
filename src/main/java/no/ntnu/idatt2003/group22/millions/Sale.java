@@ -40,9 +40,6 @@ public class Sale extends Transaction {
         // calculate the total cost of the transaction
         BigDecimal payout = getCalculator().calculateTotal();
 
-        // withdrawer aksjen fra portoføljen
-        player.getPortfolio().removeShare(getShare());
-
         // add money to player
         player.addMoney(payout);
 

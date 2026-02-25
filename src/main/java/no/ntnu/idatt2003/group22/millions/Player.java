@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Player {
-    private String name;
-    private BigDecimal startingMoney;
+    private final String name;
+    private final BigDecimal startingMoney;
     private BigDecimal money;
     private final Portfolio portfolio;
     private final TransactionArchive transactionArchive;
