@@ -12,6 +12,13 @@ public class Share {
         this.stock = Objects.requireNonNull(stock, "stock cannot be null");
         this.quantity = Objects.requireNonNull(quantity, "quantity cannot be null");
         this.purchasePrice = Objects.requireNonNull(purchasePrice, "purchase price cannot be null");
+
+        if(quantity.compareTo(BigDecimal.ZERO) <= 0){
+            throw new IllegalArgumentException("quantity must be < 0");
+        }
+        if(purchasePrice.compareTo(BigDecimal.ZERO) <= 0){
+            throw new IllegalArgumentException("price of the purchase must be < 0");
+        }
     }
 
     public Stock getStock() {

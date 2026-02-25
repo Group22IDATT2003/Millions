@@ -43,7 +43,4 @@ public class Portfolio {
         return List.copyOf(result);
     }
 
-    public boolean contains(Share share) {
-        return shares.contains(share);
-    }
 }
