@@ -9,8 +9,8 @@ import java.util.Objects;
  * methods to calculate the gross amount, commission, tax, and total cost
  * of a purchase transaction based on the purchase price and quantity of the share.
  */
-public final class PurchaseCalculator implements TransactionCalculator{
-    private final  BigDecimal purchasePrice;
+public final class PurchaseCalculator implements TransactionCalculator {
+    private final BigDecimal purchasePrice;
     private final BigDecimal quantity;
 
     /**
@@ -19,31 +19,31 @@ public final class PurchaseCalculator implements TransactionCalculator{
      *
      * @param share the share being purchased. Must not be null.
      */
-    public PurchaseCalculator(Share share){
+    public PurchaseCalculator(Share share) {
         Objects.requireNonNull(share, "share can not be null");
         this.purchasePrice = share.getPurchasePrice();
         this.quantity = share.getQuantity();
     }
 
-    @Override
-    public BigDecimal calculateGross(){
+
+    public BigDecimal calculateGross() {
         return purchasePrice.multiply(quantity);
     }
 
-    @Override
-    public BigDecimal calculateCommission(){
+
+    public BigDecimal calculateCommission() {
         return calculateGross()
-        .multiply(BigDecimal.valueOf(0.005))
-        .setScale(2);
+                .multiply(BigDecimal.valueOf(0.005))
+                .setScale(2);
     }
 
-    @Override
-    public BigDecimal calculateTax(){
+
+    public BigDecimal calculateTax() {
         return BigDecimal.ZERO;
     }
 
-    @Override
-    public BigDecimal calculateTotal(){
+
+    public BigDecimal calculateTotal() {
         return calculateGross()
                 .add(calculateCommission())
                 .add(calculateTax());

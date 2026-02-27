@@ -13,7 +13,7 @@ public abstract class Transaction {
     private final Share share;
     private final int week;
     private final TransactionCalculator calculator;
-    private boolean committed = false;
+    protected boolean committed = true;
 
     /**
      * Constructor for Transaction.

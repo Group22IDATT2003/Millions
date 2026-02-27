@@ -33,19 +33,19 @@ public class SaleCalculator implements TransactionCalculator{
         this.quantity = share.getQuantity();
     }
 
-    @Override
+
     public BigDecimal calculateGross() {
         return salePrice.multiply(quantity);
     }
 
-    @Override
+
     public BigDecimal calculateCommission() {
         return calculateGross()
         .multiply(COMMISION_RATE)
         .setScale(2);
     }
 
-    @Override
+
     public BigDecimal calculateTax() {
         BigDecimal purchaseCost = purchasePrice.multiply(quantity);
 
@@ -60,8 +60,8 @@ public class SaleCalculator implements TransactionCalculator{
         return profit.multiply(TAX_RATE)
         .setScale(2);
     }
-    
-    @Override
+
+
     public BigDecimal calculateTotal() {
         return calculateGross()
         .subtract(calculateCommission())
