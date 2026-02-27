@@ -2,7 +2,6 @@ package no.ntnu.idatt2003.group22.millions;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -18,6 +17,7 @@ public class Exchange {
 
         if(week <= 0) throw new IllegalArgumentException("week can not be null or negative");
         this.week = week;
+
         this.stockMap = Objects.requireNonNull(stockMap, "stockMap can not be null");
         this.random = Objects.requireNonNull(random, "random can not be null");
     }
