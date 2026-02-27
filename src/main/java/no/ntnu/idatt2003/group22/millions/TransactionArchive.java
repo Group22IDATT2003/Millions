@@ -2,15 +2,16 @@ package no.ntnu.idatt2003.group22.millions;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 public class TransactionArchive {
-    private final LinkedList<Transaction> transactions;
+    private final List<Transaction> transactions;
 
     public TransactionArchive() {
-        this.transactions = new LinkedList<>();
+        this.transactions = new ArrayList<>();
     }
 
     public boolean add(Transaction transaction){
@@ -23,19 +24,21 @@ public class TransactionArchive {
     }
 
     public List<Transaction> getTransactions(int week){
-        LinkedList<Transaction> weeklyTransactions = new LinkedList<>();
-        for(Transaction transaction : transactions){
-            if(transaction.getWeek() == week){
-                weeklyTransactions.add(transaction);
+        validateWeek(week);
+        List<Transaction> weeklyTransactions = new ArrayList<>();
+        for(Transaction t : transactions){
+            if(t.getWeek() == week){
+                weeklyTransactions.add(t);
             }
         }
         return List.copyOf(weeklyTransactions);
     }
 
     public List<Purchase> getPurchases(int week){
+        validateWeek(week);
         LinkedList<Purchase> result = new LinkedList<>();
-         for(Transaction transaction : transactions){
-            if(transaction.getWeek() == week && transaction instanceof Purchase purchase){
+         for(Transaction t : transactions){
+            if(t.getWeek() == week && t instanceof Purchase purchase){
                 result.add(purchase);
             }
         }
@@ -44,9 +47,10 @@ public class TransactionArchive {
     }
 
     public List<Sale> getSales(int week){
-        LinkedList<Sale> result = new LinkedList<>();
-         for(Transaction transaction : transactions){
-            if(transaction.getWeek() == week && transaction instanceof Sale sale){
+        validateWeek(week);
+        List<Sale> result = new ArrayList<>();
+         for(Transaction t : transactions){
+            if(t.getWeek() == week && t instanceof Sale sale){
                 result.add(sale);
             }
         }
@@ -55,10 +59,20 @@ public class TransactionArchive {
 
     public int countDistinctWeeks(){
         Set<Integer> weeks = new HashSet<>();
-        for(Transaction transaction : transactions){
-            weeks.add(transaction.getWeek());
+        for(Transaction t : transactions){
+            weeks.add(t.getWeek());
         }
         return weeks.size();
+    }
+
+    public List<Transaction> getAllTransactions(){
+        return List.copyOf(transactions);
+    }
+
+    private static void validateWeek(int week){
+        if(week < 1){
+            throw new IllegalArgumentException("week must be >= 1");
+        }
     }
 
 }
