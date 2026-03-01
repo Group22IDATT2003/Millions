@@ -3,10 +3,6 @@ package no.ntnu.idatt2003.group22.millions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import no.ntnu.idatt2003.group22.millions.PurchaseCalculator;
-import no.ntnu.idatt2003.group22.millions.Share;
-import no.ntnu.idatt2003.group22.millions.Stock;
-
 import org.junit.jupiter.api.DisplayName;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
