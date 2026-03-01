@@ -9,8 +9,10 @@ import java.util.Objects;
  * methods to calculate the gross amount, commission, tax, and total cost
  * of a purchase transaction based on the purchase price and quantity of the share.
  */
-public final class PurchaseCalculator implements TransactionCalculator {
-    private final BigDecimal purchasePrice;
+public final class PurchaseCalculator implements TransactionCalculator{
+    private static final BigDecimal COMMISION_RATE = BigDecimal.valueOf(0.005);
+
+    private final  BigDecimal purchasePrice;
     private final BigDecimal quantity;
 
     /**
@@ -37,15 +39,16 @@ public final class PurchaseCalculator implements TransactionCalculator {
                 .setScale(2);
     }
 
-
-    public BigDecimal calculateTax() {
-        return BigDecimal.ZERO;
+    @Override
+    public BigDecimal calculateTax(){
+        return BigDecimal.ZERO.setScale(2);
     }
 
 
     public BigDecimal calculateTotal() {
         return calculateGross()
                 .add(calculateCommission())
-                .add(calculateTax());
+                .add(calculateTax())
+                .setScale(2);
     }
 }

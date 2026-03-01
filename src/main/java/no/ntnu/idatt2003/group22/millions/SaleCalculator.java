@@ -57,7 +57,8 @@ public class SaleCalculator implements TransactionCalculator{
             return BigDecimal.ZERO.setScale(2);
         }
 
-        return profit.multiply(TAX_RATE)
+        return profit
+        .multiply(TAX_RATE)
         .setScale(2);
     }
 

@@ -6,13 +6,17 @@ import java.util.List;
 import java.util.Objects;
 
 public class Stock {
-    private String symbol;
-    private String company;
+    private final String symbol;
+    private final String company;
     private List<BigDecimal> prices;
 
     public Stock(String symbol, String company, BigDecimal salesPrice) {
         this.symbol = requireNonBlank(symbol, "symbol");
         this.company = requireNonBlank(company, "company");
+        Objects.requireNonNull(salesPrice, "salesPrice cannot be null");
+        if(salesPrice.compareTo(BigDecimal.ZERO) <= 0){
+            throw new IllegalArgumentException("salesPrice must be > 0");
+        }
 
         this.prices = new ArrayList<>();
         this.prices.add(salesPrice);
@@ -38,6 +42,10 @@ public class Stock {
     }
 
     public void addNewSalesPrice(BigDecimal price) {
+        Objects.requireNonNull(price, "price can not be null");
+        if(price.compareTo(BigDecimal.ZERO) <= 0){
+            throw new IllegalArgumentException("price must be > 0");
+        }
         prices.add(Objects.requireNonNull(price, "price can not be null"));
     }
 }
