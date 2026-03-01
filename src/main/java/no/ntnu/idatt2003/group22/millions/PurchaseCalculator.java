@@ -39,7 +39,7 @@ public final class PurchaseCalculator implements TransactionCalculator{
                 .setScale(2);
     }
 
-    @Override
+
     public BigDecimal calculateTax(){
         return BigDecimal.ZERO.setScale(2);
     }
