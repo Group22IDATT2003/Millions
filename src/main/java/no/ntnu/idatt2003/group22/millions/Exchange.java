@@ -117,9 +117,7 @@ public class Exchange {
 
         Stock stock = getStock(symbol);
         Share share = new Share(stock, quantity, stock.getSalesPrice());
-        Transaction tx = new Purchase(share, week);
-        tx.commit(player);
-        return tx;
+        return new Purchase(share, week);
     }
 
     /**
