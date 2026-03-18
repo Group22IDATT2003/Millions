@@ -1,14 +1,8 @@
 package no.ntnu.idatt2003.group22.millions;
 
 import java.math.BigDecimal;
-<<<<<<< HEAD
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
-=======
 import java.util.*;
->>>>>>> feature/Exchange
+
 
 public class Exchange {
     private final String name;
@@ -16,13 +10,6 @@ public class Exchange {
     private final Map<String, Stock> stockMap;
     private final Random random;
 
-<<<<<<< HEAD
-    public Exchange(String name, int week, Map<String, Stock> stockMap, Random random) {
-        this.name = name;
-        this.week = week;
-        this.stockMap = stockMap;
-        this.random = random;
-=======
     public Exchange(String name, List<Stock> stocks) {
         this.name = name;
         this.week = 1;
@@ -31,7 +18,7 @@ public class Exchange {
         for (Stock stock : stocks) {
             this.stockMap.put(stock.getSymbol(), stock);
         }
->>>>>>> feature/Exchange
+
     }
 
     public String getName() {
@@ -40,11 +27,7 @@ public class Exchange {
     }
 
     public int getWeek() {
-<<<<<<< HEAD
         if(week <= 0) throw new IllegalArgumentException("week can not be null or negative");
-=======
-        if (week < 1) throw new IllegalStateException("week is not set");
->>>>>>> feature/Exchange
         return week;
     }
 
@@ -122,8 +105,8 @@ public class Exchange {
         List<Stock> stocks = new ArrayList<>(stockMap.values());
 
         stocks.sort((s1, s2) -> {
-            BigDecimal change1 = getChange(s1);
-            BigDecimal change2 = getChange(s2);
+            BigDecimal change1 = getLatestPriceChange(s1);
+            BigDecimal change2 = getLatestPriceChange(s2);
             return change2.compareTo(change1); // størst først
         });
 
