@@ -1,11 +1,7 @@
 package no.ntnu.idatt2003.group22.millions;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Exchange {
     private final String name;
@@ -13,20 +9,23 @@ public class Exchange {
     private final Map<String, Stock> stockMap;
     private final Random random;
 
-    public Exchange(String name, int week, Map<String, Stock> stockMap, Random random) {
-        this.name = Objects.requireNonNull(name, "name cannot be null");
-
-        if(week <= 0) throw new IllegalArgumentException("week can not be null or negative");
-        this.week = week;
-        this.stockMap = Objects.requireNonNull(stockMap, "stockMap can not be null");
-        this.random = Objects.requireNonNull(random, "random can not be null");
+    public Exchange(String name, List<Stock> stocks) {
+        this.name = name;
+        this.week = 1;
+        this.random = new Random();
+        this.stockMap = new HashMap<>();
+        for (Stock stock : stocks) {
+            this.stockMap.put(stock.getSymbol(), stock);
+        }
     }
 
     public String getName() {
+        if(name == null) throw new IllegalStateException("name is not set");
         return name;
     }
 
     public int getWeek() {
+        if(week < 1) throw new IllegalStateException("week is not set");
         return week;
     }
 
@@ -37,26 +36,41 @@ public class Exchange {
 
     public Stock getStock(String symbol) {
         Objects.requireNonNull(symbol, "symbol can not be null");
-        Stock stock = stockMap.get(symbol);
-        if (stock == null){
+        if (!stockMap.containsKey(symbol)) {
             throw new IllegalArgumentException("Unknown stock symbol: " + symbol);
         }
-        return stock;
+        return stockMap.get(symbol);
     }
 
     public List<Stock> findStocks(String searchTerm) {
-        return null;
+        Objects.requireNonNull(searchTerm, "searchTerm can not be null");
+        List<Stock> result = new ArrayList<>();
+        String lowerSearch = searchTerm.toLowerCase();
+        for (Stock stock : stockMap.values()) {
+            String symbol = stock.getSymbol().toLowerCase();
+            String company = stock.getCompany().toLowerCase();
+
+            if (symbol.contains(lowerSearch) || company.contains(lowerSearch)) {
+                result.add(stock);
+            }
+        }
+        return result;
     }
 
     public Transaction buy(String symbol, BigDecimal quantity, Player player) {
+        Objects.requireNonNull(symbol, "symbol can not be null");
         Objects.requireNonNull(player, "player can not be nul");
         Objects.requireNonNull(quantity, "quantity can not be null");
         if(quantity.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("quantity must be > 0");
         }
-        return null;
-    }
 
+        Stock stock = getStock(symbol);
+        Share share = new Share(stock, quantity, stock.getSalesPrice());
+        Transaction tx = new Purchase(share, week);
+        tx.commit(player);
+        return tx;
+    }
     public Transaction sell(Share share, Player player) {
         Objects.requireNonNull(player, "player can not be null");
         Objects.requireNonNull(share, "share can not be null");

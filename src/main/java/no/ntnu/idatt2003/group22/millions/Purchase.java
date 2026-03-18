@@ -4,32 +4,16 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
  /**
- * Represents a purchase transaction where a player buys a share.
  *
- * A purchase deducts the total cost (calculated by a TransactionCalculator)
- * from the player's balance, adds the share to the player's portfolio,
- * and records the transaction in the transaction archive.
- *
- * An exception is thrown if the player has insufficient funds
- * or if the transaction is committed more than once.
  */
 public class Purchase extends Transaction {
     public Purchase(Share share, int week) {
+
         super(share, week, new PurchaseCalculator(share));
     }
 
     /**
      * Executes the purchase logic for this transaction.
-     *
-     * Deducts the total cost from the player's balance,
-     * adds the share to the player's portfolio,
-     * and records the transaction in the transaction archive.
-     *
-     * @param player the player involved in the transaction. Cannot be null.
-     * @throws IllegalStateException if the player does not have enough money to complete the purchase.
-     * @throws NullPointerException  if the player is null.
-     * @implSpec This method is called by the commit() method of the Transaction class,
-     * which ensures that the transaction is only committed once and that the player object is valid.
      */
     @Override
     protected void doCommit(Player player) {
