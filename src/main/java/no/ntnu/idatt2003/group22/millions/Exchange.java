@@ -13,13 +13,10 @@ public class Exchange {
     private final Random random;
 
     public Exchange(String name, int week, Map<String, Stock> stockMap, Random random) {
-        this.name = Objects.requireNonNull(name, "name cannot be null");
-
-        if(week <= 0) throw new IllegalArgumentException("week can not be null or negative");
+        this.name = name;
         this.week = week;
-
-        this.stockMap = Objects.requireNonNull(stockMap, "stockMap can not be null");
-        this.random = Objects.requireNonNull(random, "random can not be null");
+        this.stockMap = stockMap;
+        this.random = random;
     }
 
     public String getName() {
@@ -27,6 +24,7 @@ public class Exchange {
     }
 
     public int getWeek() {
+        if(week <= 0) throw new IllegalArgumentException("week can not be null or negative");
         return week;
     }
 
