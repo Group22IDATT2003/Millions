@@ -40,4 +40,21 @@ public class Stock {
     public void addNewSalesPrice(BigDecimal price) {
         prices.add(Objects.requireNonNull(price, "price can not be null"));
     }
+
+    public List<BigDecimal> getHistoricalPrices(){
+        return List.copyOf(prices);
+    }
+
+    public BigDecimal getHistoricalPrice(){
+        return prices.get(prices.size() - 1);
+    }
+
+    public BigDecimal getLowestPrice(){
+        return prices.get(0);
+    }
+
+    public BigDecimal getLatestPriceChange(){
+        return prices.get(prices.size() - 1)
+                .subtract(prices.get(prices.size() - 2));
+    }
 }

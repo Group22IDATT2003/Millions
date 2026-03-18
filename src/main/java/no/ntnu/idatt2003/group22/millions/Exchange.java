@@ -20,12 +20,12 @@ public class Exchange {
     }
 
     public String getName() {
-        if(name == null) throw new IllegalStateException("name is not set");
+        if (name == null) throw new IllegalStateException("name is not set");
         return name;
     }
 
     public int getWeek() {
-        if(week < 1) throw new IllegalStateException("week is not set");
+        if (week < 1) throw new IllegalStateException("week is not set");
         return week;
     }
 
@@ -61,7 +61,7 @@ public class Exchange {
         Objects.requireNonNull(symbol, "symbol can not be null");
         Objects.requireNonNull(player, "player can not be nul");
         Objects.requireNonNull(quantity, "quantity can not be null");
-        if(quantity.compareTo(BigDecimal.ZERO) <= 0) {
+        if (quantity.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("quantity must be > 0");
         }
 
@@ -71,6 +71,7 @@ public class Exchange {
         tx.commit(player);
         return tx;
     }
+
     public Transaction sell(Share share, Player player) {
         Objects.requireNonNull(player, "player can not be null");
         Objects.requireNonNull(share, "share can not be null");
@@ -86,15 +87,37 @@ public class Exchange {
         for (Stock stock : stockMap.values()) {
             BigDecimal lastPrice = stock.getSalesPrice();
             double changePercent = (random.nextDouble() * 0.2) - 0.1; // -10% to +10%
-            
+
             BigDecimal changeAmount = lastPrice.multiply(BigDecimal.valueOf(changePercent));
             BigDecimal newPrice = lastPrice.add(changeAmount);
 
-            if(newPrice.compareTo(BigDecimal.valueOf(0.01)) < 0){
+            if (newPrice.compareTo(BigDecimal.valueOf(0.01)) < 0) {
                 newPrice = BigDecimal.valueOf(0.01);
             }
-            
+
             stock.addNewSalesPrice(newPrice);
         }
     }
+
+    public List<Stock> getGainers(int limit) {
+        List<Stock> stocks = new ArrayList<>(stockMap.values());
+
+        stocks.sort((s1, s2) -> {
+            BigDecimal change1 = getChange(s1);
+            BigDecimal change2 = getChange(s2);
+            return change2.compareTo(change1); // størst først
+        });
+
+        if (stocks.size() > limit) {
+            return stocks.subList(0, limit);
+        }
+        return stocks;
+    }
+
+
+    public List<Stock> getLosers(int limit) {
+
+    }
+
+
 }
