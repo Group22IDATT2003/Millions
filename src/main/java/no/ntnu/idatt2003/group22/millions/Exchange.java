@@ -105,11 +105,14 @@ public class Exchange {
         List<Stock> stocks = new ArrayList<>(stockMap.values());
 
         stocks.sort((s1, s2) -> {
-            BigDecimal change1 = getLatestPriceChange(s1);
-            BigDecimal change2 = getLatestPriceChange(s2);
+            BigDecimal change1 = s1.getLatestPriceChange();
+            BigDecimal change2 = s2.getLatestPriceChange();
             return change2.compareTo(change1); // størst først
         });
 
+        if (limit <= 0) {
+            throw new IllegalArgumentException("limit must be more than 0");
+        }
         if (stocks.size() > limit) {
             return stocks.subList(0, limit);
         }
@@ -118,7 +121,20 @@ public class Exchange {
 
 
     public List<Stock> getLosers(int limit) {
+        List<Stock> stocks = new ArrayList<>(stockMap.values());
 
+        stocks.sort((s1,s2) -> {
+            BigDecimal change1 = s1.getLatestPriceChange();
+            BigDecimal change2 = s2.getLatestPriceChange();
+            return change1.compareTo(change2); // minst først
+        });
+        if (limit <= 0) {
+            throw new IllegalArgumentException("limit must be more than 0");
+        }
+        if (stocks.size() > limit) {
+            return stocks.subList(0, limit);
+        }
+        return stocks;
     }
 
 

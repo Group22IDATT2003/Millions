@@ -53,16 +53,24 @@ public class Stock {
         return List.copyOf(prices);
     }
 
-    public BigDecimal getHistoricalPrice(){
-        return prices.get(prices.size() - 1);
+    public BigDecimal getHighestPrice(){
+        return prices.stream()
+                .max(BigDecimal::compareTo)
+                .orElseThrow(() -> new IllegalStateException("prices list is empty"));
     }
 
     public BigDecimal getLowestPrice(){
-        return prices.get(0);
+        return prices.stream()
+        .min(BigDecimal::compareTo)
+        .orElseThrow(() -> new IllegalStateException("prices list is empty"));
     }
 
     public BigDecimal getLatestPriceChange(){
-        return prices.get(prices.size() - 1)
-                .subtract(prices.get(prices.size() - 2));
+        if(prices.size() < 2){
+            return BigDecimal.ZERO;
+        }
+        BigDecimal latestPrice = getSalesPrice();
+        BigDecimal previousPrice = prices.get(prices.size() - 2);
+        return latestPrice.subtract(previousPrice);
     }
 }
