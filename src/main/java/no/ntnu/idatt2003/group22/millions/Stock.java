@@ -15,38 +15,34 @@ import java.util.Objects;
 public class Stock {
     private final String symbol;
     private final String company;
-    private List<BigDecimal> prices;
+    private final List<BigDecimal> prices;
 
     /**
      * Constructor for Stock.
      * @param symbol the unique symbol of the stock.
      * @param company the name of the company that owns the stock.
      * @param salesPrice the current sales price of the stock.
+     *
+     * @throws IllegalArgumentException if the symbol, company, or salesPrice is null or not greater than zero.
      */
     public Stock(String symbol, String company, BigDecimal salesPrice) {
-        this.symbol = requireNonBlank(symbol, "symbol");
-        this.company = requireNonBlank(company, "company");
-        Objects.requireNonNull(salesPrice, "salesPrice cannot be null");
-        if(salesPrice.compareTo(BigDecimal.ZERO) <= 0){
+        if (symbol == null) {
+            throw new IllegalArgumentException("symbol can not be null");
+        }
+        if (company == null) {
+            throw new IllegalArgumentException("company can not be null");
+        }
+        if (salesPrice == null) {
+            throw new IllegalArgumentException("salesPrice can not be null");
+        }
+        if (salesPrice.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("salesPrice must be > 0");
         }
 
+        this.symbol = symbol;
+        this.company = company;
         this.prices = new ArrayList<>();
         this.prices.add(salesPrice);
-    }
-
-    /**
-     * Checks if the value is null or blank.
-     * @param value
-     * @param fieldName
-     * @return the value.
-     * @throws IllegalArgumentException if the value is null or blank.
-     */
-    private String requireNonBlank(String value, String fieldName){
-        if(value == null || value.trim().isEmpty()){
-            throw new IllegalArgumentException(fieldName + " can not blank");
-        }
-        return value;
     }
 
     /**
@@ -76,13 +72,16 @@ public class Stock {
     /**
      * Adds a new sales price to the stock's historical prices.
      * @param price the sales price to add.
+     * @throws IllegalArgumentException if the price is null or not greater than zero.
      */
     public void addNewSalesPrice(BigDecimal price) {
-        Objects.requireNonNull(price, "price can not be null");
-        if(price.compareTo(BigDecimal.ZERO) <= 0){
+        if (price == null) {
+            throw new IllegalArgumentException("price can not be null");
+        }
+        if (price.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("price must be > 0");
         }
-        prices.add(Objects.requireNonNull(price, "price can not be null"));
+        prices.add(price);
     }
 
     /**
