@@ -3,13 +3,25 @@ package no.ntnu.idatt2003.group22.millions;
 import java.math.BigDecimal;
 import java.util.*;
 
-
+/**
+ * Represents an exchange where players can buy and sell shares.
+ * This class manages the stocks available for trading,
+ * tracks the current week,
+ * and provides methods to buy and sell shares.
+ * It also provides methods to advance the exchange's time and
+ * retrieve the top gainers and losers.
+ */
 public class Exchange {
     private final String name;
     private int week;
     private final Map<String, Stock> stockMap;
     private final Random random;
 
+    /**
+     * Constructor for Exchange.
+     * @param name the name of the exchange.
+     * @param stocks the list of stocks available for trading.
+     */
     public Exchange(String name, List<Stock> stocks) {
         this.name = name;
         this.week = 1;
@@ -21,21 +33,43 @@ public class Exchange {
 
     }
 
+    /**
+     * Returns the name of the exchange.
+     * @return the name of the exchange.
+     * @throws IllegalStateException if the name is not set.
+     */
     public String getName() {
         if (name == null) throw new IllegalStateException("name is not set");
         return name;
     }
 
+    /**
+     * Returns the current week of the exchange.
+     * @return the current week.
+     * @throws IllegalArgumentException if the week is not set or negative.
+     */
     public int getWeek() {
         if(week <= 0) throw new IllegalArgumentException("week can not be null or negative");
         return week;
     }
 
+    /**
+     * Checks if the exchange has a stock with the given symbol.
+     * @param symbol the symbol of the stock to check.
+     * @return true if the exchange has the stock, false otherwise.
+     * @throws IllegalArgumentException if the symbol is null.
+     */
     public boolean hasStock(String symbol) {
         Objects.requireNonNull(symbol, "symbol can not be null");
         return stockMap.containsKey(symbol);
     }
 
+    /**
+     * Returns the stock with the given symbol.
+     * @param symbol the symbol of the stock to retrieve.
+     * @return the stock with the given symbol.
+     * @throws IllegalArgumentException if the symbol is null or the exchange does not have the stock.
+     */
     public Stock getStock(String symbol) {
         Objects.requireNonNull(symbol, "symbol can not be null");
         if (!stockMap.containsKey(symbol)) {
@@ -44,6 +78,12 @@ public class Exchange {
         return stockMap.get(symbol);
     }
 
+    /**
+     * Finds stocks that contain the search term in their symbol or company name.
+     * @param searchTerm the term to search for in stock symbols and company names.
+     * @return a list of stocks that contain the search term.
+     * @throws IllegalArgumentException if the search term is null.
+     */
     public List<Stock> findStocks(String searchTerm) {
         Objects.requireNonNull(searchTerm, "searchTerm can not be null");
         List<Stock> result = new ArrayList<>();
@@ -59,6 +99,14 @@ public class Exchange {
         return result;
     }
 
+    /**
+     * Buys shares of a stock with the given symbol and quantity.
+     * @param symbol the symbol of the stock to buy.
+     * @param quantity the quantity of shares to buy.
+     * @param player the player who is buying the shares.
+     * @return the transaction object representing the purchase.
+     * @throws IllegalArgumentException if the symbol is null, the player is null, or the quantity is negative.
+     */
     public Transaction buy(String symbol, BigDecimal quantity, Player player) {
         Objects.requireNonNull(symbol, "symbol can not be null");
         Objects.requireNonNull(player, "player can not be nul");
@@ -74,6 +122,13 @@ public class Exchange {
         return tx;
     }
 
+    /**
+     * Sells a share of a stock.
+     * @param share 1 share of a stock.
+     * @param player the player who is selling the share.
+     * @return the transaction object representing the sale.
+     * @throws IllegalArgumentException if the player is null or the share is null.
+     */
     public Transaction sell(Share share, Player player) {
         Objects.requireNonNull(player, "player can not be null");
         Objects.requireNonNull(share, "share can not be null");
@@ -83,6 +138,11 @@ public class Exchange {
         return tx;
     }
 
+    /**
+     * Advances the exchange's time by one week.
+     * This method updates the stock prices and the week number.
+     * It also calculates the latest price change for each stock.
+     */
     public void advance() {
         week++;
 
@@ -101,6 +161,12 @@ public class Exchange {
         }
     }
 
+    /**
+     * Returns the top gainers in the exchange.
+     * @param limit the number of stocks to return.
+     * @return a list of the top gainers.
+     * @throws IllegalArgumentException if the limit is less than or equal to 0.
+     */
     public List<Stock> getGainers(int limit) {
         List<Stock> stocks = new ArrayList<>(stockMap.values());
 
@@ -119,7 +185,12 @@ public class Exchange {
         return stocks;
     }
 
-
+    /**
+     * Returns the top losers in the exchange.
+     * @param limit the number of stocks to return.
+     * @return a list of the top losers.
+     * @throws IllegalArgumentException if the limit is less than or equal to 0.
+     */
     public List<Stock> getLosers(int limit) {
         List<Stock> stocks = new ArrayList<>(stockMap.values());
 
