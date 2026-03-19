@@ -3,6 +3,11 @@ package no.ntnu.idatt2003.group22.millions;
 import java.math.BigDecimal;
 import java.util.*;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
+
 /**
  * Represents an exchange where players can buy and sell shares.
  * This class manages the stocks available for trading,
