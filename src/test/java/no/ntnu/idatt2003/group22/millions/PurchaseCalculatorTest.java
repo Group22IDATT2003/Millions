@@ -16,7 +16,7 @@ public class PurchaseCalculatorTest {
     @BeforeEach
     void SetUp(){
         Stock stock = new Stock("AAPL", "Apple Incoporations", new BigDecimal("100"));
-        Share share = new Share(stock, new BigDecimal("10"), new BigDecimal(100));
+        Share share = new Share(stock, new BigDecimal("10"), new BigDecimal("100"));
         calculator = new PurchaseCalculator(share);
     }
 
