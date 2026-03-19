@@ -48,7 +48,7 @@ public class SaleTest {
     @Test
     @DisplayName("commit: player who does not own share throws exception")
     void commit_playerDoesNotOwnShare_throwsException(){
-        Player player = new Player("player", new BigDecimal("10000.00"));
+        Player player = new Player("player", new BigDecimal("100.00"));
 
         assertThrows(IllegalStateException.class, () -> 
         sale.commit(player));
