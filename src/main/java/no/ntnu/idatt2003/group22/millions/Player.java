@@ -47,7 +47,7 @@ public class Player {
     public void addMoney(BigDecimal amount) {
         Objects.requireNonNull(amount, "amount can not be null");
         if(amount.compareTo(BigDecimal.ZERO) < 0){
-            throw new IllegalArgumentException("amounr must be >= 0");
+            throw new IllegalArgumentException("amount must be >= 0");
         }
         money = money.add(amount);
     }
@@ -60,5 +60,35 @@ public class Player {
             throw new IllegalStateException("Not enpugh money to withdraw");
         }
         money = money.subtract(amount);
+    }
+
+    public BigDecimal getNetWorth(){
+        return money.add(portfolio.getNetWorth());
+    }
+
+    public String getStatus(){
+        BigDecimal netWorth = getNetWorth();
+        int activeWeeks = transactionArchive.countDistinctWeeks();
+
+        if (activeWeeks < 2){
+            return "NOVICE";
+        }
+
+        BigDecimal ratio;
+        if(startingMoney.compareTo(BigDecimal.ZERO) == 0){
+            ratio = BigDecimal.ZERO;
+        } else {
+            ratio = netWorth.divide(startingMoney, 4, java.math.RoundingMode.HALF_UP);
+        }
+
+        if (ratio.compareTo(new BigDecimal("1.50")) >= 0 && activeWeeks >= 6){
+            return "SPECULATOR";
+        }
+
+        if(ratio.compareTo(BigDecimal.ONE) >= 0 && activeWeeks >= 3){
+            return "INVESTOR";
+        }
+
+        return "NOVICE";
     }
 }
