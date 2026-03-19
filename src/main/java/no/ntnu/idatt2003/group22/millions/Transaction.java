@@ -1,5 +1,6 @@
 package no.ntnu.idatt2003.group22.millions;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -13,7 +14,7 @@ public abstract class Transaction {
     private final Share share;
     private final int week;
     private final TransactionCalculator calculator;
-    protected boolean committed = false;
+    protected boolean committed;
 
     /**
      * Constructor for Transaction.
@@ -33,6 +34,7 @@ public abstract class Transaction {
             throw new IllegalArgumentException("week must be >= 1");
         }
         this.week = week;
+        this.committed = false;
     }
 
     /**
@@ -51,21 +53,34 @@ public abstract class Transaction {
     public final void commit(Player player) {
         Objects.requireNonNull(player, "player can not be null");
         if (committed) {
-
             throw new IllegalStateException("Transaction already committed");
         }
         doCommit(player);
         committed = true;
     }
 
-    /**
+
+     /**
+     * This method is an abstract method that subclasses must implement
+     * to define the specific logic for committing the transaction.
+     * The commit method calls the doCommit method after it checks that the transaction
+     * has not already been committed.
+     * Subclasses will implement this method to perform the necessary actions
+     * to complete the transaction, such as updating the player's portfolio,
+     * adjusting their cash balance, and recording the transaction in their transaction history.
+     *
+     * @param player the player involved in the transaction.
+     */
+    protected abstract void doCommit(Player player);
+
+     /**
      * Returns the share involved in the transaction.
      * This method provides access to the share associated with the transaction,
      * allowing subclasses and external code to retrieve information about the share.
      *
      * @return the share involved in the transaction.
      */
-    public final Share getShare() {
+    public final Share getShare(){
         return share;
     }
 
@@ -106,18 +121,22 @@ public abstract class Transaction {
         return committed;
     }
 
-    /**
-     * This method is an abstract method that subclasses must implement
-     * to define the specific logic for committing the transaction.
-     * The commit method calls the doCommit method after it checks that the transaction
-     * has not already been committed.
-     * Subclasses will implement this method to perform the necessary actions
-     * to complete the transaction, such as updating the player's portfolio,
-     * adjusting their cash balance, and recording the transaction in their transaction history.
-     *
-     * @param player the player involved in the transaction.
-     */
-    protected abstract void doCommit(Player player);
+    public final BigDecimal claculateGross(){
+        return calculator.calculateGross();
+    }
+
+    public final BigDecimal calculateCommission() {
+        return calculator.calculateCommission();
+    }
+
+    public final BigDecimal calculateTax(){
+        return calculator.calculateTax();
+    }
+
+    public final BigDecimal calculateTotal(){
+        return calculator.calculateTotal();
+    }
+
 
 }
 

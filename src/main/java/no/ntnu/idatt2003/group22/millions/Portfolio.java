@@ -2,6 +2,7 @@ package no.ntnu.idatt2003.group22.millions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.math.BigDecimal;
 
 /**
  * Kommentarer for hvorfor jeg endret
@@ -11,7 +12,11 @@ import java.util.Objects;
  */
 
 public class Portfolio {
-    private final List<Share> shares = new ArrayList<>();
+    private final List<Share> shares;
+    
+    public Portfolio(){
+        this.shares = new ArrayList<>();
+    }
 
     public boolean addShare(Share share){
         Objects.requireNonNull(share, "share cannot be null");
@@ -32,15 +37,18 @@ public class Portfolio {
         return List.copyOf(shares);
     }
 
-    public List<Share> getShares(String symbol) {
-        Objects.requireNonNull(symbol, "symbol can not be null");
-        List<Share> result = new ArrayList<>();
-        for( Share share : shares) {
-            if(share.getStock().getSymbol().equals(symbol)){
-                result.add(share);
-            }
+    public boolean isEmpty(){
+        return shares.isEmpty();
+    }
+
+    public BigDecimal getNetWorth(){
+        BigDecimal total = BigDecimal.ZERO;
+
+        for(Share share : shares){
+            SaleCalculator calculator = new SaleCalculator(share);
+            total = total.add(calculator.calculateTotal());
         }
-        return List.copyOf(result);
+        return total;
     }
 
 }
