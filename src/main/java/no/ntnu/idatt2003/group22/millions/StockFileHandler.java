@@ -17,7 +17,7 @@ public class StockFileHandler {
 
     /**
      * Reads stock information from a CSV file and returns a list of Stock objects.
-     * @param filename the name of the CSV file to read from.
+     * @param "src/main/resources/sp500.csv" the name of the CSV file to read from.
      * @return a list of Stock objects read from the file.
      * @throws IOException if an I/O error occurs while reading the file.
      * @throws IllegalArgumentException if the file is not found.
@@ -25,10 +25,10 @@ public class StockFileHandler {
     public List<Stock> readStocksFromFile(String filename) throws IOException {
         List<Stock> stocks = new ArrayList<>();
 
-        InputStream is = getClass().getClassLoader().getResourceAsStream("src/main/resources/sp500.csv");
+        InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
 
         if (is == null) {
-            throw new IllegalArgumentException("File not found: " + "src/main/resources/sp500.csv");
+            throw new IllegalArgumentException("File not found: " + filename);
         }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
@@ -61,7 +61,7 @@ public class StockFileHandler {
      * @throws IOException if an I/O error occurs while writing to the file.
      */
     public void writeStocksToFile(String filename, List<Stock> stocks) {
-        try (BufferedWriter writer = Files.newBufferedWriter(Path.of("src/main/resources/sp500.csv"))) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filename))) {
 
             writer.write("# Ticker,Name,Price");
             writer.newLine();
