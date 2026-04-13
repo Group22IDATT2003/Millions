@@ -46,7 +46,8 @@ public class SaleTest {
         .contains(sale));
         assertTrue(sale.isCommitted());
 
-        BigDecimal expectedMoney = new BigDecimal("100.00");
+        BigDecimal startingMoney = new BigDecimal("1000.00");
+        BigDecimal expectedMoney = startingMoney.add(sale.getCalculator().calculateTotal());
         assertEquals(0, expectedMoney.compareTo(player.getMoney()));
     }
 

@@ -19,9 +19,9 @@ public class PlayerTest {
     @Test
     @DisplayName("Constructor: valid values create player correctly")
     void constructor_validValues_createsPlayerCorrectly(){
-        assertEquals("Player1", player.getName());
-        assertEquals(new BigDecimal("100.00"), player.getStartingMoney());
-        assertEquals(new BigDecimal("100.00"), player.getMoney());
+        assertEquals("player1", player.getName());
+        assertEquals(0,new BigDecimal("100.00").compareTo(player.getStartingMoney()));
+        assertEquals(0,new BigDecimal("100.00").compareTo(player.getMoney()));
         assertNotNull(player.getPortfolio());
         assertNotNull(player.getTransactionArchive());
     }

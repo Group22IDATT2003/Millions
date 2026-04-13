@@ -88,7 +88,7 @@ public class PortfolioTest {
     @DisplayName("containsShare: null share throws exception")
     void containsShare_nullShare_throwsException(){
         assertThrows(NullPointerException.class, () -> 
-        portfolio.containsShare(appleShare1));
+        portfolio.containsShare(null));
     }
 
     @Test

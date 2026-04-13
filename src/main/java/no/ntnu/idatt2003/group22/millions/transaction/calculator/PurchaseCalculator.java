@@ -52,6 +52,6 @@ public final class PurchaseCalculator implements TransactionCalculator {
         return calculateGross()
                 .add(calculateCommission())
                 .add(calculateTax())
-                .setScale(0);
+                .setScale(2);
     }
 }
