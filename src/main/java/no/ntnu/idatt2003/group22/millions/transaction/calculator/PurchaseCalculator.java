@@ -4,6 +4,7 @@ import no.ntnu.idatt2003.group22.millions.transaction.calculator.TransactionCalc
 import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
@@ -52,6 +53,6 @@ public final class PurchaseCalculator implements TransactionCalculator {
         return calculateGross()
                 .add(calculateCommission())
                 .add(calculateTax())
-                .setScale(2);
+                .stripTrailingZeros();
     }
 }

@@ -41,6 +41,9 @@ public class Portfolio {
     }
 
     public List<Share> getShares(String symbol) {
+        if (symbol == null) {
+            throw new NullPointerException();
+        }
         return shares.stream()
                 .filter(share -> share.getSymbol().equals(symbol))
                 .toList();

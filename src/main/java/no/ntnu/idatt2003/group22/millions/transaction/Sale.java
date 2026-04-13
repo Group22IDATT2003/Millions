@@ -17,6 +17,7 @@ import java.util.Objects;
  */
 public class Sale extends Transaction {
     public Sale(Share share, int week){
+
         super(share, week, (TransactionCalculator) new SaleCalculator(share));
     }
 
