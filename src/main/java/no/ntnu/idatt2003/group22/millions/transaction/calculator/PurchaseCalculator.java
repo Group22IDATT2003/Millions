@@ -39,7 +39,7 @@ public final class PurchaseCalculator implements TransactionCalculator {
     public BigDecimal calculateCommission() {
         return calculateGross()
                 .multiply(BigDecimal.valueOf(0.005))
-                .setScale(2);
+                .setScale(3);
     }
 
 
@@ -52,6 +52,6 @@ public final class PurchaseCalculator implements TransactionCalculator {
         return calculateGross()
                 .add(calculateCommission())
                 .add(calculateTax())
-                .setScale(2);
+                .setScale(0);
     }
 }
