@@ -1,5 +1,7 @@
-package no.ntnu.idatt2003.group22.millions;
+package no.ntnu.idatt2003.group22.millions.transaction.calculator;
 
+import no.ntnu.idatt2003.group22.millions.model.Share;
+import no.ntnu.idatt2003.group22.millions.model.Stock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

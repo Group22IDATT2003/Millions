@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.group22.millions;
+package no.ntnu.idatt2003.group22.millions.transaction.calculator;
 
 import java.math.BigDecimal;
 

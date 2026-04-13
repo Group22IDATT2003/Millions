@@ -1,4 +1,7 @@
-package no.ntnu.idatt2003.group22.millions;
+package no.ntnu.idatt2003.group22.millions.transaction.calculator;
+
+import no.ntnu.idatt2003.group22.millions.transaction.calculator.TransactionCalculator;
+import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -11,7 +14,7 @@ import java.util.Objects;
  * An exception is thrown if the player does not own the share being sold
  * or if the transaction is committed more than once.
  */
-public class SaleCalculator implements TransactionCalculator{
+public class SaleCalculator implements TransactionCalculator {
     private static final BigDecimal COMMISION_RATE = BigDecimal.valueOf(0.01);
     private static final BigDecimal TAX_RATE = BigDecimal.valueOf(0.30);
     

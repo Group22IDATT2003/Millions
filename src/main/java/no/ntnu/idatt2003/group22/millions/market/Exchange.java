@@ -1,4 +1,11 @@
-package no.ntnu.idatt2003.group22.millions;
+package no.ntnu.idatt2003.group22.millions.market;
+
+import no.ntnu.idatt2003.group22.millions.model.Player;
+import no.ntnu.idatt2003.group22.millions.model.Share;
+import no.ntnu.idatt2003.group22.millions.model.Stock;
+import no.ntnu.idatt2003.group22.millions.transaction.Purchase;
+import no.ntnu.idatt2003.group22.millions.transaction.Sale;
+import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 
 import java.math.BigDecimal;
 import java.util.*;

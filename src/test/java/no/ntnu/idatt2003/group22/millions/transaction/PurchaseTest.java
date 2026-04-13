@@ -1,8 +1,13 @@
-package no.ntnu.idatt2003.group22.millions;
+package no.ntnu.idatt2003.group22.millions.transaction;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+
+import no.ntnu.idatt2003.group22.millions.model.Player;
+import no.ntnu.idatt2003.group22.millions.model.Share;
+import no.ntnu.idatt2003.group22.millions.model.Stock;
+import no.ntnu.idatt2003.group22.millions.transaction.calculator.PurchaseCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

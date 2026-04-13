@@ -1,4 +1,6 @@
-package no.ntnu.idatt2003.group22.millions;
+package no.ntnu.idatt2003.group22.millions.model;
+
+import no.ntnu.idatt2003.group22.millions.model.Stock;
 
 import java.math.BigDecimal;
 import java.util.Objects;

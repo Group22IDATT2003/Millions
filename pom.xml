@@ -62,7 +62,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>no.ntnu.idatt2003.group22.millions.Main</mainClass>
+                    <mainClass>no.ntnu.idatt2003.group22.millions.app.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

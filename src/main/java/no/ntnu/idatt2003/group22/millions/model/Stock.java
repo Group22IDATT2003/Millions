@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.group22.millions;
+package no.ntnu.idatt2003.group22.millions.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

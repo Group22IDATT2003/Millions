@@ -1,4 +1,7 @@
-package no.ntnu.idatt2003.group22.millions;
+package no.ntnu.idatt2003.group22.millions.model;
+import no.ntnu.idatt2003.group22.millions.transaction.calculator.SaleCalculator;
+import no.ntnu.idatt2003.group22.millions.model.Share;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

@@ -1,4 +1,7 @@
-package no.ntnu.idatt2003.group22.millions;
+package no.ntnu.idatt2003.group22.millions.model;
+
+import no.ntnu.idatt2003.group22.millions.model.Portfolio;
+import no.ntnu.idatt2003.group22.millions.transaction.TransactionArchive;
 
 import java.math.BigDecimal;
 import java.util.Objects;

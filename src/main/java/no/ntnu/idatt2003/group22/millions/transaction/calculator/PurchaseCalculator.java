@@ -1,4 +1,7 @@
-package no.ntnu.idatt2003.group22.millions;
+package no.ntnu.idatt2003.group22.millions.transaction.calculator;
+
+import no.ntnu.idatt2003.group22.millions.transaction.calculator.TransactionCalculator;
+import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -9,7 +12,7 @@ import java.util.Objects;
  * methods to calculate the gross amount, commission, tax, and total cost
  * of a purchase transaction based on the purchase price and quantity of the share.
  */
-public final class PurchaseCalculator implements TransactionCalculator{
+public final class PurchaseCalculator implements TransactionCalculator {
     private static final BigDecimal COMMISION_RATE = BigDecimal.valueOf(0.005);
 
     private final  BigDecimal purchasePrice;
