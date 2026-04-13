@@ -18,7 +18,6 @@ public class PortfolioTest {
     @BeforeEach
     void setUp(){
         portfolio = new Portfolio();
-
         Stock apple = new Stock("AAPL", "Apple", new BigDecimal("100.00"));
         Stock samsung = new Stock("SSNG", "Samsung", new BigDecimal("100.00"));
 

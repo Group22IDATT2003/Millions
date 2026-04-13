@@ -37,6 +37,12 @@ public class Portfolio {
         return List.copyOf(shares);
     }
 
+    public List<Share> getShares(String symbol) {
+        return shares.stream()
+                .filter(share -> share.getSymbol().equals(symbol))
+                .toList();
+    }
+
     public boolean isEmpty(){
         return shares.isEmpty();
     }
