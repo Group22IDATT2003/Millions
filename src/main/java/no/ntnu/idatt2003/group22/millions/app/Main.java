@@ -1,19 +1,26 @@
 package no.ntnu.idatt2003.group22.millions.app;
 
-import no.ntnu.idatt2003.group22.millions.market.Exchange;
-import no.ntnu.idatt2003.group22.millions.model.Stock;
-import no.ntnu.idatt2003.group22.millions.io.StockFileHandler;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import no.ntnu.idatt2003.group22.millions.controller.GameController;
+import no.ntnu.idatt2003.group22.millions.view.MainView;
 
-import java.io.IOException;
-import java.util.List;
 
-public class Main {
-    public static void main(String [] args) throws IOException {
-        StockFileHandler handler = new StockFileHandler();
-        List<Stock> stocks = handler.readStocksFromFile("sp500.csv");
+public class Main extends Application {
 
-        Exchange exchange = new Exchange("NASDAQ", stocks);
+    @Override
+    public void start(Stage stage) {
+        MainView mainView = new MainView();
+        GameController gameController = new GameController(mainView);
+        Scene scene = new Scene(mainView.getRoot(), 1200, 800);
 
-        System.out.println("Loaded stocks: " + stocks.size());
+        stage.setTitle("Millions");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
