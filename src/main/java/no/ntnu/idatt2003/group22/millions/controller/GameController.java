@@ -1,7 +1,6 @@
 package no.ntnu.idatt2003.group22.millions.controller;
 
 
-import javafx.scene.control.Button;
 import no.ntnu.idatt2003.group22.millions.io.StockFileHandler;
 import no.ntnu.idatt2003.group22.millions.market.Exchange;
 import no.ntnu.idatt2003.group22.millions.model.Player;
@@ -97,24 +96,4 @@ public class GameController {
         mainView.getTopBarView().updatePlayerInfo(playerName, week, money, netWorth, status);
     }
 
-    public String buy() {
-//finner aksjen
-// oppretter andel/transaksjon
-// gjennomfører kjøp
-//returnerer eller lagrer en melding til GUI
-    }
-
-    public String sell() {
-//finner andelen
-//oppretter salg
-//gjennomfører salget
-    }
-
-    public String searchStock() {
-//kaller exchange.findStocks(...)
-    }
-
-    public String sellAllAndExit() {
-
-    }
 }
