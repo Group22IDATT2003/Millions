@@ -13,7 +13,6 @@ public class MainView {
 
     public MainView() {
         root = new BorderPane();
-
         marketView = new MarketView();
         portfolioView = new PortfolioView();
         topBarView = new TopBarView();
@@ -34,6 +33,26 @@ public class MainView {
 
     public Parent getRoot() {
         return root;
+    }
+
+    public TopBarView getTopBarView() {
+        return topBarView;
+    }
+
+    public MarketView getMarketView() {
+        return marketView;
+    }
+
+    public MessageView getMessageView() {
+        return messageView;
+    }
+
+    public PortfolioView getPortfolioView() {
+        return portfolioView;
+    }
+
+    public TransactionView getTransactionView() {
+        return transactionView;
     }
 
 

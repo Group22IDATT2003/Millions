@@ -19,11 +19,11 @@ public class TopBarView {
     public TopBarView(){
         this.root = new HBox();
 
-        this.playerNameLabel = new Label("Player: -");
-        this.weekLabel = new Label("Week: -");
-        this.moneyLabel = new Label("Money: -");
-        this.netWorthLabel = new Label("Net worth: -");
-        this.statusLabel = new Label("Status: -");
+        this.playerNameLabel = new Label("Player: ");
+        this.weekLabel = new Label("Week: ");
+        this.moneyLabel = new Label("Money: ");
+        this.netWorthLabel = new Label("Net worth: ");
+        this.statusLabel = new Label("Status: ");
 
         configureLayout();
     }
