@@ -120,11 +120,11 @@ public class Exchange {
      * @throws IllegalArgumentException if the symbol is null, the player is null, or the quantity is negative.
      */
     public Transaction buy(String symbol, BigDecimal quantity, Player player) {
-        Objects.requireNonNull(symbol, "symbol can not be null");
-        Objects.requireNonNull(player, "player can not be nul");
-        Objects.requireNonNull(quantity, "quantity can not be null");
+        Objects.requireNonNull(symbol, "Symbol can not be null");
+        Objects.requireNonNull(player, "Player can not be nul");
+        Objects.requireNonNull(quantity, "Quantity can not be null");
         if (quantity.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("quantity must be > 0");
+            throw new IllegalArgumentException("Quantity must be > 0");
         }
 
         Stock stock = getStock(symbol);

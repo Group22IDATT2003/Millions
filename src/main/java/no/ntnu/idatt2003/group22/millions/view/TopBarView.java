@@ -2,6 +2,7 @@ package no.ntnu.idatt2003.group22.millions.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
 import javafx.scene.control.Label;
@@ -15,6 +16,7 @@ public class TopBarView {
     private final Label moneyLabel;
     private final Label netWorthLabel;
     private final Label statusLabel;
+    private final Button newGameButton;
 
     public TopBarView(){
         this.root = new HBox();
@@ -24,6 +26,7 @@ public class TopBarView {
         this.moneyLabel = new Label("Money: ");
         this.netWorthLabel = new Label("Net worth: ");
         this.statusLabel = new Label("Status: ");
+        this.newGameButton = new Button("New Game");
 
         configureLayout();
     }
@@ -38,7 +41,8 @@ public class TopBarView {
                 weekLabel,
                 moneyLabel,
                 netWorthLabel,
-                statusLabel
+                statusLabel,
+                newGameButton
         );
     }
 
@@ -52,6 +56,10 @@ public class TopBarView {
         moneyLabel.setText("Money: " + money);
         netWorthLabel.setText("Net worth: " + netWorth);
         statusLabel.setText("Status: " + status);
+    }
+
+    public Button getNewGameButton(){
+        return newGameButton;
     }
 
 }

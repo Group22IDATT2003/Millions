@@ -16,7 +16,7 @@ public class MarketView {
     private final TextField searchField;
     private final Button searchButton;
     private final ListView<Stock> marketListView;
-    private final TextField quantityField;
+    private final TextField quantityText;
     private final Button buyButton;
 
 
@@ -26,7 +26,7 @@ public class MarketView {
         this.searchField = new TextField();
         this.searchButton = new Button("Search");
         this.marketListView = new ListView<>();
-        this.quantityField = new TextField();
+        this.quantityText = new TextField();
         this.buyButton = new Button("Buy");
 
 
@@ -37,7 +37,7 @@ public class MarketView {
         root.setSpacing(20);
         root.setPadding(new Insets(15));
         root.setAlignment(Pos.TOP_LEFT);
-        root.getChildren().addAll(titleLabel, searchField, searchButton, marketListView, buyButton, quantityField);
+        root.getChildren().addAll(titleLabel, searchField, searchButton, marketListView, buyButton, quantityText);
 
     }
 
@@ -62,8 +62,8 @@ public class MarketView {
         return searchButton;
     }
 
-    public String getQuantityField(){
-        return quantityField.getText();
+    public String getQuantityText(){
+        return quantityText.getText();
     }
 
     public Button getBuyButton(){

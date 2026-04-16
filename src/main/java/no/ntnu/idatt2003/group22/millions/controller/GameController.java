@@ -52,28 +52,112 @@ public class GameController {
     }
 
     private void configureActions() {
-        mainView.getMarketView().getSearchButton().setOnAction(event -> {
+        mainView.getMarketView().getSearchButton().setOnAction(event -> handleSearch());
+
+        mainView.getMarketView().getBuyButton().setOnAction(event -> handleBuy());
+
+        mainView.getPortfolioView().getSellButton().setOnAction(event -> handleSell());
+
+        mainView.getTopBarView().getNewGameButton().setOnAction(event -> handleStartNewGame());
+
+    }
+
+    private void handleBuy() {
+        if (exchange == null || player == null) {
+            showMessage("Buy", "Start a new game before buy.");
+            return;
+        }
+
+        Stock selectedStock = mainView.getMarketView().getSelectedStock();
+        if (selectedStock == null) {
+            showMessage("Buy", "Please select a stock first.");
+            return;
+        }
+
+        String quantityText = mainView.getMarketView().getQuantityText();
+        if (quantityText == null || quantityText.isBlank()) {
+            showMessage("Buy", "Please enter a quantity.");
+            return;
+        }
+
+        try {
+            BigDecimal quantity = new BigDecimal(quantityText);
+
+            if (quantity.compareTo(BigDecimal.ZERO) <= 0) {
+                showMessage("Buy", "Quantity must be greater than zero.");
+                return;
+            }
+
+            exchange.buy(selectedStock.getSymbol(), quantity, player);
+
+            showTopBar(
+                    player.getName(),
+                    exchange.getWeek(),
+                    player.getMoney(),
+                    player.getNetWorth(),
+                    player.getStatus()
+            );
+            showPortfolio(player.getPortfolio().getShares());
+            showTransaction(player.getTransactionArchive().getAllTransactions());
+            showMessage(
+                    "Buy",
+                    "Purchased " + quantity + " of " + selectedStock.getSymbol()
+            );
+
+        } catch (Exception e){
+            showMessage("Buy", e.getMessage());
+        }
+    }
+
+    private void handleSearch(){
+            if (exchange == null) {
+                showMessage("Search", "Start a game before search.");
+                return;
+            }
+
             String searchText = mainView.getMarketView().getSearchText();
+            List<Stock> results = exchange.findStocks(searchText);
+
+            showMarket(results);
             showMessage("Search", "You searched for: " + searchText);
-        });
 
-        mainView.getMarketView().getBuyButton().setOnAction(event -> {
-            Stock selectedStock = mainView.getMarketView().getSelectedStock();
-            if (selectedStock == null) {
-                showMessage("Buy", "Please select a stock first.");
-            } else {
-                showMessage("Buy", "Selected stock: " + selectedStock.getSymbol());
-            }
-        });
+    }
 
-        mainView.getPortfolioView().getSellButton().setOnAction(event -> {
-            Share selectedShare = mainView.getPortfolioView().getSelectedShare();
-            if (selectedShare == null) {
-                showMessage("Sell", "Please select a share first.");
-            } else {
-                showMessage("Sell", "Selected share: " + selectedShare.getSymbol());
-            }
-        });
+    private void handleSell(){
+        if (exchange == null || player == null) {
+            showMessage("Sell", "Start a new game before sell.");
+        return;
+        }
+
+        Share selectedShare = mainView.getPortfolioView().getSelectedShare();
+        if (selectedShare == null) {
+            showMessage("Sell", "Please select a share first.");
+            return;
+        }
+
+        try {
+            exchange.sell(selectedShare, player);
+
+            showTopBar(
+                    player.getName(),
+                    exchange.getWeek(),
+                    player.getMoney(),
+                    player.getNetWorth(),
+                    player.getStatus()
+            );
+            showPortfolio(player.getPortfolio().getShares());
+            showTransaction(player.getTransactionArchive().getAllTransactions());
+            showMessage("Sell", "Sold share: " + selectedShare.getSymbol());
+        } catch (Exception e){
+            showMessage("Sell", e.getMessage());
+        }
+    }
+
+    private void handleStartNewGame(){
+        if (exchange == null || player == null) {
+            showMessage("Start new Game", "Start a new game.");
+            return;
+        }
     }
 
     public void showMessage(String title, String message) {
