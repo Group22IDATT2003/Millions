@@ -35,7 +35,7 @@ public class MarketView {
 
     private void configureLayout(){
         root.setSpacing(20);
-        root.setPadding(new Insets(15));
+        root.setPadding(new Insets(10));
         root.setAlignment(Pos.TOP_LEFT);
         root.getChildren().addAll(titleLabel, searchField, searchButton, marketListView, buyButton, quantityText);
 

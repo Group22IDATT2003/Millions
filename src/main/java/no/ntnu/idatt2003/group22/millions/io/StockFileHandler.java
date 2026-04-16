@@ -3,11 +3,17 @@ package no.ntnu.idatt2003.group22.millions.io;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 
 import java.io.*;
-import java.math.BigDecimal;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+
+
+
 
 /**
  * Handles the reading and writing of stock data from and to a file.
@@ -27,13 +33,8 @@ public class StockFileHandler {
     public List<Stock> readStocksFromFile(String filename) throws IOException {
         List<Stock> stocks = new ArrayList<>();
 
-        InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
 
-        if (is == null) {
-            throw new IllegalArgumentException("File not found: " + filename);
-        }
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(filename))) {
             String line;
 
             while ((line = reader.readLine()) != null) {
@@ -45,9 +46,17 @@ public class StockFileHandler {
 
                 String[] parts = line.split(",");
 
+                if (parts.length != 3) {
+                    continue;
+                }
+
                 String symbol = parts[0].trim();
                 String company = parts[1].trim();
                 BigDecimal price = new BigDecimal(parts[2].trim());
+
+                if (parts.length != 3) {
+                    continue;
+                }
 
                 stocks.add(new Stock(symbol, company, price));
             }

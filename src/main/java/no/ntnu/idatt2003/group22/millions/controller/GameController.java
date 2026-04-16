@@ -1,6 +1,8 @@
 package no.ntnu.idatt2003.group22.millions.controller;
 
 
+import javafx.scene.control.TextInputDialog;
+import javafx.stage.FileChooser;
 import no.ntnu.idatt2003.group22.millions.io.StockFileHandler;
 import no.ntnu.idatt2003.group22.millions.market.Exchange;
 import no.ntnu.idatt2003.group22.millions.model.Player;
@@ -10,9 +12,12 @@ import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 import no.ntnu.idatt2003.group22.millions.view.MainView;
 
 
+import java.io.File;
 import java.io.IOException;
+
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public class GameController {
     private Player player;
@@ -104,29 +109,29 @@ public class GameController {
                     "Purchased " + quantity + " of " + selectedStock.getSymbol()
             );
 
-        } catch (Exception e){
+        } catch (Exception e) {
             showMessage("Buy", e.getMessage());
         }
     }
 
-    private void handleSearch(){
-            if (exchange == null) {
-                showMessage("Search", "Start a game before search.");
-                return;
-            }
+    private void handleSearch() {
+        if (exchange == null) {
+            showMessage("Search", "Start a game before search.");
+            return;
+        }
 
-            String searchText = mainView.getMarketView().getSearchText();
-            List<Stock> results = exchange.findStocks(searchText);
+        String searchText = mainView.getMarketView().getSearchText();
+        List<Stock> results = exchange.findStocks(searchText);
 
-            showMarket(results);
-            showMessage("Search", "You searched for: " + searchText);
+        showMarket(results);
+        showMessage("Search", "You searched for: " + searchText);
 
     }
 
-    private void handleSell(){
+    private void handleSell() {
         if (exchange == null || player == null) {
             showMessage("Sell", "Start a new game before sell.");
-        return;
+            return;
         }
 
         Share selectedShare = mainView.getPortfolioView().getSelectedShare();
@@ -148,17 +153,69 @@ public class GameController {
             showPortfolio(player.getPortfolio().getShares());
             showTransaction(player.getTransactionArchive().getAllTransactions());
             showMessage("Sell", "Sold share: " + selectedShare.getSymbol());
-        } catch (Exception e){
+        } catch (Exception e) {
             showMessage("Sell", e.getMessage());
         }
     }
 
-    private void handleStartNewGame(){
-        if (exchange == null || player == null) {
-            showMessage("Start new Game", "Start a new game.");
+    private void handleStartNewGame() {
+
+
+        TextInputDialog nameDialog = new TextInputDialog();
+        nameDialog.setTitle("New Game");
+        nameDialog.setHeaderText("Start a new game");
+        nameDialog.setContentText("Player name: ");
+
+        Optional<String> nameResult = nameDialog.showAndWait();
+
+        if (nameResult.isEmpty() || nameResult.get().isBlank()) {
+            showMessage("New Game", "Please enter a player name.");
             return;
         }
+
+        String name = nameResult.get().trim();
+
+        TextInputDialog moneyDialog = new TextInputDialog();
+        moneyDialog.setTitle("New Game");
+        moneyDialog.setHeaderText("Start a new game");
+        moneyDialog.setContentText("Starting money: ");
+
+        Optional<String> moneyResult = moneyDialog.showAndWait();
+
+        if (moneyResult.isEmpty() || moneyResult.get().isBlank()) {
+            showMessage("New Game", "Please enter starting money.");
+            return;
+        }
+
+        BigDecimal startingMoney;
+
+        try {
+            startingMoney = new BigDecimal(moneyResult.get().trim());
+        } catch (NumberFormatException e) {
+            showMessage("New Game", "Starting money must be a valid number.");
+            return;
+        }
+
+        if (startingMoney.compareTo(BigDecimal.ZERO) <= 0) {
+            showMessage("New Game", "Starting money must be greater than zero.");
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose stock file");
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile == null) {
+            showMessage("New Game", "You must choose a stock file.");
+            return;
+        }
+
+        String filename = selectedFile.getAbsolutePath();
+
+        startNewGame(name, startingMoney, filename);
+
     }
+
 
     public void showMessage(String title, String message) {
         mainView.getMessageView().updateMessageInfo(title, message);
