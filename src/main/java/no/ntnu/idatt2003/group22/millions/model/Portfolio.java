@@ -36,8 +36,16 @@ public class Portfolio {
         return shares.contains(share);
     }
 
-    public List<Share> getShares(){
-        return List.copyOf(shares);
+    public List<Share> getShares(String symbol){
+        Objects.requireNonNull(symbol, "symbol can not be null");
+
+        List<Share> matchingShares = new ArrayList<>();
+        for(Share share : shares){
+            if(share.getSymbol().equalsIgnoreCase(symbol)){
+                matchingShares.add(share);
+            }
+        }
+        return List.copyOf(matchingShares);
     }
 
     public List<Share> getShares(String symbol) {

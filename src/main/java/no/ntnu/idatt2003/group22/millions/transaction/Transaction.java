@@ -125,7 +125,7 @@ public abstract class Transaction {
         return committed;
     }
 
-    public final BigDecimal claculateGross(){
+    public final BigDecimal calculateGross(){
         return calculator.calculateGross();
     }
 

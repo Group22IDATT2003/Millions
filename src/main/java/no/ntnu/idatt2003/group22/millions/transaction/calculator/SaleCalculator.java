@@ -38,13 +38,20 @@ public class SaleCalculator implements TransactionCalculator {
 
 
     public BigDecimal calculateGross() {
-        return salePrice.multiply(quantity);
+        return salePrice.multiply(quantity).setScale(2);
     }
-
 
     public BigDecimal calculateCommission() {
         return calculateGross()
         .multiply(COMMISION_RATE)
+        .setScale(2);
+    }
+
+    private BigDecimal calculateProfitBeforeTax(){
+        BigDecimal purchaseCost = purchasePrice.multiply(quantity);
+        return calculateGross()
+        .subtract(calculateCommission())
+        .subtract(purchaseCost)
         .setScale(2);
     }
 
@@ -60,7 +67,7 @@ public class SaleCalculator implements TransactionCalculator {
             return BigDecimal.ZERO.setScale(2);
         }
 
-        return profit
+        return profitBeforeTax
         .multiply(TAX_RATE)
         .setScale(2);
     }
