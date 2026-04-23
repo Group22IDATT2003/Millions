@@ -40,7 +40,7 @@ public class PortfolioTest {
     @Test
     @DisplayName("addShare: null share throws exception")
     void addShare_nullShare_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         portfolio.addShare(null));
     }
 
@@ -58,15 +58,13 @@ public class PortfolioTest {
     @Test
     @DisplayName("removeShare: non existing shares returns false")
     void remove_share_nonExistingShare_returnsFalse(){
-        boolean removed = portfolio.removeShare(appleShare1);
-
-        assertFalse(removed);
+        assertFalse(portfolio.removeShare(appleShare1));
     }
 
     @Test
     @DisplayName("removeShare: null share throws exception")
     void removeShare_nullShare_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         portfolio.removeShare(null)); 
     }
 
@@ -87,7 +85,7 @@ public class PortfolioTest {
     @Test
     @DisplayName("containsShare: null share throws exception")
     void containsShare_nullShare_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         portfolio.containsShare(null));
     }
 
@@ -124,23 +122,18 @@ public class PortfolioTest {
     void getShares_unknownSymbol_retuensEmptyList(){
         portfolio.addShare(appleShare1);
 
-        List<Share> shares = portfolio.getShares("XXXX");
-
-        assertTrue(shares.isEmpty());
+        assertTrue(portfolio.getShares("XXXX").isEmpty());
     }
 
     @Test
     @DisplayName("getShares(symbol): null symbol throws exception")
     void getShares_nullSymbol_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         portfolio.getShares(null));
     }
 
     @Test
     @DisplayName("getShares: returnes list is immutable")
-    /**
-     * fikk hjelp av chat til denne testen
-     */
 
     void getShares_returnedListIsImmutable(){
         portfolio.addShare(appleShare1);
@@ -150,6 +143,25 @@ public class PortfolioTest {
         assertThrows(UnsupportedOperationException.class, () -> { 
         shares.add(samsungShare);
     });
+    }
+
+    @Test
+    void isEmpty_newPortfolio_returnsTrue() {
+        assertTrue(portfolio.isEmpty());
+    }
+
+    @Test
+    void isEmpty_afterAddingShare_returnsFalse() {
+        portfolio.addShare(appleShare1);
+        assertFalse(portfolio.isEmpty());
+    }
+
+    @Test
+    void getNetWorth_returnsSaleValueOfAllShares() {
+        portfolio.addShare(appleShare1); 
+        portfolio.addShare(samsungShare); 
+        
+        assertEquals(0, new BigDecimal("294.60").compareTo(portfolio.getNetWorth()));
     }
 
 }

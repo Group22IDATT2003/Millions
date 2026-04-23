@@ -48,12 +48,6 @@ public class PurchaseTest {
         BigDecimal startingMoney = new BigDecimal("1000.00");
         BigDecimal totalCost = purchase.getCalculator().calculateTotal();
 
-        System.out.println("Shares in portfolio: " + player.getPortfolio().getShares());
-        System.out.println("Size: " + player.getPortfolio().getShares().size());
-        System.out.println("containsShare(share): " + player.getPortfolio().containsShare(share));
-        System.out.println("list contains share: " + player.getPortfolio().getShares().contains(share));
-        System.out.println("same reference as first element: " + (player.getPortfolio().getShares().get(0) == share));
-
         BigDecimal expectedMoney = startingMoney.subtract(totalCost);
         assertEquals(0, expectedMoney.compareTo(player.getMoney()));
     }
@@ -70,7 +64,7 @@ public class PurchaseTest {
     @Test
     @DisplayName("commit: null player throws exception")
     void commit_nullPlayer_throwsException() {
-        assertThrows(NullPointerException.class, () -> purchase.commit(null));
+        assertThrows(IllegalArgumentException.class, () -> purchase.commit(null));
     }
 
     @Test

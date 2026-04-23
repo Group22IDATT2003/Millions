@@ -29,7 +29,7 @@ public class ShareTest {
     @Test
     @DisplayName("Constructor: null stock throws exception")
     void constructor_nullStock_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         new Share(null, new BigDecimal("10"), new BigDecimal("90.00")));
 
     }
@@ -37,14 +37,14 @@ public class ShareTest {
     @Test
     @DisplayName("Constructor: null quantity throws exception")
     void constructor_nullQuantity_throesException() {
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         new Share(stock, null, new BigDecimal("90.00")));
     }
 
     @Test
     @DisplayName("Constructor: null purchase price throws exception")
     void constructor_nullPurchase_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         new Share(stock, new BigDecimal("10"), null));
     }
 

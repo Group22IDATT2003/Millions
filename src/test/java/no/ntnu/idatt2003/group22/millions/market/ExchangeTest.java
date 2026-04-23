@@ -1,6 +1,10 @@
 package no.ntnu.idatt2003.group22.millions.market;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import no.ntnu.idatt2003.group22.millions.model.Player;
+import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +34,7 @@ public class ExchangeTest {
     @Test
     @DisplayName("getName: returning the correct stockname")
     void getNameReturnCorrectName() {
-        assert exchange.getName().equals("NASDAQ");
+        assertEquals("NASDAQ", exchange.getName());
     }
 
     @Test
@@ -42,13 +46,13 @@ public class ExchangeTest {
     @Test
     @DisplayName("hasStock: return true when stock exists")
     void hasStockReturnTrueWhenStockExists() {
-        assert exchange.hasStock("AAPL");
+        assertTrue(exchange.hasStock("AAPL"));
     }
 
     @Test
     @DisplayName("hasStock: return false when stock does not exist")
     void hasStockReturnFalseWhenStockDoesNotExist() {
-        assert !exchange.hasStock("XYZ");
+        assertFalse(exchange.hasStock("XYZ"));
     }
 
     @Test
@@ -64,9 +68,9 @@ public class ExchangeTest {
     }
 
     @Test
-    @DisplayName("getStck: throws exception when symbol is null")
+    @DisplayName("getStock: throws exception when symbol is null")
     void getStockThrowsExceptionWhenSymbolIsNull() {
-        assertThrows(NullPointerException.class, () -> exchange.getStock(null));
+        assertThrows(IllegalArgumentException.class, () -> exchange.getStock(null));
     }
 
     @Test
@@ -87,14 +91,14 @@ public class ExchangeTest {
     @Test
     @DisplayName("findStocks: throws exception when searchTerm is null")
     void findStocksThrowsExceptionWhenSearchTermIsNull() {
-        assertThrows(NullPointerException.class, () -> exchange.findStocks(null));
+        assertThrows(IllegalArgumentException.class, () -> exchange.findStocks(null));
     }
 
     @Test
     @DisplayName("buy: creates transaction when buying")
     void buyCreatesTransaction(){
         Transaction tx = exchange.buy("AAPL", new BigDecimal("2"), player);
-        assert tx != null;
+        assertNotNull(tx);
     }
 
     @Test
@@ -106,18 +110,27 @@ public class ExchangeTest {
     @Test
     @DisplayName("buy: theow exception if player is null")
     void buyThrowsExceptionIfPlayerIsNull(){
-        assertThrows(NullPointerException.class, () -> exchange.buy("AAPL", new BigDecimal("1"), null));
+        assertThrows(IllegalArgumentException.class, () -> exchange.buy("AAPL", new BigDecimal("1"), null));
     }
 
     @Test
     @DisplayName("sell: creates transaction when selling")
     void sellCreatesTransaction(){
+        Stock stock = exchange.getStock("AAPL");
+        Share share = new Share(stock, new BigDecimal("2"), new BigDecimal("90"));
+
+        player.getPortfolio().addShare(share);
+
+        Transaction tx = exchange.sell(share, player);
+
+        assertNotNull(tx);
+        assertTrue(tx.isCommitted());
     }
 
     @Test
     @DisplayName("sell: throws exception when player is null")
     void sellThrowsExceptionWhenShareIsNull() {
-        assertThrows(NullPointerException.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> exchange.sell(null, player));
     }
 
