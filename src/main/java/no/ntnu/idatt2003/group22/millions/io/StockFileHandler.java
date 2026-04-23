@@ -2,7 +2,6 @@ package no.ntnu.idatt2003.group22.millions.io;
 
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 
-import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,64 +29,98 @@ public class StockFileHandler {
      * @throws IOException if an I/O error occurs while reading the file.
      * @throws IllegalArgumentException if the file is not found.
      */
-    public List<Stock> readStocksFromFile(String filename) throws IOException {
+    public List<Stock> readStocksFromFile(Path path) throws IOException {
+        if(path == null){
+            throw new IllegalArgumentException("path cannot be null");
+        }
+
         List<Stock> stocks = new ArrayList<>();
 
 
-        try (BufferedReader reader = Files.newBufferedReader(Path.of(filename))) {
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
             String line;
+            int lineNumber = 0;
 
             while ((line = reader.readLine()) != null) {
+                lineNumber++;
                 line = line.trim();
 
                 if (line.isEmpty() || line.startsWith("#")) {
                     continue;
                 }
 
-                String[] parts = line.split(",");
-
-                if (parts.length != 3) {
-                    continue;
-                }
-
-                String symbol = parts[0].trim();
-                String company = parts[1].trim();
-                BigDecimal price = new BigDecimal(parts[2].trim());
-
-                if (parts.length != 3) {
-                    continue;
-                }
-
-                stocks.add(new Stock(symbol, company, price));
+                stocks.add(parseStockLine(line, lineNumber));
             }
         }
-
         return stocks;
     }
 
-    /**
-     * Writes a list of Stock objects to a CSV file.
-     * @param filename the name of the CSV file to write to.
-     * @param stocks the list of Stock objects to write.
-     * @throws IOException if an I/O error occurs while writing to the file.
-     */
-    public void writeStocksToFile(String filename, List<Stock> stocks) {
-        try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filename))) {
+    public void writeStocksToFile(Path path, List<Stock> stocks) throws IOException {
+        if(path == null){
+            throw new IllegalArgumentException("path cannot be null");
+        }
+        if(stocks == null){
+                throw new IllegalArgumentException("stocks cannot be null");
+        }
 
-            writer.write("# Ticker,Name,Price");
-            writer.newLine();
-
-            for (Stock stock : stocks) {
+        try (BufferedWriter writer = Files.newBufferedWriter(path)){
+            for(Stock stock : stocks){
+                if(stock == null){
+                    throw new IllegalArgumentException("stocks cannot contain null");
+                }
                 writer.write(
-                        stock.getSymbol() + "," +
-                                stock.getCompany() + "," +
-                                stock.getSalesPrice()
+                    stock.getSymbol() + "," +
+                    stock.getCompany() + "," +
+                    stock.getSalesPrice()
                 );
+                
                 writer.newLine();
             }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }
+    }
+
+    private Stock parseStockLine(String line, int lineNumber){
+        String[] parts = line.split(",");
+
+        if(parts.length !=3){
+            throw new IllegalArgumentException(
+                "Invalid stock data at line " + lineNumber + ": expected 3 fields, got " +parts.length
+            );
+        }
+
+        String symbol = parts [0].trim();
+        String company = parts [1].trim();
+        String priceText = parts [2].trim();
+
+        if(symbol.isEmpty()){
+            throw new IllegalArgumentException(
+                "Invalid stock data at line " + lineNumber + ": symbol cannot be blank"
+            );
+        }
+
+        if(company.isEmpty()){
+            throw new IllegalArgumentException(
+                "Invalid stock data at line " + lineNumber + ": company cannot be blank"
+            );
+        }
+
+        BigDecimal price;
+        try{
+            price = new BigDecimal(priceText);
+        } catch(NumberFormatException e) {
+            throw new IllegalArgumentException(
+                "Invalid stock data at line " + lineNumber + ": invalid price '" + priceText + "'"
+            );
+        }
+
+        try {
+            return new Stock(symbol, company, price);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(
+                "Invalid stock data at line " + lineNumber + ": '" + e.getMessage()
+
+            );
         }
     }
 }

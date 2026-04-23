@@ -5,7 +5,6 @@ import no.ntnu.idatt2003.group22.millions.model.Player;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * Abstract class representing a financial transaction involving shares.
@@ -31,8 +30,15 @@ public abstract class Transaction {
      * @param calculator the calculator to compute the transaction's financial details. Cannot be null.
      */
     protected Transaction(Share share, int week, TransactionCalculator calculator) {
-        this.share = Objects.requireNonNull(share, "share can not be null");
-        this.calculator = Objects.requireNonNull(calculator, "calculator can not be null");
+        if(share == null){
+            throw new IllegalArgumentException("share cannot be null");
+        }
+        this.share = share;
+
+        if(calculator == null){
+            throw new IllegalArgumentException("calculator cannot be null");
+        }
+        this.calculator = calculator;
 
         if (week < 1) {
             throw new IllegalArgumentException("week must be >= 1");
@@ -55,7 +61,9 @@ public abstract class Transaction {
      * @throws NullPointerException  if the player is null.
      */
     public final void commit(Player player) {
-        Objects.requireNonNull(player, "player can not be null");
+        if(player == null){
+            throw new IllegalArgumentException("player cannot be null");
+        }
         if (committed) {
             throw new IllegalStateException("Transaction already committed");
         }

@@ -1,12 +1,12 @@
 package no.ntnu.idatt2003.group22.millions.model;
 
-import no.ntnu.idatt2003.group22.millions.model.Portfolio;
 import no.ntnu.idatt2003.group22.millions.transaction.TransactionArchive;
-
 import java.math.BigDecimal;
-import java.util.Objects;
 
 public class Player {
+    private static final BigDecimal INVESTOR_RATIO = new BigDecimal("1.2");
+    private static final BigDecimal SPECULATOR_RATIO = new BigDecimal("1.2");
+
     private final String name;
     private final BigDecimal startingMoney;
     private BigDecimal money;
@@ -14,13 +14,20 @@ public class Player {
     private final TransactionArchive transactionArchive;
 
     public Player(String name, BigDecimal startingMoney) {
-        this.name = Objects.requireNonNull(name, "name cannot be null");
-        this.startingMoney = Objects.requireNonNull(startingMoney);
+        if(name == null){
+            throw new IllegalArgumentException("name cannot be null");
+        }
+
+        if(startingMoney == null){
+            throw new IllegalArgumentException("startingMoney cannot be null");
+        }
 
         if (startingMoney.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("startingMoney cannot be negative");
         }
 
+        this.name = name;
+        this.startingMoney = startingMoney;
         this.money = startingMoney;
         this.portfolio = new Portfolio();
         this.transactionArchive = new TransactionArchive();
@@ -48,19 +55,24 @@ public class Player {
     }
 
     public void addMoney(BigDecimal amount) {
-        Objects.requireNonNull(amount, "amount can not be null");
+        if(amount == null){
+            throw new IllegalArgumentException("amount cannot be null");
+        }
         if(amount.compareTo(BigDecimal.ZERO) < 0){
             throw new IllegalArgumentException("amount must be >= 0");
         }
         money = money.add(amount);
     }
+
     public void withdrawMoney(BigDecimal amount){
-        Objects.requireNonNull(amount, "amount can not be null");
+        if(amount == null){
+            throw new IllegalArgumentException("amount cannot be null");
+        }
         if(amount.compareTo(BigDecimal.ZERO) < 0){
-            throw new IllegalArgumentException("amounr must be >= 0");
+            throw new IllegalArgumentException("amount must be >= 0");
         }
         if(money.compareTo(amount) < 0){
-            throw new IllegalStateException("Not enpugh money to withdraw");
+            throw new IllegalStateException("Not enough money to withdraw");
         }
         money = money.subtract(amount);
     }
@@ -84,14 +96,15 @@ public class Player {
             ratio = netWorth.divide(startingMoney, 4, java.math.RoundingMode.HALF_UP);
         }
 
-        if (ratio.compareTo(new BigDecimal("1.50")) >= 0 && activeWeeks >= 6){
+        if (ratio.compareTo(SPECULATOR_RATIO) >= 0 && activeWeeks >= 20){
             return "SPECULATOR";
         }
 
-        if(ratio.compareTo(BigDecimal.ONE) >= 0 && activeWeeks >= 3){
+        if(ratio.compareTo(INVESTOR_RATIO) >= 0 && activeWeeks >= 10){
             return "INVESTOR";
         }
 
         return "NOVICE";
     }
+
 }

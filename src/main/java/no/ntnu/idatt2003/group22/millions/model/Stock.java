@@ -3,7 +3,6 @@ package no.ntnu.idatt2003.group22.millions.model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents a stock in the financial market.
@@ -29,8 +28,14 @@ public class Stock {
         if (symbol == null) {
             throw new IllegalArgumentException("symbol can not be null");
         }
+        if(symbol.isBlank()){
+            throw new IllegalArgumentException("symbol cannot be blank");
+        }
         if (company == null) {
             throw new IllegalArgumentException("company can not be null");
+        }
+        if(company.isBlank()){
+            throw new IllegalArgumentException("company cannot be blank");
         }
         if (salesPrice == null) {
             throw new IllegalArgumentException("salesPrice can not be null");
@@ -76,7 +81,7 @@ public class Stock {
      */
     public void addNewSalesPrice(BigDecimal price) {
         if (price == null) {
-            throw new IllegalArgumentException("price can not be null");
+            throw new IllegalArgumentException("price cannot be null");
         }
         if (price.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("price must be > 0");

@@ -1,13 +1,10 @@
 package no.ntnu.idatt2003.group22.millions.transaction;
 
 import no.ntnu.idatt2003.group22.millions.transaction.calculator.SaleCalculator;
-import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
-import no.ntnu.idatt2003.group22.millions.transaction.calculator.TransactionCalculator;
 import no.ntnu.idatt2003.group22.millions.model.Player;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * Represents a sale transaction where a player sells a share.
@@ -17,8 +14,7 @@ import java.util.Objects;
  */
 public class Sale extends Transaction {
     public Sale(Share share, int week){
-
-        super(share, week, (TransactionCalculator) new SaleCalculator(share));
+        super(share, week, new SaleCalculator(share));
     }
 
     /**
@@ -31,10 +27,11 @@ public class Sale extends Transaction {
      * @param player the player involved in the transaction.
      */
     @Override
-
     protected void doCommit(Player player){
-        Objects.requireNonNull(player, "player can not be null");
-
+        if(player == null){
+            throw new IllegalArgumentException("player cannot be null");
+        }
+        
         if(!player.getPortfolio().containsShare(getShare())){
             throw new IllegalStateException("Player does not own this share");
         }

@@ -7,13 +7,9 @@ import no.ntnu.idatt2003.group22.millions.transaction.Purchase;
 import no.ntnu.idatt2003.group22.millions.transaction.Sale;
 import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 
+import java.math.RoundingMode;
 import java.math.BigDecimal;
 import java.util.*;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
 
 /**
  * Represents an exchange where players can buy and sell shares.
@@ -35,12 +31,28 @@ public class Exchange {
      * @param stocks the list of stocks available for trading.
      */
     public Exchange(String name, List<Stock> stocks) {
+        if(name == null){
+            throw new IllegalArgumentException("name cannot be null");
+        } 
+        if(stocks == null){
+            throw new IllegalArgumentException("stocks cannot be null");
+        }
         this.name = name;
         this.week = 1;
         this.random = new Random();
         this.stockMap = new HashMap<>();
+
         for (Stock stock : stocks) {
-            this.stockMap.put(stock.getSymbol(), stock);
+            if(stock == null){
+                throw new IllegalArgumentException("stock cannot be null");
+            }
+
+            String symbol = stock.getSymbol();
+            if(stockMap.containsKey(symbol)){
+                throw new IllegalArgumentException("duplicate stock symbol: " + symbol);
+            }
+            
+            stockMap.put(stock.getSymbol(), stock);
         }
 
     }
@@ -51,7 +63,6 @@ public class Exchange {
      * @throws IllegalStateException if the name is not set.
      */
     public String getName() {
-        if (name == null) throw new IllegalStateException("name is not set");
         return name;
     }
 
@@ -61,7 +72,6 @@ public class Exchange {
      * @throws IllegalArgumentException if the week is not set or negative.
      */
     public int getWeek() {
-        if(week <= 0) throw new IllegalArgumentException("week can not be null or negative");
         return week;
     }
 
@@ -72,7 +82,9 @@ public class Exchange {
      * @throws IllegalArgumentException if the symbol is null.
      */
     public boolean hasStock(String symbol) {
-        Objects.requireNonNull(symbol, "symbol can not be null");
+        if(symbol == null){
+            throw new IllegalArgumentException("symbol cannot be null");
+        }
         return stockMap.containsKey(symbol);
     }
 
@@ -83,7 +95,10 @@ public class Exchange {
      * @throws IllegalArgumentException if the symbol is null or the exchange does not have the stock.
      */
     public Stock getStock(String symbol) {
-        Objects.requireNonNull(symbol, "symbol can not be null");
+        if(symbol == null){
+            throw new IllegalArgumentException("symbol cannot be null");
+        }
+        
         if (!stockMap.containsKey(symbol)) {
             throw new IllegalArgumentException("Unknown stock symbol: " + symbol);
         }
@@ -97,9 +112,12 @@ public class Exchange {
      * @throws IllegalArgumentException if the search term is null.
      */
     public List<Stock> findStocks(String searchTerm) {
-        Objects.requireNonNull(searchTerm, "searchTerm can not be null");
+        if(searchTerm == null){
+            throw new IllegalArgumentException("searchTerm cannot be null");
+        }
         List<Stock> result = new ArrayList<>();
         String lowerSearch = searchTerm.toLowerCase();
+
         for (Stock stock : stockMap.values()) {
             String symbol = stock.getSymbol().toLowerCase();
             String company = stock.getCompany().toLowerCase();
@@ -120,9 +138,15 @@ public class Exchange {
      * @throws IllegalArgumentException if the symbol is null, the player is null, or the quantity is negative.
      */
     public Transaction buy(String symbol, BigDecimal quantity, Player player) {
-        Objects.requireNonNull(symbol, "Symbol can not be null");
-        Objects.requireNonNull(player, "Player can not be nul");
-        Objects.requireNonNull(quantity, "Quantity can not be null");
+        if(symbol == null){
+            throw new IllegalArgumentException("symbol cannot be null");
+        }
+        if(player == null){
+            throw new IllegalArgumentException("player cannot be null");
+        }
+        if(quantity == null){
+            throw new IllegalArgumentException("quantity cannot be null");
+        }
         if (quantity.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Quantity must be > 0");
         }
@@ -142,8 +166,12 @@ public class Exchange {
      * @throws IllegalArgumentException if the player is null or the share is null.
      */
     public Transaction sell(Share share, Player player) {
-        Objects.requireNonNull(player, "player can not be null");
-        Objects.requireNonNull(share, "share can not be null");
+        if(player == null){
+            throw new IllegalArgumentException("player cannot be null");
+        }
+        if(share == null){
+            throw new IllegalArgumentException("share cannot be null");
+        }
 
         Transaction tx = new Sale(share, week);
         tx.commit(player);
@@ -169,6 +197,8 @@ public class Exchange {
                 newPrice = BigDecimal.valueOf(0.01);
             }
 
+            newPrice = newPrice.setScale(2, RoundingMode.HALF_UP);
+
             stock.addNewSalesPrice(newPrice);
         }
     }
@@ -180,6 +210,10 @@ public class Exchange {
      * @throws IllegalArgumentException if the limit is less than or equal to 0.
      */
     public List<Stock> getGainers(int limit) {
+        if(limit <= 0){
+            throw new IllegalArgumentException("limit must be > 0");
+        }
+
         List<Stock> stocks = new ArrayList<>(stockMap.values());
 
         stocks.sort((s1, s2) -> {
@@ -188,9 +222,6 @@ public class Exchange {
             return change2.compareTo(change1); // størst først
         });
 
-        if (limit <= 0) {
-            throw new IllegalArgumentException("limit must be more than 0");
-        }
         if (stocks.size() > limit) {
             return stocks.subList(0, limit);
         }
@@ -204,6 +235,10 @@ public class Exchange {
      * @throws IllegalArgumentException if the limit is less than or equal to 0.
      */
     public List<Stock> getLosers(int limit) {
+        if(limit <= 0){
+            throw new IllegalArgumentException("limit must be > 0");
+        }
+
         List<Stock> stocks = new ArrayList<>(stockMap.values());
 
         stocks.sort((s1,s2) -> {
@@ -211,9 +246,7 @@ public class Exchange {
             BigDecimal change2 = s2.getLatestPriceChange();
             return change1.compareTo(change2); // minst først
         });
-        if (limit <= 0) {
-            throw new IllegalArgumentException("limit must be more than 0");
-        }
+        
         if (stocks.size() > limit) {
             return stocks.subList(0, limit);
         }

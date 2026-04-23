@@ -1,10 +1,8 @@
 package no.ntnu.idatt2003.group22.millions.transaction.calculator;
 
-import no.ntnu.idatt2003.group22.millions.transaction.calculator.TransactionCalculator;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
@@ -32,11 +30,12 @@ public final class PurchaseCalculator implements TransactionCalculator {
     }
 
 
+    @Override
     public BigDecimal calculateGross() {
         return purchasePrice.multiply(quantity);
     }
 
-
+    @Override
     public BigDecimal calculateCommission() {
         return calculateGross()
                 .multiply(BigDecimal.valueOf(0.005))
@@ -44,11 +43,12 @@ public final class PurchaseCalculator implements TransactionCalculator {
     }
 
 
+    @Override
     public BigDecimal calculateTax(){
         return BigDecimal.ZERO.setScale(2);
     }
 
-
+    @Override
     public BigDecimal calculateTotal() {
         return calculateGross()
                 .add(calculateCommission())
