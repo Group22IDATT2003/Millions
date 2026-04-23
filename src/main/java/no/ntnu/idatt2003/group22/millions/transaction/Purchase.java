@@ -22,7 +22,9 @@ public class Purchase extends Transaction {
      */
     @Override
     protected void doCommit(Player player) {
-        Objects.requireNonNull(player, "player can not be null");
+        if(player == null){
+            throw new IllegalArgumentException("player cannot be null");
+        }
 
         // find the total cost of the purchase
         BigDecimal totalCost = getCalculator().calculateTotal();

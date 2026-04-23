@@ -1,7 +1,5 @@
 package no.ntnu.idatt2003.group22.millions.model;
 
-import no.ntnu.idatt2003.group22.millions.model.Stock;
-
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -11,9 +9,20 @@ public class Share {
     private final BigDecimal purchasePrice;
 
     public Share(Stock stock, BigDecimal quantity, BigDecimal purchasePrice) {
-        this.stock = Objects.requireNonNull(stock, "stock cannot be null");
-        this.quantity = Objects.requireNonNull(quantity, "quantity cannot be null");
-        this.purchasePrice = Objects.requireNonNull(purchasePrice, "purchase price cannot be null");
+        if(stock == null){
+            throw new IllegalArgumentException("stock cannot be null");
+        }
+        this.stock = stock;
+        
+        if(quantity == null){
+            throw new IllegalArgumentException("quantity cannot be null");
+        }
+        this.quantity = quantity;
+
+        if(purchasePrice == null){
+            throw new IllegalArgumentException("purchasePrice cannot be null");
+        }
+        this.purchasePrice = purchasePrice;
 
         if(quantity.compareTo(BigDecimal.ZERO) <= 0){
             throw new IllegalArgumentException("quantity must be > 0");
@@ -64,7 +73,7 @@ public class Share {
     @Override
     public String toString(){
         return "Share{" +
-        "symbol =' " + stock.getSymbol() + '\'' +
+        "symbol=' " + stock.getSymbol() + '\'' +
         ", quantity= " + quantity +
         ", purchasePrice =" + purchasePrice +
         '}';

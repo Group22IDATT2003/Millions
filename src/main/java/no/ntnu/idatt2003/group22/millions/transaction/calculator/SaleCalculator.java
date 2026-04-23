@@ -4,6 +4,7 @@ import no.ntnu.idatt2003.group22.millions.transaction.calculator.TransactionCalc
 import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
@@ -30,21 +31,22 @@ public class SaleCalculator implements TransactionCalculator {
      * @param share the share being sold. Must not be null.
      */
     public SaleCalculator(Share share) {
-        Objects.requireNonNull(share, "share can not be null");
+        if(share == null){
+            throw new IllegalArgumentException("share cannot be null");
+        }
         this.purchasePrice = share.getPurchasePrice();
         this.salePrice = share.getStock().getSalesPrice();
         this.quantity = share.getQuantity();
     }
 
-
     public BigDecimal calculateGross() {
-        return salePrice.multiply(quantity).setScale(2);
+        return salePrice.multiply(quantity).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal calculateCommission() {
         return calculateGross()
         .multiply(COMMISION_RATE)
-        .setScale(2);
+        .setScale(2, RoundingMode.HALF_UP);
     }
 
     private BigDecimal calculateProfitBeforeTax(){
@@ -52,24 +54,18 @@ public class SaleCalculator implements TransactionCalculator {
         return calculateGross()
         .subtract(calculateCommission())
         .subtract(purchaseCost)
-        .setScale(2);
+        .setScale(2, RoundingMode.HALF_UP);
     }
 
-
     public BigDecimal calculateTax() {
-        BigDecimal purchaseCost = purchasePrice.multiply(quantity);
-
-        BigDecimal profit = calculateGross()
-        .subtract(calculateCommission())
-        .subtract(purchaseCost);
+        BigDecimal profit = calculateProfitBeforeTax();
 
         if (profit.compareTo(BigDecimal.ZERO) <= 0){
-            return BigDecimal.ZERO.setScale(2);
+            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
         }
 
-        return profitBeforeTax
-        .multiply(TAX_RATE)
-        .setScale(2);
+        return profit.multiply(TAX_RATE)
+        .setScale(2, RoundingMode.HALF_UP);
     }
 
 
@@ -77,6 +73,6 @@ public class SaleCalculator implements TransactionCalculator {
         return calculateGross()
         .subtract(calculateCommission())
         .subtract(calculateTax())
-        .setScale(2);
+        .setScale(2, RoundingMode.HALF_UP);
     }
 }

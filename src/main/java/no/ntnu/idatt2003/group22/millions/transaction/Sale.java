@@ -33,8 +33,10 @@ public class Sale extends Transaction {
     @Override
 
     protected void doCommit(Player player){
-        Objects.requireNonNull(player, "player can not be null");
-
+        if(player == null){
+            throw new IllegalArgumentException("player cannot be null");
+        }
+        
         if(!player.getPortfolio().containsShare(getShare())){
             throw new IllegalStateException("Player does not own this share");
         }

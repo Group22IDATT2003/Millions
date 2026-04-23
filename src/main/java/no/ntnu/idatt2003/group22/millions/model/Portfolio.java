@@ -1,10 +1,8 @@
 package no.ntnu.idatt2003.group22.millions.model;
 import no.ntnu.idatt2003.group22.millions.transaction.calculator.SaleCalculator;
-import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.math.BigDecimal;
 
 /**
@@ -22,23 +20,34 @@ public class Portfolio {
     }
 
     public boolean addShare(Share share){
-        Objects.requireNonNull(share, "share cannot be null");
+        if(share == null){
+            throw new IllegalArgumentException("Share cannot be null");
+        }
         return shares.add(share);
     }
 
     public boolean removeShare(Share share) {
-        Objects.requireNonNull(share, "share cannot be null");
+        if(share == null){
+            throw new IllegalArgumentException("Share can not be null");
+        }
         return shares.remove(share);
     }
 
-    public boolean containsShare(Share share){
-        Objects.requireNonNull(share, "share cannot be null");
+    public boolean containsShare(Share share) {
+        if(share == null){
+            throw new IllegalArgumentException("Share cannot be null");
+        }
         return shares.contains(share);
     }
+    
+    public List<Share> getShares() {
+        return List.copyOf(shares);
+    }
 
-    public List<Share> getShares(String symbol){
-        Objects.requireNonNull(symbol, "symbol can not be null");
-
+    public List<Share> getShares(String symbol) {
+        if (symbol == null) {
+            throw new IllegalArgumentException("symbol cannot be null");
+        }
         List<Share> matchingShares = new ArrayList<>();
         for(Share share : shares){
             if(share.getSymbol().equalsIgnoreCase(symbol)){
@@ -48,20 +57,11 @@ public class Portfolio {
         return List.copyOf(matchingShares);
     }
 
-    public List<Share> getShares(String symbol) {
-        if (symbol == null) {
-            throw new NullPointerException();
-        }
-        return shares.stream()
-                .filter(share -> share.getSymbol().equals(symbol))
-                .toList();
-    }
-
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return shares.isEmpty();
     }
 
-    public BigDecimal getNetWorth(){
+    public BigDecimal getNetWorth() {
         BigDecimal total = BigDecimal.ZERO;
 
         for(Share share : shares){
