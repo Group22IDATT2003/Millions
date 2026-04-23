@@ -47,7 +47,7 @@ public class PurchaseCalculatorTest {
     @DisplayName("calculateTotal: brutto + tax + ")
     void calculateTotal_validShare_returnsGrossPlusFees(){
         BigDecimal total = calculator.calculateTotal();
-        assertEquals(new BigDecimal(1005.000), total);
+        assertEquals(0, new BigDecimal("1005.00").compareTo(total));
 
     }
     

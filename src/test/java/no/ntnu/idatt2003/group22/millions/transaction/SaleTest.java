@@ -63,7 +63,7 @@ public class SaleTest {
     @Test
     @DisplayName("commit: null player throws exception")
     void commit_nullPlayer_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         sale.commit(null));
     }
 

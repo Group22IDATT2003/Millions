@@ -201,7 +201,13 @@ public class GameController {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose stock file");
-        File selectedFile = fileChooser.showOpenDialog(null);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Filters", "*.csv")
+        );
+        fileChooser.setInitialDirectory(new File(System.getProperty("user home")));
+
+        File selectedFile = fileChooser.showOpenDialog(
+            mainView.getRoot().getScene().getWindow()
+        );
 
         if (selectedFile == null) {
             showMessage("New Game", "You must choose a stock file.");

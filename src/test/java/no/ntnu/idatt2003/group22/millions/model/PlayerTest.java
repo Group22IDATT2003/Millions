@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import no.ntnu.idatt2003.group22.millions.transaction.Purchase;
+
 public class PlayerTest {
 
     private Player player;
@@ -29,14 +31,14 @@ public class PlayerTest {
     @Test
     @DisplayName("Constructor: null name throws exception")
     void constructor_nullName_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         new Player(null, new BigDecimal("100.00")));
     }
 
     @Test
     @DisplayName("Constructor: null starting money throws exception")
     void constructor_nullStartingMoney_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         new Player("Player1", null));
     }
     
@@ -67,7 +69,7 @@ public class PlayerTest {
     @Test
     @DisplayName("addMoney: null amount throws exception")
     void addMoney_nullAmount_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         player.addMoney(null));
     }
 
@@ -97,7 +99,7 @@ public class PlayerTest {
     @Test
     @DisplayName("withdrawMoney: null amount throws exception")
     void withdrawMoney_nullAmount_throwsException(){
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         player.withdrawMoney(null));
     }
 
@@ -113,6 +115,55 @@ public class PlayerTest {
     void withdrawMoney_amountGreaterThan_throwsException(){
         assertThrows(IllegalStateException.class, () -> 
         player.withdrawMoney(new BigDecimal("500.00")));
+    }
+
+    @Test
+    @DisplayName("getNetWorth: returns money plus portfolio value")
+    void getNetWorth_returnsMoneyPlusPortfolioValue() {
+        Stock stock = new Stock("AAPL", "Apple", new BigDecimal("100.00"));
+        Share share = new Share(stock, new BigDecimal("2"), new BigDecimal("90.00"));
+        player.getPortfolio().addShare(share);
+
+        // sale total for 2 shares at 100 with 1% commission and tax on profit
+        assertEquals(0, new BigDecimal("292.60").compareTo(player.getNetWorth()));
+    }
+
+    @Test
+    @DisplayName("getStatus: returns novice for new player")
+    void getStatus_newPlayer_returnsNovice() {
+        assertEquals("NOVICE", player.getStatus());
+    }
+
+    @Test
+    @DisplayName("getStatus: returns investor after 10 active weeks and 20 percent gain")
+    void getStatus_investorRequirements_returnsInvestor() {
+        player.addMoney(new BigDecimal("50.00")); // now player has 150
+
+        Stock stock = new Stock("AAPL", "Apple", new BigDecimal("10.00"));
+        Share share = new Share(stock, BigDecimal.ONE, new BigDecimal("10.00"));
+
+        for (int week = 1; week <= 10; week++) {
+            Purchase purchase = new Purchase(share, week);
+            player.getTransactionArchive().add(purchase);
+        }
+
+        assertEquals("INVESTOR", player.getStatus());
+    }
+
+    @Test
+    @DisplayName("getStatus: returns speculator after 20 active weeks and doubled net worth")
+    void getStatus_speculatorRequirements_returnsSpeculator() {
+        player.addMoney(new BigDecimal("120.00")); // now player has 220
+
+        Stock stock = new Stock("AAPL", "Apple", new BigDecimal("10.00"));
+        Share share = new Share(stock, BigDecimal.ONE, new BigDecimal("10.00"));
+
+        for (int week = 1; week <= 20; week++) {
+            Purchase purchase = new Purchase(share, week);
+            player.getTransactionArchive().add(purchase);
+        }
+
+        assertEquals("SPECULATOR", player.getStatus());
     }
     
 }

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 public class Player {
     private static final BigDecimal INVESTOR_RATIO = new BigDecimal("1.2");
-    private static final BigDecimal SPECULATOR_RATIO = new BigDecimal("1.2");
+    private static final BigDecimal SPECULATOR_RATIO = new BigDecimal("2.0");
 
     private final String name;
     private final BigDecimal startingMoney;

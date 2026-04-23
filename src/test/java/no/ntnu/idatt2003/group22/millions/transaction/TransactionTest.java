@@ -59,7 +59,7 @@ public class TransactionTest {
     void constructor_nullShare_throwsException(){
         TransactionCalculator calculator = new PurchaseCalculator(share);
 
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         new TestTransaction(null, 1, calculator));
     }
 
@@ -75,7 +75,7 @@ public class TransactionTest {
     @Test
     @DisplayName("Construcotr: null calcultor throws exception")
     void constructor_nullCalculator_throwsException() {
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         new TestTransaction(share, 1, null));
     }
 
@@ -97,7 +97,7 @@ public class TransactionTest {
         TransactionCalculator calculator = new PurchaseCalculator(share);
         TestTransaction transaction = new TestTransaction(share, 1, calculator);
 
-        assertThrows(NullPointerException.class, () -> 
+        assertThrows(IllegalArgumentException.class, () -> 
         transaction.commit(null));
     }
 
