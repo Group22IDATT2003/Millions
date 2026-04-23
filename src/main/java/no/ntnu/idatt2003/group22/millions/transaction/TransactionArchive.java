@@ -1,7 +1,6 @@
 package no.ntnu.idatt2003.group22.millions.transaction;
 
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

@@ -11,7 +11,7 @@ import no.ntnu.idatt2003.group22.millions.model.Stock;
 import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 import no.ntnu.idatt2003.group22.millions.view.MainView;
 
-
+import java.nio.file.Path;
 import java.io.File;
 import java.io.IOException;
 
@@ -30,11 +30,11 @@ public class GameController {
         configureActions();
     }
 
-    public void startNewGame(String name, BigDecimal startingMoney, String filename) {
+    public void startNewGame(String name, BigDecimal startingMoney, Path path) {
         StockFileHandler handler = new StockFileHandler();
 
         try {
-            List<Stock> stocks = handler.readStocksFromFile(filename);
+            List<Stock> stocks = handler.readStocksFromFile(path);
 
             this.player = new Player(name, startingMoney);
             this.exchange = new Exchange("NASDAQ", stocks);
@@ -50,8 +50,7 @@ public class GameController {
             showMessage("Game started", "Welcome " + player.getName());
 
         } catch (IOException e) {
-            e.printStackTrace();
-            showMessage("Error", "Could not load stock file: " + filename);
+            showMessage("Error", "Could not load stock file: " + path);
         }
 
     }
@@ -160,7 +159,6 @@ public class GameController {
 
     private void handleStartNewGame() {
 
-
         TextInputDialog nameDialog = new TextInputDialog();
         nameDialog.setTitle("New Game");
         nameDialog.setHeaderText("Start a new game");
@@ -210,9 +208,7 @@ public class GameController {
             return;
         }
 
-        String filename = selectedFile.getAbsolutePath();
-
-        startNewGame(name, startingMoney, filename);
+        startNewGame(name, startingMoney, selectedFile.toPath());
 
     }
 

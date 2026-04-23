@@ -47,7 +47,7 @@ public class Exchange {
                 throw new IllegalArgumentException("stock cannot be null");
             }
 
-            String symbol = stovk.getSymbol();
+            String symbol = stock.getSymbol();
             if(stockMap.containsKey(symbol)){
                 throw new IllegalArgumentException("duplicate stock symbol: " + symbol);
             }

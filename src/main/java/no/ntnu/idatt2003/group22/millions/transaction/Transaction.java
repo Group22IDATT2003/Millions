@@ -5,7 +5,6 @@ import no.ntnu.idatt2003.group22.millions.model.Player;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * Abstract class representing a financial transaction involving shares.

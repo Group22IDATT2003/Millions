@@ -1,11 +1,9 @@
 package no.ntnu.idatt2003.group22.millions.transaction.calculator;
 
-import no.ntnu.idatt2003.group22.millions.transaction.calculator.TransactionCalculator;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Objects;
 
 /**
  * Represents a sale transaction where a player sells a share.
@@ -39,10 +37,12 @@ public class SaleCalculator implements TransactionCalculator {
         this.quantity = share.getQuantity();
     }
 
+    @Override
     public BigDecimal calculateGross() {
         return salePrice.multiply(quantity).setScale(2, RoundingMode.HALF_UP);
     }
 
+    @Override
     public BigDecimal calculateCommission() {
         return calculateGross()
         .multiply(COMMISION_RATE)
@@ -57,6 +57,7 @@ public class SaleCalculator implements TransactionCalculator {
         .setScale(2, RoundingMode.HALF_UP);
     }
 
+    @Override
     public BigDecimal calculateTax() {
         BigDecimal profit = calculateProfitBeforeTax();
 
@@ -68,7 +69,7 @@ public class SaleCalculator implements TransactionCalculator {
         .setScale(2, RoundingMode.HALF_UP);
     }
 
-
+    @Override
     public BigDecimal calculateTotal() {
         return calculateGross()
         .subtract(calculateCommission())
