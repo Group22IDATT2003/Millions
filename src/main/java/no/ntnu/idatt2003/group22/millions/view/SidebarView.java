@@ -83,6 +83,18 @@ public class SidebarView {
         return dashboardButton;
     }
 
+    public Button getMarketButton() {
+        return marketButton;
+    }
+
+    public Button getPortfolioButton() {
+        return portfolioButton;
+    }
+
+    public Button getTransactionButton() {
+        return transactionButton;
+    }
+
     public VBox getRoot() {
         return root;
     }

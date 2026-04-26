@@ -6,6 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import no.ntnu.idatt2003.group22.millions.model.Stock;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 
 public class MarketView {
@@ -146,14 +150,16 @@ public class MarketView {
                 -fx-padding: 12 28 12 28;
                 """);
     }
+    public void updateMarket(List<Stock> stocks, Consumer<Stock> onBuy){
 
+    }
 
     public VBox getRoot(){
         return root;
     }
 
-    public Button getMarketButton() {
-        return marketButton;
+    public TextField getSearchField() {
+        return searchField;
     }
 
     public String getSearchText(){

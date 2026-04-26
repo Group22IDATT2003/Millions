@@ -147,4 +147,8 @@ public class PortfolioView {
         return label;
     }
 
+    public VBox getRoot() {
+        return root;
+    }
+
 }

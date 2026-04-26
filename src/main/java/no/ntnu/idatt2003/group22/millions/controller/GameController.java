@@ -1,6 +1,7 @@
 package no.ntnu.idatt2003.group22.millions.controller;
 
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
@@ -73,14 +74,7 @@ public class GameController {
             this.player = new Player(name, startingMoney);
             this.exchange = new Exchange("NASDAQ", stocks);
 
-            showTopBar(player.getName(),
-                    1,
-                    player.getMoney(),
-                    player.getNetWorth(),
-                    player.getStatus());
-            showMarket(stocks);
-            showPortfolio(player.getPortfolio().getShares());
-            showTransaction(player.getTransactionArchive().getAllTransactions());
+            refreshAllViews();
             showMessage("Game started", "Welcome " + player.getName());
 
         } catch (IOException e) {
@@ -140,20 +134,6 @@ public class GameController {
 
         List<Stock> results = exchange.findStocks(searchText);
         showMarket(results);
-    }
-
-    private void refreshAllViews() {
-        showTopBar(
-                player.getName(),
-                exchange.getWeek(),
-                player.getMoney(),
-                player.getNetWorth(),
-                player.getStatus()
-        );
-
-        showMarket(exchange.getStocks());
-        showPortfolio(player.getPortfolio().getShares());
-        showTransaction(player.getTransactionArchive().getAllTransactions());
     }
 
     private void handleStartNewGame() {
@@ -217,6 +197,44 @@ public class GameController {
 
     }
 
+    private void refreshAllViews() {
+        showTopBar(
+                player.getName(),
+                exchange.getWeek(),
+                player.getMoney(),
+                player.getNetWorth(),
+                player.getStatus()
+        );
+
+        showMarket(exchange.getStocks());
+        showPortfolio(player.getPortfolio().getShares());
+        showTransaction(player.getTransactionArchive().getAllTransactions());
+    }
+
+    public void showMarket(List<Stock> stocks) {
+        mainView.getMarketView().updateMarket(stocks, this::handleBuy);
+    }
+
+    public void showPortfolio(List<Share> shares) {
+        mainView.getPortfolioView().updatePortfolio(shares, this::handleSell);
+    }
+
+    public void showTransaction(List<Transaction> transactions) {
+        mainView.getTransactionView().updateTransaction(transactions);
+    }
+
+    public void showTopBar(String playerName, int week, BigDecimal money,
+                           BigDecimal netWorth, String status) {
+        mainView.getTopBarView().updatePlayerInfo(playerName, week, money, netWorth, status);
+    }
+
+    public void showMessage(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
 
 }
