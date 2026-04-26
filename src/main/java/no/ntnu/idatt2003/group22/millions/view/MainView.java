@@ -11,6 +11,7 @@ public class MainView {
     private MarketView marketView;
     private PortfolioView portfolioView;
     private TopBarView topBarView;
+    private SidebarView sidebarView;
     private TransactionView transactionView;
 
     public MainView() {
@@ -18,6 +19,7 @@ public class MainView {
         marketView = new MarketView();
         portfolioView = new PortfolioView();
         topBarView = new TopBarView();
+        sidebarView = new SidebarView;
         transactionView = new TransactionView();
 
         configureLayout();
@@ -25,6 +27,7 @@ public class MainView {
 
     private void configureLayout() {
         root.setTop(topBarView.getRoot());
+        root.setLeft(SidebarView.getRoot());
         root.setLeft(marketView.getRoot());
         root.setRight(portfolioView.getRoot());
         root.setBottom(transactionView.getRoot());
@@ -50,6 +53,8 @@ public class MainView {
     public TransactionView getTransactionView() {
         return transactionView;
     }
+
+    public SidebarView getSidebarView(){return sidebarView;}
 
 
 }

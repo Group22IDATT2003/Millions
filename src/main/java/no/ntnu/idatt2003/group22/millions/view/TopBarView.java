@@ -3,9 +3,13 @@ package no.ntnu.idatt2003.group22.millions.view;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 
 import java.math.BigDecimal;
 
@@ -18,7 +22,7 @@ public class TopBarView {
     private final Label statusLabel;
     private final Button newGameButton;
 
-    public TopBarView(){
+    public TopBarView() {
         this.root = new HBox();
 
         this.playerNameLabel = new Label("Player: ");
@@ -29,14 +33,43 @@ public class TopBarView {
         this.newGameButton = new Button("New Game");
 
         configureLayout();
+
     }
 
-    private void configureLayout(){
-        root.setSpacing(20);
-        root.setPadding(new Insets(15));
+    private void configureLayout() {
+        root.setSpacing(24);
+        root.setPadding(new Insets(14,28,14,28));
         root.setAlignment(Pos.CENTER_LEFT);
+        root.setStyle("""
+                -fx-background-color: #E5E7EB;
+                """);
+
+        ImageView logo = new ImageView(
+                new Image(getClass().getResource("/images/MillionLogo.png").toExternalForm()));
+        logo.setFitHeight(40);
+        logo.setPreserveRatio(true);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        styleInfoLabel(playerNameLabel);
+        styleInfoLabel(weekLabel);
+        styleInfoLabel(netWorthLabel);
+        styleMoneyLabel(moneyLabel);
+        styleStatusLabel(statusLabel);
+
+        newGameButton.setStyle("""
+                -fx-background-color: #38BDF8;
+                -fx-text-fill: white;
+                -fx-font-size: 14px;
+                -fx-font-weight: bold;
+                -fx-background-radius: 16;
+                -fx-padding: 8 18 8 18;
+                """);
 
         root.getChildren().addAll(
+                logo,
+                spacer,
                 playerNameLabel,
                 weekLabel,
                 moneyLabel,
@@ -46,11 +79,42 @@ public class TopBarView {
         );
     }
 
-    public HBox getRoot(){
+    private void styleInfoLabel(Label label) {
+        label.setStyle("""
+                -fx-text-fill: white;
+                 -fx-font-size: 12px;
+                 -fx-font-weight: bold;
+                """);
+    }
+
+
+
+    private void styleMoneyLabel(Label label) {
+        label.setStyle("""
+                -fx-text-fill: #16A34A;
+                -fx-font-size: 14px;
+                -fx-font-weight: bold;
+                """);
+    }
+
+
+    private void styleStatusLabel(Label label) {
+        label.setStyle("""
+            -fx-text-fill: #16A34A;
+            -fx-background-color: #DCFCE7;
+            -fx-background-radius: 14;
+            -fx-padding: 4 12 4 12;
+            -fx-font-size: 14px;
+            -fx-font-weight: bold;
+            """);
+    }
+
+
+    public HBox getRoot() {
         return root;
     }
 
-    public void updatePlayerInfo(String playerName, int week, BigDecimal money, BigDecimal netWorth, String status){
+    public void updatePlayerInfo(String playerName, int week, BigDecimal money, BigDecimal netWorth, String status) {
         playerNameLabel.setText("Player: " + playerName);
         weekLabel.setText("Week: " + week);
         moneyLabel.setText("Money: " + money);
@@ -58,7 +122,7 @@ public class TopBarView {
         statusLabel.setText("Status: " + status);
     }
 
-    public Button getNewGameButton(){
+    public Button getNewGameButton() {
         return newGameButton;
     }
 

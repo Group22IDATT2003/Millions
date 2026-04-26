@@ -152,6 +152,10 @@ public class MarketView {
         return root;
     }
 
+    public Button getMarketButton() {
+        return marketButton;
+    }
+
     public String getSearchText(){
         return searchField.getText();
     }

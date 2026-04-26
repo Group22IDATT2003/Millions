@@ -1,6 +1,7 @@
 package no.ntnu.idatt2003.group22.millions.controller;
 
 
+import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 import no.ntnu.idatt2003.group22.millions.io.StockFileHandler;
@@ -10,6 +11,7 @@ import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 import no.ntnu.idatt2003.group22.millions.view.MainView;
+import no.ntnu.idatt2003.group22.millions.view.SidebarView;
 
 import java.nio.file.Path;
 import java.io.File;
@@ -37,6 +39,26 @@ public class GameController {
 
         mainView.getTopBarView().getNewGameButton().setOnAction(
                 e -> handleStartNewGame()
+        );
+
+        mainView.getSidebarView().getDashboardButton().setOnAction(
+                e -> mainView.showDashboard()
+        );
+
+        mainView.getSidebarView().getMarketButton().setOnAction(
+                e -> mainView.showMarket()
+        );
+
+        mainView.getSidebarView().getPortfolioButton().setOnAction(
+                e -> mainView.showPortfolio()
+        );
+
+        mainView.getSidebarView().getTransactionsButton().setOnAction(
+                e -> mainView.showTransactions()
+        );
+
+        mainView.getSidebarView().getExitButton().setOnAction(
+                e -> System.exit(0)
         );
 
 
@@ -195,21 +217,6 @@ public class GameController {
 
     }
 
-    public void showMarket(List<Stock> stocks) {
-        mainView.getMarketView().updateMarket(stocks, this::handleBuy);
-    }
-
-    public void showPortfolio(List<Share> shares) {
-        mainView.getPortfolioView().updatePortfolio(shares, this::handleSell);
-    }
-
-    public void showTransaction(List<Transaction> transactions) {
-        mainView.getTransactionView().updateTransaction(transactions, this::handleSell);
-    }
-
-    public void showTopBar(String playerName, int week, BigDecimal money, BigDecimal netWorth, String status) {
-        mainView.getTopBarView().updatePlayerInfo(playerName, week, money, netWorth, status);
-    }
 
 
 }
