@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.group22.millions.view;
+package no.ntnu.idatt2003.group22.millions.view.content;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
