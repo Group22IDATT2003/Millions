@@ -91,6 +91,10 @@ public class SidebarView {
         return portfolioButton;
     }
 
+    public Button getExitGameButton(){
+        return exitGameButton;
+    }
+
     public Button getTransactionButton() {
         return transactionButton;
     }

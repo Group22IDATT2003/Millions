@@ -211,6 +211,14 @@ public class GameController {
         showTransaction(player.getTransactionArchive().getAllTransactions());
     }
 
+    public void showDashboard(){
+        mainView.getDashboardView().updateDashboardView(
+                player.getMoney(),
+                player.getPortfolio().getNetWorth(),
+                player.getNetWorth()
+        );
+    }
+
     public void showMarket(List<Stock> stocks) {
         mainView.getMarketView().updateMarket(stocks, this::handleBuy);
     }

@@ -85,28 +85,6 @@ public class MarketView {
         return card;
     }
 
-    private VBox createMoversCard() {
-        VBox card = createCard();
-        card.setPrefSize(300, 260);
-
-        Label winners = new Label("Weekly winners:");
-        Label w1 = new Label("+NVDA  +8.2%");
-        Label w2 = new Label("+AAPL  +4.1%");
-        Label losers = new Label("Weekly losers:");
-        Label l1 = new Label("-TSLA  -3.1%");
-        Label l2 = new Label("-META  -2.4%");
-
-        winners.setStyle("-fx-text-fill: white; -fx-font-size: 24px;");
-        losers.setStyle("-fx-text-fill: white; -fx-font-size: 24px;");
-        w1.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 16px;");
-        w2.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 16px;");
-        l1.setStyle("-fx-text-fill: #EF4444; -fx-font-size: 16px;");
-        l2.setStyle("-fx-text-fill: #EF4444; -fx-font-size: 16px;");
-
-        card.getChildren().addAll(winners, w1, w2, losers, l1, l2);
-        return card;
-    }
-
     private VBox createStockTable() {
         VBox card = createCard();
         card.setSpacing(12);

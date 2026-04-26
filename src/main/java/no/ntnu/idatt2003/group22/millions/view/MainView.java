@@ -2,12 +2,14 @@ package no.ntnu.idatt2003.group22.millions.view;
 
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import no.ntnu.idatt2003.group22.millions.view.content.DashboardView;
 import no.ntnu.idatt2003.group22.millions.view.content.MarketView;
 import no.ntnu.idatt2003.group22.millions.view.content.PortfolioView;
 import no.ntnu.idatt2003.group22.millions.view.content.TransactionView;
 
 public class MainView {
     private BorderPane root;
+    private DashboardView dashboardView;
     private MarketView marketView;
     private PortfolioView portfolioView;
     private TopBarView topBarView;
@@ -16,6 +18,7 @@ public class MainView {
 
     public MainView() {
         root = new BorderPane();
+        dashboardView = new DashboardView();
         marketView = new MarketView();
         portfolioView = new PortfolioView();
         topBarView = new TopBarView();
@@ -29,8 +32,11 @@ public class MainView {
         root.setTop(topBarView.getRoot());
         root.setLeft(sidebarView.getRoot());
 
-        showDashboard();
+    }
 
+    public void showDashboard(){
+        root.setCenter(dashboardView.getRoot());
+        sidebarView.setActive(sidebarView.getDashboardButton());
     }
 
     public void showMarket() {
@@ -58,6 +64,9 @@ public class MainView {
 
     public MarketView getMarketView() {
         return marketView;
+    }
+    public DashboardView getDashboardView(){
+        return dashboardView;
     }
 
     public PortfolioView getPortfolioView() {
