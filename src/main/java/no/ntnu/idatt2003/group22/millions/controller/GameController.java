@@ -1,8 +1,6 @@
 package no.ntnu.idatt2003.group22.millions.controller;
 
-
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 import no.ntnu.idatt2003.group22.millions.io.StockFileHandler;
@@ -12,7 +10,6 @@ import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 import no.ntnu.idatt2003.group22.millions.view.MainView;
-import no.ntnu.idatt2003.group22.millions.view.SidebarView;
 
 import java.nio.file.Path;
 import java.io.File;
@@ -38,12 +35,10 @@ public class GameController {
                 (obs, oldValue, newValue) -> handleSearch(newValue)
         );
 
-        mainView.getTopBarView().getNewGameButton().setOnAction(
-                e -> handleStartNewGame()
-        );
+        mainView.getTopBarView().getNewGameButton().setOnAction(e -> handleStartNewGame());
 
         mainView.getSidebarView().getDashboardButton().setOnAction(
-                e -> mainView.showDashboard()
+                e -> showDashboard()
         );
 
         mainView.getSidebarView().getMarketButton().setOnAction(
@@ -54,11 +49,11 @@ public class GameController {
                 e -> mainView.showPortfolio()
         );
 
-        mainView.getSidebarView().getTransactionsButton().setOnAction(
+        mainView.getSidebarView().getTransactionButton().setOnAction(
                 e -> mainView.showTransactions()
         );
 
-        mainView.getSidebarView().getExitButton().setOnAction(
+        mainView.getSidebarView().getExitGameButton().setOnAction(
                 e -> System.exit(0)
         );
 
@@ -93,7 +88,7 @@ public class GameController {
         Optional<BigDecimal> quantityResult = dialog.showAndWait();
 
         if (quantityResult.isEmpty()) {
-            return;
+            //return;
         }
 
 
@@ -211,7 +206,9 @@ public class GameController {
         showTransaction(player.getTransactionArchive().getAllTransactions());
     }
 
-    public void showDashboard(){
+    public void showDashboard() {
+        mainView.showDashboard();
+
         mainView.getDashboardView().updateDashboardView(
                 player.getMoney(),
                 player.getPortfolio().getNetWorth(),

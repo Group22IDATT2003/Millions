@@ -253,5 +253,9 @@ public class Exchange {
         return stocks;
     }
 
+    public List<Stock> getStocks() {
+        return List.copyOf(stockMap.values());
+    }
+
 
 }

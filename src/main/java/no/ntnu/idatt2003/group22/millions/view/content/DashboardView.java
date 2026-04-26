@@ -41,9 +41,9 @@ public class DashboardView {
 
         HBox summaryCards = new HBox(24);
         summaryCards.getChildren().addAll(
-                createSummaryCards("Total net worth", totalNetWorthLabel),
-                createSummaryCards("Money", moneyLabel),
-                createSummaryCards("Portfolio value", portfolioValueLabel)
+                createSummaryCard("Total net worth", totalNetWorthLabel),
+                createSummaryCard("Money", moneyLabel),
+                createSummaryCard("Portfolio value", portfolioValueLabel)
         );
 
         HBox mainCards = new HBox(24);
@@ -55,45 +55,52 @@ public class DashboardView {
         root.getChildren().addAll(title, summaryCards, mainCards);
     }
 
+    private VBox createCard() {
+        VBox card = new VBox(12);
+        card.setPadding(new Insets(16));
+        card.setStyle("""
+                -fx-background-color: #343D52;
+                -fx-background-radius: 18;
+                """);
+        return card;
+    }
 
 
+    private VBox createSummaryCard(String title, Label valueLabel) {
+        VBox card = createCard();
+        card.setPrefWidth(220);
+
+        Label titleLabel = new Label(title);
+        titleLabel.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 14px;
+                """);
+        valueLabel.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 22px;
+                -fx-font-weight: bold;
+                """);
 
 
-        private VBox createSummaryCard (String title, Label valueLabel){
-            VBox card = createCard();
-            card.setPrefWidth(220);
+        card.getChildren().addAll(titleLabel, valueLabel);
+        return card;
+    }
 
-            Label titleLabel = new Label(title);
-            titleLabel.setStyle("""
-                    -fx-text-fill: white;
-                    -fx-font-size: 14px;
-                    """);
-            valueLabel.setStyle("""
-                    -fx-text-fill: white;
-                    -fx-font-size: 22px;
-                    -fx-font-weight: bold;
-                    """);
+    private VBox createNetWorthCard() {
+        VBox card = createCard();
+        card.setPrefSize(460, 280);
 
+        Label title = new Label("Net worth:");
+        Label value = new Label("78 500 NOK");
+        Label change = new Label("+3 200 (+4.2%)");
 
-            card.getChildren().addAll(titleLabel, valueLabel);
-            return card;
-        }
+        title.setStyle("-fx-text-fill: white; -fx-font-size: 24px;");
+        value.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
+        change.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 18px;");
 
-        private VBox createNetWorthCard () {
-            VBox card = createCard();
-            card.setPrefSize(460, 280);
-
-            Label title = new Label("Net worth:");
-            Label value = new Label("78 500 NOK");
-            Label change = new Label("+3 200 (+4.2%)");
-
-            title.setStyle("-fx-text-fill: white; -fx-font-size: 24px;");
-            value.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
-            change.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 18px;");
-
-            card.getChildren().addAll(title, value, change);
-            return card;
-        }
+        card.getChildren().addAll(title, value, change);
+        return card;
+    }
 
     private VBox createMoversCard() {
         VBox card = createCard();
@@ -118,13 +125,13 @@ public class DashboardView {
 
     }
 
-        public void updateDashboardView (BigDecimal money, BigDecimal portfolioValue, BigDecimal netWorth){
-            moneyLabel.setText(money + " kr");
-            portfolioValueLabel.setText(portfolioValue + " kr");
-            totalNetWorthLabel.setText(netWorth + " kr");
-        }
-
-        public VBox getRoot () {
-            return root;
-        }
+    public void updateDashboardView(BigDecimal money, BigDecimal portfolioValue, BigDecimal netWorth) {
+        moneyLabel.setText(money + " kr");
+        portfolioValueLabel.setText(portfolioValue + " kr");
+        totalNetWorthLabel.setText(netWorth + " kr");
     }
+
+    public VBox getRoot() {
+        return root;
+    }
+}
