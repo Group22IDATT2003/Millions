@@ -108,6 +108,7 @@ public abstract class Transaction {
         return week;
     }
 
+
     /**
      * Returns the calculator used to compute the transaction's financial details.
      * This method allows subclasses to access the calculator instance

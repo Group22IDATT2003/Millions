@@ -87,6 +87,8 @@ public class PortfolioView {
                 createHeaderLabel("Qty:"),
                 createHeaderLabel("Buy price:"),
                 createHeaderLabel("Current price:"),
+                createHeaderLabel("Value:"),
+                createHeaderLabel("Change:"),
                 createHeaderLabel("Action:")
         );
 
