@@ -38,10 +38,10 @@ public class TopBarView {
 
     private void configureLayout() {
         root.setSpacing(24);
-        root.setPadding(new Insets(14,28,14,28));
+        root.setPadding(new Insets(14, 28, 14, 28));
         root.setAlignment(Pos.CENTER_LEFT);
         root.setStyle("""
-                -fx-background-color: #E5E7EB;
+                -fx-background-color: #1A2332;
                 """);
 
         ImageView logo = new ImageView(
@@ -88,7 +88,6 @@ public class TopBarView {
     }
 
 
-
     private void styleMoneyLabel(Label label) {
         label.setStyle("""
                 -fx-text-fill: #16A34A;
@@ -100,13 +99,11 @@ public class TopBarView {
 
     private void styleStatusLabel(Label label) {
         label.setStyle("""
-            -fx-text-fill: #16A34A;
-            -fx-background-color: #DCFCE7;
-            -fx-background-radius: 14;
-            -fx-padding: 4 12 4 12;
-            -fx-font-size: 14px;
-            -fx-font-weight: bold;
-            """);
+                -fx-text-fill: white;
+                -fx-padding: 4 12 4 12;
+                -fx-font-size: 14px;
+                -fx-font-weight: bold;
+                """);
     }
 
 

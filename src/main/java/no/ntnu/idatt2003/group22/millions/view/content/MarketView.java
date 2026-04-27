@@ -1,10 +1,13 @@
 package no.ntnu.idatt2003.group22.millions.view.content;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 
@@ -19,7 +22,7 @@ public class MarketView {
     private final Button advanceButton;
 
 
-    public MarketView(){
+    public MarketView() {
         this.root = new VBox();
         this.searchField = new TextField();
         this.stockRows = new VBox(8);
@@ -28,17 +31,22 @@ public class MarketView {
         configureLayout();
     }
 
-    private void configureLayout(){
+    private void configureLayout() {
         root.setSpacing(24);
-        root.setPadding(new Insets(24,32,24,32));
-        root.setStyle("-fx-background-color: #1E2330;");
+        root.setPadding(new Insets(24, 32, 24, 32));
+        root.setStyle("""
+                -fx-background-color: #1E2330;
+                """);
 
 
         Label title = new Label("Market");
-        title.setStyle("-fx-text-fill: white; -fx-font-size: 34px;");
+        title.setStyle("""
+                -fx-text-fill: white; 
+                -fx-font-size: 34px;
+                """);
 
         HBox topCards = new HBox(24);
-        topCards.getChildren().addAll(createNetWorthCard(), createMoversCard());
+        topCards.getChildren().addAll(createNetWorthCard());
 
         configureSearchField();
 
@@ -46,11 +54,19 @@ public class MarketView {
 
         configureAdvanceButton();
 
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+
+        HBox bottom = new HBox(advanceButton);
+        bottom.setAlignment(Pos.CENTER);
+        bottom.setPadding(new Insets(20, 0, 0, 0));
+
         root.getChildren().addAll(
                 title,
                 topCards,
                 searchField,
                 tableCard,
+                spacer,
                 advanceButton
         );
 
@@ -62,7 +78,7 @@ public class MarketView {
         searchField.setStyle("""
                 -fx-background-color: #343D52;
                 -fx-text-fill: white;
-                -fx-prompt-text-fill: #CBD5E1;
+                -fx-prompt-text-fill: white;
                 -fx-background-radius: 18;
                 -fx-font-size: 24px;
                 -fx-padding: 12 20 12 20;
@@ -77,9 +93,18 @@ public class MarketView {
         Label value = new Label("78 500 NOK");
         Label change = new Label("+3 200 (+4.2%)");
 
-        title.setStyle("-fx-text-fill: white; -fx-font-size: 24px;");
-        value.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
-        change.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 18px;");
+        title.setStyle("""
+                -fx-text-fill: white; 
+                -fx-font-size: 24px;
+                """);
+        value.setStyle("""
+                -fx-text-fill: white; 
+                -fx-font-size: 18px;
+                """);
+        change.setStyle("""
+                -fx-text-fill: #6EE75F; 
+                -fx-font-size: 18px;
+                """);
 
         card.getChildren().addAll(title, value, change);
         return card;
@@ -89,7 +114,7 @@ public class MarketView {
         VBox card = createCard();
         card.setSpacing(12);
 
-        HBox header = new HBox(50);
+        HBox header = new HBox(100);
         header.getChildren().addAll(
                 createTableHeader("Symbol:"),
                 createTableHeader("Name:"),
@@ -104,7 +129,10 @@ public class MarketView {
 
     private Label createTableHeader(String text) {
         Label label = new Label(text);
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 22px;");
+        label.setStyle("""
+                -fx-text-fill: white; 
+                -fx-font-size: 22px;
+                """);
         return label;
     }
 
@@ -128,11 +156,13 @@ public class MarketView {
                 -fx-padding: 12 28 12 28;
                 """);
     }
-    public void updateMarket(List<Stock> stocks, Consumer<Stock> onBuy){
+
+
+    public void updateMarket(List<Stock> stocks, Consumer<Stock> onBuy) {
 
     }
 
-    public VBox getRoot(){
+    public VBox getRoot() {
         return root;
     }
 
@@ -140,7 +170,7 @@ public class MarketView {
         return searchField;
     }
 
-    public String getSearchText(){
+    public String getSearchText() {
         return searchField.getText();
     }
 

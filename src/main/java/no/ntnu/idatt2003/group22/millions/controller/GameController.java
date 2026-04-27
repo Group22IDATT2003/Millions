@@ -10,6 +10,7 @@ import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 import no.ntnu.idatt2003.group22.millions.view.MainView;
+import no.ntnu.idatt2003.group22.millions.view.dialog.BuyDialog;
 
 import java.nio.file.Path;
 import java.io.File;
@@ -85,10 +86,11 @@ public class GameController {
         }
 
         BuyDialog dialog = new BuyDialog(stock);
-        Optional<BigDecimal> quantityResult = dialog.showAndWait();
+        Optional<BigDecimal> quantityResult = dialog.showQuantityDialog();
 
         if (quantityResult.isEmpty()) {
-            //return;
+            showMessage("Buy", "Purchase cancelled.");
+            return;
         }
 
 
