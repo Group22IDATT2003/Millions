@@ -58,7 +58,21 @@ public class GameController {
                 e -> System.exit(0)
         );
 
+        mainView.getMarketView().getAdvanceButton().setOnAction(
+                e -> handleAdvanceWeek());
 
+
+    }
+
+    private void handleAdvanceWeek() {
+        if (exchange == null || player == null) {
+            showMessage("Advance", "Start a new game first.");
+            return;
+        }
+
+        player.setPreviousNetWorth(player.getNetWorth());
+        exchange.advance();
+        refreshAllViews();
     }
 
     public void startNewGame(String name, BigDecimal startingMoney, Path path) {
@@ -195,6 +209,8 @@ public class GameController {
     }
 
     private void refreshAllViews() {
+        player.setPreviousNetWorth(player.getNetWorth());
+
         showTopBar(
                 player.getName(),
                 exchange.getWeek(),
@@ -206,6 +222,28 @@ public class GameController {
         showMarket(exchange.getStocks());
         showPortfolio(player.getPortfolio().getShares());
         showTransaction(player.getTransactionArchive().getAllTransactions());
+
+        mainView.getDashboardView().updateMiniSummary(
+                player.getPortfolio().getShares()
+        );
+
+        mainView.getDashboardView().updateNetWorthGraph(
+                exchange.getWeek(),
+                player.getNetWorth()
+        );
+
+        mainView.getDashboardView().updateMovers(
+                exchange.getGainers(2),
+                exchange.getLosers(2)
+        );
+
+        mainView.getDashboardView().updateNetWorth(
+                player.getNetWorth(),
+                player.getChange()
+        );
+
+
+
     }
 
     public void showDashboard() {
@@ -216,6 +254,8 @@ public class GameController {
                 player.getPortfolio().getNetWorth(),
                 player.getNetWorth()
         );
+
+
     }
 
     public void showMarket(List<Stock> stocks) {

@@ -12,6 +12,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class TopBarView {
     private final HBox root;
@@ -45,7 +46,9 @@ public class TopBarView {
                 """);
 
         ImageView logo = new ImageView(
-                new Image(getClass().getResource("/images/MillionLogo.png").toExternalForm()));
+                new Image(Objects.requireNonNull(
+                        getClass().getResource("/Images/MillionLogo.png")
+                ).toExternalForm()));
         logo.setFitHeight(40);
         logo.setPreserveRatio(true);
 

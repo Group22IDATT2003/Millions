@@ -2,11 +2,20 @@ package no.ntnu.idatt2003.group22.millions.view.content;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import no.ntnu.idatt2003.group22.millions.model.Share;
+import no.ntnu.idatt2003.group22.millions.model.Stock;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 public class DashboardView {
@@ -15,6 +24,16 @@ public class DashboardView {
     private final Label totalNetWorthLabel;
     private final Label moneyLabel;
     private final Label portfolioValueLabel;
+    private final VBox stockRows;
+    private final Label netWorthValueLabel = new Label();
+    private final Label netWorthChangeLabel = new Label();
+    private LineChart<Number, Number> netWorthChart;
+    private XYChart.Series<Number, Number> netWorthSeries;
+    private final Label w1Label = new Label();
+    private final Label w2Label = new Label();
+    private final Label l1Label = new Label();
+    private final Label l2Label = new Label();
+
 
     public DashboardView() {
         this.root = new VBox();
@@ -22,6 +41,8 @@ public class DashboardView {
         this.totalNetWorthLabel = new Label("Total net worth: 0kr");
         this.moneyLabel = new Label("Money: 0kr");
         this.portfolioValueLabel = new Label("Portfolio value: 0kr");
+
+        this.stockRows = new VBox(3);
 
         configureLayout();
     }
@@ -52,7 +73,9 @@ public class DashboardView {
                 createMoversCard()
         );
 
-        root.getChildren().addAll(title, summaryCards, mainCards);
+        VBox miniSummaryCard = createMiniSummaryCard();
+
+        root.getChildren().addAll(title, summaryCards, mainCards, miniSummaryCard);
     }
 
     private VBox createCard() {
@@ -68,7 +91,7 @@ public class DashboardView {
 
     private VBox createSummaryCard(String title, Label valueLabel) {
         VBox card = createCard();
-        card.setPrefWidth(220);
+        card.setPrefWidth(520);
 
         Label titleLabel = new Label(title);
         titleLabel.setStyle("""
@@ -81,13 +104,23 @@ public class DashboardView {
                 -fx-font-weight: bold;
                 """);
 
-
         card.getChildren().addAll(titleLabel, valueLabel);
         return card;
+
+
     }
 
-    private VBox createNetWorthCard() {
-        VBox card = createCard();
+    private HBox createNetWorthCard() {
+        HBox card = new HBox();
+        VBox textBox = new VBox();
+        card.setAlignment(Pos.TOP_RIGHT);
+        card.setPadding(new Insets(20));
+        card.setSpacing(20);
+        card.setStyle("""
+        -fx-background-color: #343D52;
+        -fx-background-radius: 22;
+        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
+        """);
         card.setPrefSize(460, 280);
 
         Label title = new Label("Net worth:");
@@ -98,8 +131,58 @@ public class DashboardView {
         value.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
         change.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 18px;");
 
-        card.getChildren().addAll(title, value, change);
+        card.setAlignment(Pos.BOTTOM_LEFT);
+
+        final NumberAxis xAxis =new NumberAxis();
+        final NumberAxis yAxis =new NumberAxis();
+        xAxis.setLabel("Weeks");
+        yAxis.setLabel("Net Worth");
+
+        xAxis.lookup(".axis-label").setStyle("-fx-text-fill: white;");
+        yAxis.lookup(".axis-label").setStyle("-fx-text-fill: white;");
+
+
+        netWorthChart = new LineChart<>(xAxis, yAxis);
+        netWorthSeries = new XYChart.Series<>();
+        netWorthChart.getData().add(netWorthSeries);
+
+
+        netWorthChart.setPrefSize(250, 260);
+        netWorthChart.setMaxSize(250, 260);
+        netWorthChart.setLegendVisible(false);
+        netWorthChart.setCreateSymbols(false);
+        netWorthChart.setHorizontalGridLinesVisible(false);
+        netWorthChart.setVerticalGridLinesVisible(false);
+
+        netWorthChart.setStyle("""
+        -fx-background-color: #2C394F;
+        -fx-padding: 0;
+        """);
+
+
+        textBox.getChildren().addAll(title, netWorthValueLabel, netWorthChangeLabel);
+        netWorthChart.getData().add(netWorthSeries);
+
+        card.getChildren().addAll(netWorthChart, textBox);
+
         return card;
+    }
+
+    public void updateNetWorth(BigDecimal netWorth, BigDecimal change) {
+        netWorthValueLabel.setText(netWorth + " NOK");
+        netWorthChangeLabel.setText(change + "%");
+
+        if (change.compareTo(BigDecimal.ZERO) >= 0) {
+            netWorthChangeLabel.setStyle("-fx-text-fill: #6EE75F;");
+        } else {
+            netWorthChangeLabel.setStyle("-fx-text-fill: #EF4444;");
+        }
+    }
+
+    public void updateNetWorthGraph(int week, BigDecimal netWorth) {
+        netWorthSeries.getData().add(
+                new XYChart.Data<>(week, netWorth.doubleValue())
+        );
     }
 
     private VBox createMoversCard() {
@@ -107,22 +190,55 @@ public class DashboardView {
         card.setPrefSize(300, 220);
 
         Label winners = new Label("Weekly winners:");
-        Label w1 = new Label("+NVDA  +8.2%");
-        Label w2 = new Label("+AAPL  +4.1%");
         Label losers = new Label("Weekly losers:");
-        Label l1 = new Label("-TSLA  -3.1%");
-        Label l2 = new Label("-META  -2.4%");
 
         winners.setStyle("-fx-text-fill: white; -fx-font-size: 22px;");
         losers.setStyle("-fx-text-fill: white; -fx-font-size: 22px;");
-        w1.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 16px;");
-        w2.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 16px;");
-        l1.setStyle("-fx-text-fill: #EF4444; -fx-font-size: 16px;");
-        l2.setStyle("-fx-text-fill: #EF4444; -fx-font-size: 16px;");
 
-        card.getChildren().addAll(winners, w1, w2, losers, l1, l2);
+        w1Label.setStyle("-fx-text-fill: #6EE75F;");
+        l1Label.setStyle("-fx-text-fill: #EF4444;");
+        w2Label.setStyle("-fx-text-fill: #6EE75F;");
+        l2Label.setStyle("-fx-text-fill: #EF4444;");
+
+        card.getChildren().addAll(winners, w1Label, w2Label, losers, l1Label, l2Label);
         return card;
 
+    }
+
+    public void updateMovers(List<Stock> winners, List<Stock> losers){
+        w1Label.setText("+" + winners.get(0).getSymbol() + "  " + winners.get(0).getLatestPriceChange() + "%");
+
+        if (winners.size() > 0){
+
+        }
+    }
+
+
+    public VBox createMiniSummaryCard(){
+        VBox card = createCard();
+        card.setSpacing(12);
+        card.setPrefWidth(850);
+        card.setMinWidth(850);
+
+        HBox header = new HBox(100);
+        header.getChildren().addAll(
+                createTableHeader("Mini portofolio summary:"),
+                createTableHeader("Symbol:"),
+                createTableHeader("Change:"),
+                createTableHeader("Value:")
+        );
+
+        card.getChildren().addAll(header, stockRows);
+        return card;
+    }
+
+    private Label createTableHeader(String text) {
+        Label label = new Label(text);
+        label.setStyle("""
+                -fx-text-fill: white; 
+                -fx-font-size: 22px;
+                """);
+        return label;
     }
 
     public void updateDashboardView(BigDecimal money, BigDecimal portfolioValue, BigDecimal netWorth) {
@@ -130,6 +246,46 @@ public class DashboardView {
         portfolioValueLabel.setText(portfolioValue + " kr");
         totalNetWorthLabel.setText(netWorth + " kr");
     }
+
+    public void updateMiniSummary(List<Share> shares){
+        stockRows.getChildren().clear();
+
+
+        for(Share share : shares) {
+            HBox row = createRow();
+            Label symbol = createLabel(share.getSymbol());
+            Label change = createLabel("+3.7%");
+            Label value = createLabel("value her");
+
+            change.setStyle("""
+                -fx-text-fill: #6EE75F;
+                -fx-font-size: 14px;
+                """);
+
+            row.getChildren().addAll(symbol, change, value);
+
+            stockRows.getChildren().add(row);
+        }
+    }
+
+    private Label createLabel(String text){
+        Label label = new Label(text);
+        label.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 14px;
+                """);
+        return label;
+
+    }
+
+    private HBox createRow(){
+        HBox card = new HBox(12);
+        card.setPadding(new Insets(16));
+        card.setStyle(""" 
+                -fx-background-color: #343D52; 
+                -fx-background-radius: 18; 
+                """);
+        return card; }
 
     public VBox getRoot() {
         return root;

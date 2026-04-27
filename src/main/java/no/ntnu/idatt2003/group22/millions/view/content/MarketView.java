@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 
 import java.util.List;
@@ -161,7 +162,50 @@ public class MarketView {
 
 
     public void updateMarket(List<Stock> stocks, Consumer<Stock> onBuy) {
+        stockRows.getChildren().clear();
 
+        for (Stock stock : stocks) {
+            HBox row = createStockRow(stock, onBuy);
+            stockRows.getChildren().add(row);
+        }
+    }
+
+    private HBox createStockRow(Stock stock, Consumer<Stock> onBuy) {
+        HBox row = new HBox(35);
+        row.setAlignment(Pos.CENTER_LEFT);
+
+        Label symbol = createCellLabel(stock.getSymbol());
+        Label name = createCellLabel(stock.getCompany());
+        Label buyPrice = createCellLabel(stock.getSalesPrice() + " kr");
+        Label change = createCellLabel(stock.getLatestPriceChange() + "%");
+
+        Button buyButton = new Button("Buy");
+        buyButton.setStyle("""
+                -fx-background-color: #38BDF8;
+                -fx-text-fill: white;
+                -fx-background-radius: 14;
+                """);
+
+        buyButton.setOnAction(e -> onBuy.accept(stock));
+
+        row.getChildren().addAll(
+                symbol,
+                name,
+                change,
+                buyPrice,
+                buyButton
+        );
+
+        return row;
+    }
+
+    private Label createCellLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("""
+            -fx-text-fill: white;
+            -fx-font-size: 14px;
+            """);
+        return label;
     }
 
     public VBox getRoot() {

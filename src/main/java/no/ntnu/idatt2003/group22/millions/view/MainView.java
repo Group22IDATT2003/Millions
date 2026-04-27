@@ -32,9 +32,12 @@ public class MainView {
         root.setTop(topBarView.getRoot());
         root.setLeft(sidebarView.getRoot());
 
+        showDashboard();
+
+
     }
 
-    public void showDashboard(){
+    public void showDashboard() {
         root.setCenter(dashboardView.getRoot());
         sidebarView.setActive(sidebarView.getDashboardButton());
     }
@@ -65,7 +68,8 @@ public class MainView {
     public MarketView getMarketView() {
         return marketView;
     }
-    public DashboardView getDashboardView(){
+
+    public DashboardView getDashboardView() {
         return dashboardView;
     }
 
@@ -77,7 +81,9 @@ public class MainView {
         return transactionView;
     }
 
-    public SidebarView getSidebarView(){return sidebarView;}
+    public SidebarView getSidebarView() {
+        return sidebarView;
+    }
 
 
 }
