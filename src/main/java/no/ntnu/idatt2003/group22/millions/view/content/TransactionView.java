@@ -3,7 +3,6 @@ package no.ntnu.idatt2003.group22.millions.view.content;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Share;
@@ -39,7 +38,7 @@ public class TransactionView {
         transactionRows.setSpacing(12);
         transactionRows.setPadding(new Insets(16));
         transactionRows.setStyle("""
-                -fx-background-color: #343D52;
+                -fx-background-color: #1A2332;
                 -fx-background-radius: 18;
                 """);
 

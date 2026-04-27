@@ -113,6 +113,8 @@ public class MarketView {
     private VBox createStockTable() {
         VBox card = createCard();
         card.setSpacing(12);
+        card.setPrefWidth(850);
+        card.setMinWidth(850);
 
         HBox header = new HBox(100);
         header.getChildren().addAll(

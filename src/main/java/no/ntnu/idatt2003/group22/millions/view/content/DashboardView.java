@@ -30,7 +30,7 @@ public class DashboardView {
         root.setSpacing(24);
         root.setPadding(new Insets(24, 32, 24, 32));
         root.setAlignment(Pos.TOP_LEFT);
-        root.setStyle("-fx-background-color: #1E2330;");
+        root.setStyle("-fx-background-color: #1A2332;");
 
 
         Label title = new Label("Dashboard");
