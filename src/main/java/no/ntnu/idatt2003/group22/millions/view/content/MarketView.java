@@ -7,6 +7,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -107,10 +108,10 @@ public class MarketView {
         card.setPadding(new Insets(20));
         card.setSpacing(20);
         card.setStyle("""
-        -fx-background-color: #343D52;
-        -fx-background-radius: 22;
-        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
-        """);
+                -fx-background-color: #343D52;
+                -fx-background-radius: 22;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
+                """);
         card.setPrefSize(460, 180);
 
         Label title = new Label("Net worth:");
@@ -122,9 +123,8 @@ public class MarketView {
         change.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 16px;");
 
 
-
-        final NumberAxis xAxis =new NumberAxis();
-        final NumberAxis yAxis =new NumberAxis();
+        final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Weeks");
         yAxis.setLabel("Net Worth");
 
@@ -145,9 +145,9 @@ public class MarketView {
         netWorthChart.setVerticalGridLinesVisible(false);
 
         netWorthChart.setStyle("""
-        -fx-background-color: #2C394F;
-        -fx-padding: 0;
-        """);
+                -fx-background-color: #2C394F;
+                -fx-padding: 0;
+                """);
 
 
         textBox.getChildren().addAll(title, netWorthValueLabel, netWorthChangeLabel);
@@ -159,7 +159,7 @@ public class MarketView {
     }
 
 
-    public void updateNetWorth(BigDecimal netWorth, BigDecimal change){
+    public void updateNetWorth(BigDecimal netWorth, BigDecimal change) {
         netWorthLabel.setText(netWorth + " kr");
         netWorthChangeLabel.setText(change + " kr");
 
@@ -181,7 +181,7 @@ public class MarketView {
         card.setPrefWidth(850);
         card.setMinWidth(850);
 
-        HBox header = new HBox(100);
+        HBox header = new HBox(125);
         header.getChildren().addAll(
                 createTableHeader("Symbol:"),
                 createTableHeader("Name:"),
@@ -190,7 +190,16 @@ public class MarketView {
                 createTableHeader("Action:")
         );
 
-        card.getChildren().addAll(header, stockRows);
+        ScrollPane scrollPane = new ScrollPane(stockRows);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefHeight(360);
+        scrollPane.setStyle("""
+                -fx-background: #2C394F;
+                -fx-text-color: white;
+                -fx-font-size: 14px;
+                """);
+
+        card.getChildren().addAll(header, scrollPane);
         return card;
     }
 
@@ -203,12 +212,12 @@ public class MarketView {
         return label;
     }
 
-    private Label createCellLabel(String text){
+    private Label createCellLabel(String text) {
         Label label = new Label(text);
         label.setStyle("""
-            -fx-text-fill: white;
-            -fx-font-size: 16px;
-            """);
+                -fx-text-fill: white;
+                -fx-font-size: 16px;
+                """);
         return label;
     }
 
@@ -230,6 +239,7 @@ public class MarketView {
                 -fx-background-radius: 24;
                 -fx-font-size: 24px;
                 -fx-padding: 12 28 12 28;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
                 """);
     }
 
@@ -237,24 +247,31 @@ public class MarketView {
     public void updateMarket(List<Stock> stocks, Consumer<Stock> onBuy) {
         stockRows.getChildren().clear();
 
-        for (Stock stock : stocks){
+        for (Stock stock : stocks) {
             HBox row = new HBox(90);
             row.setAlignment(Pos.CENTER_LEFT);
 
             Label symbol = createCellLabel(stock.getSymbol());
             Label name = createCellLabel(stock.getCompany());
             Label price = createCellLabel(stock.getSalesPrice() + " kr");
-            Label change = createCellLabel(stock.getLatestPriceChange() + " kr");
+            Label change = createCellLabel(stock.getLatestPriceChange() + " %");
 
             Button buyButton = new Button("Buy");
+
+            symbol.setPrefWidth(100);
+            name.setPrefWidth(120);
+            price.setPrefWidth(90);
+            change.setPrefWidth(100);
+            buyButton.setPrefWidth(80);
+
             buyButton.setStyle("""
-                -fx-background-color: #36BDF2;
-                -fx-text-fill: white;
-                -fx-background-radius: 14;
+                    -fx-background-color: #36BDF2;
+                    -fx-text-fill: white;
+                    -fx-background-radius: 14;
                     """);
 
             buyButton.setOnAction(event -> onBuy.accept(stock));
-            
+
             row.getChildren().addAll(symbol, name, price, change, buyButton);
             stockRows.getChildren().add(row);
         }
