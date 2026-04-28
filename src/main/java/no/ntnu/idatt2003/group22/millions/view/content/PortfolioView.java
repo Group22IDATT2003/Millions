@@ -95,7 +95,7 @@ public class PortfolioView {
         shareRows.getChildren().add(header);
 
         for (Share share : shares) {
-            shareRows.getChildren().add(createShareRow(share));
+            shareRows.getChildren().add(createShareRow(share, onSell));
         }
 
     }
@@ -110,7 +110,7 @@ public class PortfolioView {
         return label;
     }
 
-    private HBox createShareRow(Share share) {
+    private HBox createShareRow(Share share, Consumer<Share> onSell) {
         HBox row = new HBox(35);
         row.setAlignment(Pos.CENTER_LEFT);
 
@@ -126,6 +126,14 @@ public class PortfolioView {
                 -fx-text-fill: white;
                 -fx-background-radius: 14;
                 """);
+
+      sellButton.setOnAction(event -> {
+        SellPopupView popup = new SellPopupView(share, (selectedShare, quantityToSell) -> {
+            System.out.println("SELL: " + selectedShare.getSymbol() + " qty: " + quantityToSell);
+            onSell.accept(selectedShare);
+        });
+        popup.show();
+        });
 
         row.getChildren().addAll(
                 symbol,
