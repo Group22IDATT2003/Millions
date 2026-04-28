@@ -138,6 +138,15 @@ public class MarketView {
         return label;
     }
 
+    private Label createCellLabel(String text){
+        Label label = new Label(text);
+        label.setStyle("""
+            -fx-text-fill: white;
+            -fx-font-size: 16px;
+            """);
+        return label;
+    }
+
     private VBox createCard() {
         VBox card = new VBox(12);
         card.setPadding(new Insets(20));
@@ -161,7 +170,35 @@ public class MarketView {
 
 
     public void updateMarket(List<Stock> stocks, Consumer<Stock> onBuy) {
+        stockRows.getChildren().clear();
 
+        for (Stock stock : stocks){
+            HBox row = new HBox(90);
+            row.setAlignment(Pos.CENTER_LEFT);
+
+            Label symbol = createCellLabel(stock.getSymbol());
+            Label name = createCellLabel(stock.getCompany());
+            Label price = createCellLabel(stock.getSalesPrice() + " kr");
+            Label change = createCellLabel(stock.getLatestPriceChange() + " kr");
+
+            Button buyButton = new Button("Buy");
+            buyButton.setStyle("""
+                -fx-background-color: #36BDF2;
+                -fx-text-fill: white;
+                -fx-background-radius: 14;
+                    """);
+            
+            buyButton.setOnAction(event -> {
+                BuyPopupView popup = new BuyPopupView(stock, (selectedStock, quantity) -> {
+                    System.out.println("BUY: " + selectedStock.getSymbol() + " quantity: " + quantity);
+                    onBuy.accept(selectedStock);
+                });
+                popup.show();
+            });
+            
+            row.getChildren().addAll(symbol, name, price, change, buyButton);
+            stockRows.getChildren().add(row);
+        }
     }
 
     public VBox getRoot() {
