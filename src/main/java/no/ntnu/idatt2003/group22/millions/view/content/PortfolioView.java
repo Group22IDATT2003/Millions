@@ -40,7 +40,9 @@ public class PortfolioView {
         root.setSpacing(24);
         root.setPadding(new Insets(24, 32, 24, 32));
         root.setAlignment(Pos.TOP_LEFT);
-        root.setStyle("-fx-background-color: #1A2332;");
+        root.setStyle("""
+                -fx-background-color: #1A2332;
+                """);
 
         titleLabel.setStyle("""
                -fx-text-fill: white; 
@@ -87,6 +89,7 @@ public class PortfolioView {
         card.setStyle("""
                 -fx-background-color: #343D52;
                 -fx-background-radius: 18;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 8, 0, 0, 4);
                 """);
 
         HBox header = new HBox(50);

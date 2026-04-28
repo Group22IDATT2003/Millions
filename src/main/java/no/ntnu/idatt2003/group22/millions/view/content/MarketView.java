@@ -49,7 +49,7 @@ public class MarketView {
         root.setSpacing(24);
         root.setPadding(new Insets(24, 32, 24, 32));
         root.setStyle("""
-                -fx-background-color: #1E2330;
+                -fx-background-color: #1A2332;
                 """);
 
 
@@ -88,14 +88,18 @@ public class MarketView {
 
     private void configureSearchField() {
         searchField.setPromptText("Search stock");
-        searchField.setMaxWidth(300);
+        searchField.setPrefHeight(64);
+        searchField.setMaxWidth(360);
         searchField.setStyle("""
                 -fx-background-color: #343D52;
                 -fx-text-fill: white;
-                -fx-prompt-text-fill: white;
-                -fx-background-radius: 18;
-                -fx-font-size: 24px;
-                -fx-padding: 12 20 12 20;
+                -fx-prompt-text-fill: #AAB2C5;
+                -fx-background-radius: 22;
+                -fx-font-size: 20px;
+                -fx-padding: 14 20 14 20;
+                -fx-border-color: #1A2332;
+                    -fx-border-width: 2;
+                    -fx-border-radius: 22;
                 """);
     }
 
@@ -248,7 +252,7 @@ public class MarketView {
                 -fx-background-radius: 24;
                 -fx-font-size: 24px;
                 -fx-padding: 12 28 12 28;
-                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 18, 0.3, 0, 8);
                 """);
     }
 

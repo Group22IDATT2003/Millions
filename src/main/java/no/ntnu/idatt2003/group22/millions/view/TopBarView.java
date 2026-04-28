@@ -68,6 +68,7 @@ public class TopBarView {
                 -fx-font-weight: bold;
                 -fx-background-radius: 16;
                 -fx-padding: 8 18 8 18;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 8, 0, 0, 4);
                 """);
 
         root.getChildren().addAll(
