@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -21,6 +22,8 @@ public class MarketView {
     private final TextField searchField;
     private final VBox stockRows;
     private final Button advanceButton;
+    private final Label netWorthLabel = new Label();
+    private final Label netWorthChangeLabel = new Label();
 
 
     public MarketView() {
@@ -91,24 +94,41 @@ public class MarketView {
         card.setPrefSize(460, 180);
 
         Label title = new Label("Net worth:");
-        Label value = new Label("78 500 NOK");
-        Label change = new Label("+3 200 (+4.2%)");
+        netWorthLabel.setText("0 kr");
+        netWorthChangeLabel.setText("0 kr");
 
         title.setStyle("""
                 -fx-text-fill: white; 
                 -fx-font-size: 24px;
                 """);
-        value.setStyle("""
-                -fx-text-fill: white; 
-                -fx-font-size: 18px;
-                """);
-        change.setStyle("""
-                -fx-text-fill: #6EE75F; 
-                -fx-font-size: 18px;
-                """);
+        netWorthLabel.setStyle("""
+        -fx-text-fill: white;
+        -fx-font-size: 18px;
+        """);
 
-        card.getChildren().addAll(title, value, change);
+        netWorthChangeLabel.setStyle("""
+        -fx-text-fill: #6EE75F;
+        -fx-font-size: 18px;
+        """);
+
+        card.getChildren().addAll(title, netWorthLabel, netWorthChangeLabel);
         return card;
+    }
+
+    public void updateNetWorth(BigDecimal netWorth, BigDecimal change){
+        netWorthLabel.setText(netWorth + " kr");
+        netWorthChangeLabel.setText(change + " kr");
+
+        if (change.compareTo(BigDecimal.ZERO) >= 0) {
+            netWorthChangeLabel.setStyle("""
+                    -fx-text-fill: #6EE75F;
+                    -fx-font-size: 18px;""");
+        } else {
+            netWorthChangeLabel.setStyle("""
+                    -fx-text-fill: #EF4444; 
+                    -fx-font-size: 18px;
+                    """);
+        }
     }
 
     private VBox createStockTable() {

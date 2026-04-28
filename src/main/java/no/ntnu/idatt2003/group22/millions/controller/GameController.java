@@ -242,6 +242,10 @@ public class GameController {
                 player.getChange()
         );
 
+        mainView.getMarketView().updateNetWorth(
+                player.getNetWorth(),
+                player.getChange()
+        );
 
 
     }

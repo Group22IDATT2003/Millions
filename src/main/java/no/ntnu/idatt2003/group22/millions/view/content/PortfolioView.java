@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Share;
+import no.ntnu.idatt2003.group22.millions.view.dialog.SellPopupView;
 
 import java.util.List;
 import java.util.function.Consumer;
