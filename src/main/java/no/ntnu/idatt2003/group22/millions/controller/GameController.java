@@ -36,6 +36,10 @@ public class GameController {
                 (obs, oldValue, newValue) -> handleSearch(newValue)
         );
 
+        mainView.getTransactionView().getSearchField().textProperty().addListener(
+                (obs, oldValue, newValue) -> handleTransactionSearch(newValue)
+        );
+
         mainView.getTopBarView().getNewGameButton().setOnAction(e -> handleStartNewGame());
 
         mainView.getSidebarView().getDashboardButton().setOnAction(
@@ -60,6 +64,8 @@ public class GameController {
 
         mainView.getMarketView().getAdvanceButton().setOnAction(
                 e -> handleAdvanceWeek());
+
+
 
     }
 
@@ -144,6 +150,18 @@ public class GameController {
 
         List<Stock> results = exchange.findStocks(searchText);
         showMarket(results);
+    }
+
+    private void handleTransactionSearch(String searchText) {
+        if (player == null) {
+            return;
+        }
+
+        List<Transaction> results = player.getTransactionArchive().getAllTransactions().stream()
+                .filter(t -> t.getShare().getSymbol().toLowerCase().contains(searchText.toLowerCase()))
+                .toList();
+
+        showTransaction(results);
     }
 
     private void handleStartNewGame() {
@@ -245,6 +263,8 @@ public class GameController {
                 player.getNetWorth(),
                 player.getChange()
         );
+
+
 
 
     }

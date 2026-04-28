@@ -3,6 +3,7 @@ package no.ntnu.idatt2003.group22.millions.view.content;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Share;
@@ -16,11 +17,13 @@ public class TransactionView {
     private final VBox root;
     private final Label titleLabel;
     private final VBox transactionRows;
+    private final TextField searchField;
 
     public TransactionView() {
         this.root = new VBox();
         this.titleLabel = new Label("Transaction");
         this.transactionRows = new VBox();
+        this.searchField = new TextField();
 
         configureLayout();
     }
@@ -29,20 +32,26 @@ public class TransactionView {
         root.setSpacing(24);
         root.setPadding(new Insets(24, 32, 24, 32));
         root.setAlignment(Pos.TOP_LEFT);
+        root.setStyle("-fx-background-color: #1A2332;");
 
         titleLabel.setStyle("""
                 -fx-text-fill: white;
                 -fx-font-size: 34px;
                 """);
 
+        searchField.setPromptText("Search/filter");
+        searchField.setMaxWidth(300);
+
         transactionRows.setSpacing(12);
         transactionRows.setPadding(new Insets(16));
         transactionRows.setStyle("""
-                -fx-background-color: #1A2332;
+                -fx-background-color: #343D52
                 -fx-background-radius: 18;
                 """);
 
-        root.getChildren().addAll(titleLabel, transactionRows);
+
+        root.getChildren().addAll(titleLabel, searchField, transactionRows);
+
 
     }
 
@@ -111,6 +120,10 @@ public class TransactionView {
                     -fx-font-size: 14px;
                 """);
         return label;
+    }
+
+    public TextField getSearchField() {
+        return searchField;
     }
 
     public VBox getRoot() {
