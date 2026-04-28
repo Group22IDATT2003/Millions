@@ -61,7 +61,6 @@ public class GameController {
         mainView.getMarketView().getAdvanceButton().setOnAction(
                 e -> handleAdvanceWeek());
 
-
     }
 
     private void handleAdvanceWeek() {

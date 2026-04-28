@@ -112,8 +112,8 @@ public class Exchange {
      * @throws IllegalArgumentException if the search term is null.
      */
     public List<Stock> findStocks(String searchTerm) {
-        if(searchTerm == null){
-            throw new IllegalArgumentException("searchTerm cannot be null");
+        if(searchTerm == null || searchTerm.isBlank()){
+            return new ArrayList<>(stockMap.values());
         }
         List<Stock> result = new ArrayList<>();
         String lowerSearch = searchTerm.toLowerCase();
