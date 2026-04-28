@@ -131,17 +131,20 @@ public class GameController {
             return;
         }
 
-        try {
-            player.setPreviousNetWorth(player.getNetWorth());
+        SellPopupView popup = new SellPopupView(share, (selectedShare, quantityToSell) -> {
+            try {
+                player.setPreviousNetWorth(player.getNetWorth());
 
-            exchange.sell(share, player);
+                exchange.sell(share, player);
 
-            refreshAllViews();
-            showMessage("Sell", "Sold " + share.getSymbol());
+                refreshAllViews();
+                showMessage("Sell", "Sold " + share.getSymbol());
 
-        } catch (Exception e) {
-            showMessage("Sell", e.getMessage());
-        }
+            } catch (Exception e) {
+                showMessage("Sell", e.getMessage());
+            }
+        });
+        popup.show();
     }
 
     private void handleSearch(String searchText) {
