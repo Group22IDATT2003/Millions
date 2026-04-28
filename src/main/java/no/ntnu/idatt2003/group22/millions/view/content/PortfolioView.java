@@ -7,12 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Share;
-import no.ntnu.idatt2003.group22.millions.view.dialog.SellPopupView;
+import javafx.scene.control.ScrollPane;
+
 
 import java.util.List;
 import java.util.function.Consumer;
 
-import static java.awt.SystemColor.text;
 
 
 public class PortfolioView {
@@ -39,6 +39,7 @@ public class PortfolioView {
         root.setSpacing(24);
         root.setPadding(new Insets(24, 32, 24, 32));
         root.setAlignment(Pos.TOP_LEFT);
+        root.setStyle("-fx-background-color: #1A2332;");
 
         titleLabel.setStyle("""
                -fx-text-fill: white; 
@@ -59,6 +60,7 @@ public class PortfolioView {
         VBox summaryCard = new VBox(8);
         summaryCard.getChildren().addAll(portfolioValueLabel, totalNetWorthLabel);
         summaryCard.setPadding(new Insets(20));
+        summaryCard.setAlignment(Pos.BOTTOM_LEFT);
         summaryCard.setStyle("""
         -fx-background-color: #343D52;
         -fx-background-radius: 18;
@@ -68,20 +70,25 @@ public class PortfolioView {
         shareRows.setPadding(new Insets(12));
         shareRows.setAlignment(Pos.TOP_LEFT);
         shareRows.setStyle("""
-                -fx-border-color: #343D52;
+                -fx-background-color: #343D52;
                 -fx-background-radius: 18;
                 -fx-padding: 20
                 """);
 
-        root.getChildren().addAll(titleLabel, summaryCard, shareRows);
+        root.getChildren().addAll(titleLabel, summaryCard, createHoldingsCard());
 
 
     }
 
-    public void updatePortfolio(List<Share> shares, Consumer<Share> onSell) {
-        shareRows.getChildren().clear();
+    public VBox createHoldingsCard() {
+        VBox card = new VBox(12);
+        card.setPadding(new Insets(16));
+        card.setStyle("""
+                -fx-background-color: #343D52;
+                -fx-background-radius: 18;
+                """);
 
-        HBox header = new HBox(35);
+        HBox header = new HBox(50);
         header.getChildren().addAll(
                 createHeaderLabel("Symbol:"),
                 createHeaderLabel("Name:"),
@@ -93,12 +100,27 @@ public class PortfolioView {
                 createHeaderLabel("Action:")
         );
 
-        shareRows.getChildren().add(header);
+        ScrollPane scrollPane = new ScrollPane(shareRows);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefHeight(360);
+        scrollPane.setStyle("""
+                -fx-background: #2C394F;
+                -fx-text-color: white;
+                -fx-font-size: 14px;
+                """);
+
+        card.getChildren().addAll(header, scrollPane);
+
+        return card;
+
+    }
+
+    public void updatePortfolio(List<Share> shares, Consumer<Share> onSell) {
+        shareRows.getChildren().clear();
 
         for (Share share : shares) {
             shareRows.getChildren().add(createShareRow(share, onSell));
         }
-
     }
 
     private Label createHeaderLabel(String text) {
@@ -120,6 +142,8 @@ public class PortfolioView {
         Label quantity = createCellLabel(share.getQuantity().toString());
         Label buyPrice = createCellLabel(share.getPurchasePrice() + " kr");
         Label currentPrice = createCellLabel(share.getStock().getSalesPrice() + " kr");
+        Label value = createCellLabel(share.getCurrentValue() + " kr");
+        Label change = createCellLabel(share.getPriceChangePercentage() + " %");
 
         Button sellButton = new Button("Sell");
         sellButton.setStyle("""
@@ -128,35 +152,32 @@ public class PortfolioView {
                 -fx-background-radius: 14;
                 """);
 
-      sellButton.setOnAction(event -> {
-        SellPopupView popup = new SellPopupView(share, (selectedShare, quantityToSell) -> {
-            System.out.println("SELL: " + selectedShare.getSymbol() + " qty: " + quantityToSell);
-            onSell.accept(selectedShare);
-        });
-        popup.show();
-        });
+        sellButton.setOnAction(event -> onSell.accept(share));
 
-        row.getChildren().addAll(
-                symbol,
-                name,
-                quantity,
-                buyPrice,
-                currentPrice,
-                sellButton
-        );
+        symbol.setPrefWidth(80);
+        name.setPrefWidth(90);
+        quantity.setPrefWidth(40);
+        buyPrice.setPrefWidth(100);
+        currentPrice.setPrefWidth(90);
+        value.setPrefWidth(70);
+        change.setPrefWidth(80);
+        sellButton.setPrefWidth(80);
 
+        row.getChildren().addAll(symbol, name, quantity, buyPrice, currentPrice, value, change, sellButton);
         return row;
+
     }
-    private Label createCellLabel(String text) {
+
+    private Label createCellLabel (String text){
         Label label = new Label(text);
         label.setStyle("""
-            -fx-text-fill: white;
-            -fx-font-size: 14px;
-            """);
+                    -fx-text-fill: white;
+                    -fx-font-size: 14px;
+                    """);
         return label;
     }
 
-    public VBox getRoot() {
+    public VBox getRoot () {
         return root;
     }
 

@@ -10,6 +10,7 @@ import no.ntnu.idatt2003.group22.millions.model.Stock;
 import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 import no.ntnu.idatt2003.group22.millions.view.MainView;
 import no.ntnu.idatt2003.group22.millions.view.dialog.BuyPopupView;
+import no.ntnu.idatt2003.group22.millions.view.dialog.SellPopupView;
 
 import java.nio.file.Path;
 import java.io.IOException;
@@ -131,10 +132,12 @@ public class GameController {
         }
 
         try {
+            player.setPreviousNetWorth(player.getNetWorth());
+
             exchange.sell(share, player);
 
             refreshAllViews();
-            showMessage("Sell", "Sold share: " + share.getSymbol());
+            showMessage("Sell", "Sold " + share.getSymbol());
 
         } catch (Exception e) {
             showMessage("Sell", e.getMessage());

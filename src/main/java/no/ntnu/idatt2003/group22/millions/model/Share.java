@@ -36,6 +36,18 @@ public class Share {
         return stock;
     }
 
+    public BigDecimal getCurrentValue(){
+        return stock.getSalesPrice().multiply(quantity);
+    }
+
+    public BigDecimal getPriceChangePercentage(){
+        BigDecimal currentValue = getCurrentValue();
+        BigDecimal purchaseValue = purchasePrice.multiply(quantity);
+        return currentValue.subtract(purchaseValue)
+                .divide(purchaseValue, 4, BigDecimal.ROUND_HALF_UP)
+                .multiply(BigDecimal.valueOf(100));
+    }
+
     public BigDecimal getQuantity() {
         return quantity;
     }

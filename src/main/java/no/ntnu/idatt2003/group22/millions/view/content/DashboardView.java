@@ -2,14 +2,11 @@ package no.ntnu.idatt2003.group22.millions.view.content;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
