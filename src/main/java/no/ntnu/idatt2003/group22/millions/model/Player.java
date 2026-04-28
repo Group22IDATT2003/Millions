@@ -12,6 +12,7 @@ public class Player {
     private BigDecimal money;
     private final Portfolio portfolio;
     private final TransactionArchive transactionArchive;
+    private BigDecimal previousNetWorth = BigDecimal.ZERO;
 
     public Player(String name, BigDecimal startingMoney) {
         if(name == null){
@@ -81,6 +82,14 @@ public class Player {
         return money.add(portfolio.getNetWorth());
     }
 
+    public void setPreviousNetWorth(BigDecimal previousNetWorth) {
+        this.previousNetWorth = previousNetWorth;
+    }
+
+    public BigDecimal getChange(){
+        return getNetWorth().subtract(previousNetWorth);
+    }
+
     public String getStatus(){
         BigDecimal netWorth = getNetWorth();
         int activeWeeks = transactionArchive.countDistinctWeeks();
@@ -106,5 +115,7 @@ public class Player {
 
         return "NOVICE";
     }
+
+
 
 }
