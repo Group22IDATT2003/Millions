@@ -81,6 +81,7 @@ public class DashboardView {
         card.setStyle("""
                 -fx-background-color: #343D52;
                 -fx-background-radius: 18;
+                    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
                 """);
         return card;
     }
@@ -167,7 +168,11 @@ public class DashboardView {
 
     public void updateNetWorth(BigDecimal netWorth, BigDecimal change) {
         netWorthValueLabel.setText(netWorth + " NOK");
-        netWorthChangeLabel.setText(change + "%");
+        netWorthValueLabel.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 18px;
+                """);
+        netWorthChangeLabel.setText(change + " NOK");
 
         if (change.compareTo(BigDecimal.ZERO) >= 0) {
             netWorthChangeLabel.setStyle("-fx-text-fill: #6EE75F;");
@@ -185,6 +190,7 @@ public class DashboardView {
     private VBox createMoversCard() {
         VBox card = createCard();
         card.setPrefSize(300, 220);
+
 
         Label winners = new Label("Weekly winners:");
         Label losers = new Label("Weekly losers:");
@@ -216,6 +222,7 @@ public class DashboardView {
         card.setSpacing(12);
         card.setPrefWidth(850);
         card.setMinWidth(850);
+
 
         HBox header = new HBox(100);
         header.getChildren().addAll(

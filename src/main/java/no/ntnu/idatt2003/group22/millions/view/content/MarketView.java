@@ -159,8 +159,12 @@ public class MarketView {
 
 
     public void updateNetWorth(BigDecimal netWorth, BigDecimal change) {
-        netWorthLabel.setText(netWorth + " kr");
-        netWorthChangeLabel.setText(change + " kr");
+        netWorthValueLabel.setText(netWorth + " NOK");
+        netWorthValueLabel.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 18px;
+                """);
+        netWorthChangeLabel.setText(change + " NOK");
 
         if (change.compareTo(BigDecimal.ZERO) >= 0) {
             netWorthChangeLabel.setStyle("""
@@ -172,6 +176,12 @@ public class MarketView {
                     -fx-font-size: 18px;
                     """);
         }
+    }
+
+    public void updateNetWorthGraph(int week, BigDecimal netWorth) {
+        netWorthSeries.getData().add(
+                new XYChart.Data<>(week, netWorth.doubleValue())
+        );
     }
 
     private VBox createStockTable() {
@@ -275,6 +285,8 @@ public class MarketView {
             stockRows.getChildren().add(row);
         }
     }
+
+
 
     public VBox getRoot() {
         return root;

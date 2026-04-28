@@ -10,6 +10,7 @@ import no.ntnu.idatt2003.group22.millions.model.Share;
 import javafx.scene.control.ScrollPane;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -121,6 +122,11 @@ public class PortfolioView {
         for (Share share : shares) {
             shareRows.getChildren().add(createShareRow(share, onSell));
         }
+    }
+
+    public void updateSummary(BigDecimal portfolioValue, BigDecimal netWorth) {
+        portfolioValueLabel.setText("Portfolio value: " + portfolioValue + " kr");
+        totalNetWorthLabel.setText("Total net worth: " + netWorth + " kr");
     }
 
     private Label createHeaderLabel(String text) {

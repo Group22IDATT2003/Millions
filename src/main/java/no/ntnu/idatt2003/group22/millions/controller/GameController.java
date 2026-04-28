@@ -259,7 +259,15 @@ public class GameController {
                 player.getChange()
         );
 
+        mainView.getMarketView().updateNetWorthGraph(
+                exchange.getWeek(),
+                player.getNetWorth()
+        );
 
+        mainView.getPortfolioView().updateSummary(
+                player.getPortfolio().getNetWorth(),
+                player.getNetWorth()
+        );
 
 
     }
