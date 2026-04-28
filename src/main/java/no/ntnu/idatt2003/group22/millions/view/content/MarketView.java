@@ -188,14 +188,8 @@ public class MarketView {
                 -fx-text-fill: white;
                 -fx-background-radius: 14;
                     """);
-            
-            buyButton.setOnAction(event -> {
-                BuyPopupView popup = new BuyPopupView(stock, (selectedStock, quantity) -> {
-                    System.out.println("BUY: " + selectedStock.getSymbol() + " quantity: " + quantity);
-                    onBuy.accept(selectedStock);
-                });
-                popup.show();
-            });
+
+            buyButton.setOnAction(event -> onBuy.accept(stock));
             
             row.getChildren().addAll(symbol, name, price, change, buyButton);
             stockRows.getChildren().add(row);

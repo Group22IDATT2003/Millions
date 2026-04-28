@@ -1,4 +1,4 @@
-package no.ntnu.idatt2003.group22.millions.view.content;
+package no.ntnu.idatt2003.group22.millions.view.dialog;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

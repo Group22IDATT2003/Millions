@@ -10,7 +10,7 @@ import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 import no.ntnu.idatt2003.group22.millions.view.MainView;
-import no.ntnu.idatt2003.group22.millions.view.dialog.BuyDialog;
+import no.ntnu.idatt2003.group22.millions.view.dialog.BuyPopupView;
 
 import java.nio.file.Path;
 import java.io.File;
@@ -99,25 +99,25 @@ public class GameController {
             return;
         }
 
-        BuyDialog dialog = new BuyDialog(stock);
-        Optional<BigDecimal> quantityResult = dialog.showQuantityDialog();
+        BuyPopupView popup = new BuyPopupView(stock, (selectedStock, quantity) -> {
+            try {
+                player.setPreviousNetWorth(player.getNetWorth());
 
-        if (quantityResult.isEmpty()) {
-            showMessage("Buy", "Purchase cancelled.");
-            return;
-        }
+                exchange.buy(
+                        selectedStock.getSymbol(),
+                        BigDecimal.valueOf(quantity),
+                        player
+                );
 
+                refreshAllViews();
+                showMessage("Buy", "Purchased " + quantity + " of " + selectedStock.getSymbol());
 
-        try {
-            BigDecimal quantity = quantityResult.get();
-            exchange.buy(stock.getSymbol(), quantity, player);
+            } catch (Exception e) {
+                showMessage("Buy", e.getMessage());
+            }
+        });
 
-            refreshAllViews();
-            showMessage("Buy", "Purchased " + quantity + " of " + stock.getSymbol());
-
-        } catch (Exception e) {
-            showMessage("Buy", e.getMessage());
-        }
+        popup.show();
 
     }
 
