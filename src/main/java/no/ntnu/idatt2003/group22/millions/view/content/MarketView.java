@@ -130,9 +130,10 @@ public class MarketView {
         card.setPadding(new Insets(20));
         card.setSpacing(20);
         card.setStyle("""
-                -fx-background-color: #343D52;
-                -fx-background-radius: 22;
-                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
+                    -fx-background-color: #343D52;
+                    -fx-background-radius: 22;
+                    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
+        
                 """);
         card.setPrefSize(460, 180);
 
@@ -264,7 +265,7 @@ public class MarketView {
     private VBox createStockTable() {
         VBox card = createCard();
         card.setSpacing(12);
-        card.setPrefWidth(850);
+        card.setPrefWidth(1200);
         card.setMinWidth(850);
 
         HBox header = new HBox(125);
@@ -278,7 +279,7 @@ public class MarketView {
 
         ScrollPane scrollPane = new ScrollPane(stockRows);
         scrollPane.setFitToWidth(true);
-        scrollPane.setPrefHeight(360);
+        scrollPane.setPrefHeight(500);
         scrollPane.setStyle("""
                 -fx-background: #2C394F;
                 -fx-text-color: white;
@@ -324,7 +325,7 @@ public class MarketView {
                 -fx-text-fill: white;
                 -fx-background-radius: 24;
                 -fx-font-size: 24px;
-                -fx-padding: 12 28 12 28;
+                -fx-padding: 12 20 12 20;
                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 18, 0.3, 0, 8);
                 """);
     }
@@ -333,6 +334,9 @@ public class MarketView {
     public void updateMarket(List<Stock> stocks, Consumer<Stock> onBuy) {
         stockRows.getChildren().clear();
 
+        if (!stocks.isEmpty()) {
+            updateStockStats(stocks.get(0));
+        }
 
         for (Stock stock : stocks) {
             HBox row = new HBox(90);
@@ -355,6 +359,7 @@ public class MarketView {
                     -fx-background-color: #36BDF2;
                     -fx-text-fill: white;
                     -fx-background-radius: 14;
+                    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 8, 0, 0, 4);
                     """);
 
             buyButton.setOnAction(event -> onBuy.accept(stock));
@@ -364,9 +369,6 @@ public class MarketView {
 
             stockRows.getChildren().add(row);
 
-            if (!stocks.isEmpty()) {
-                updateStockStats(stocks.get(0));
-            }
         }
     }
 

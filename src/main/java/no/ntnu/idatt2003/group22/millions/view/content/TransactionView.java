@@ -45,6 +45,17 @@ public class TransactionView {
 
         searchField.setPromptText("Search/filter");
         searchField.setMaxWidth(300);
+        searchField.setStyle("""
+                -fx-background-color: #343D52;
+                -fx-text-fill: white;
+                -fx-prompt-text-fill: #AAB2C5;
+                -fx-background-radius: 22;
+                -fx-font-size: 20px;
+                -fx-padding: 14 20 14 20;
+                -fx-border-color: #1A2332;
+                    -fx-border-width: 2;
+                    -fx-border-radius: 22;
+                """);
 
         transactionRows.setSpacing(12);
         transactionRows.setPadding(new Insets(16));

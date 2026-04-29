@@ -110,6 +110,7 @@ public class PortfolioView {
         -fx-background-radius: 18;
         -fx-font-size: 16px;
         -fx-padding: 10 22 10 22;
+        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 8, 0, 0, 4);
         """);
 
         root.getChildren().addAll(titleLabel, moneyCard, createHoldingsCard(), sellAllButton, spacer, summaryCard);
@@ -208,6 +209,7 @@ public class PortfolioView {
                 -fx-background-color: #C65A3D;
                 -fx-text-fill: white;
                 -fx-background-radius: 14;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 8, 0, 0, 4);
                 """);
 
         sellButton.setOnAction(event -> onSell.accept(share));
