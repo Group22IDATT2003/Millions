@@ -213,6 +213,7 @@ public class MarketView {
         card.setStyle("""
                 -fx-background-color: #343D52;
                 -fx-background-radius: 22;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
                 """);
 
         stockStatsTitleLabel.setStyle("""

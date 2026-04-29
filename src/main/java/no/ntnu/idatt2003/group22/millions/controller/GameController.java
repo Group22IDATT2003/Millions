@@ -109,14 +109,14 @@ public class GameController {
             try {
                 player.setPreviousNetWorth(player.getNetWorth());
 
-                exchange.buy(
+                Transaction transaction = exchange.buy(
                         selectedStock.getSymbol(),
                         BigDecimal.valueOf(quantity),
                         player
                 );
 
                 refreshAllViews();
-                showMessage("Buy", "Purchased " + quantity + " of " + selectedStock.getSymbol());
+                showTransactionReceipt(transaction);
 
             } catch (Exception e) {
                 showMessage("Buy", e.getMessage());
@@ -137,10 +137,10 @@ public class GameController {
             try {
                 player.setPreviousNetWorth(player.getNetWorth());
 
-                exchange.sell(share, player);
+                Transaction transaction = exchange.sell(selectedShare, player);
 
                 refreshAllViews();
-                showMessage("Sell", "Sold " + share.getSymbol());
+                showTransactionReceipt(transaction);
 
             } catch (Exception e) {
                 showMessage("Sell", e.getMessage());
@@ -317,6 +317,20 @@ public class GameController {
         alert.setHeaderText(title);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void showTransactionReceipt(Transaction transaction) {
+        String message =
+                "Type: " + transaction.getClass().getSimpleName() + "\n" +
+                        "Week: " + transaction.getWeek() + "\n" +
+                        "Symbol: " + transaction.getShare().getSymbol() + "\n" +
+                        "Quantity: " + transaction.getShare().getQuantity() + "\n" +
+                        "Gross: " + transaction.calculateGross() + " kr\n" +
+                        "Fee: " + transaction.calculateCommission() + " kr\n" +
+                        "Tax: " + transaction.calculateTax() + " kr\n" +
+                        "Total: " + transaction.calculateTotal() + " kr";
+
+        showMessage("Transaction receipt", message);
     }
 
 
