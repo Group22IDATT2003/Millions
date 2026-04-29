@@ -25,15 +25,21 @@ public class MarketView {
     private final TextField searchField;
     private final VBox stockRows;
     private final Button advanceButton;
-    private final Label netWorthLabel = new Label();
-    private final Label netWorthValueLabel = new Label();
-    private final Label netWorthChangeLabel = new Label();
+    private final Label netWorthLabel;
+    private final Label netWorthValueLabel;
+    private final Label netWorthChangeLabel;
     private LineChart<Number, Number> netWorthChart;
     private XYChart.Series<Number, Number> netWorthSeries;
-    private final Label w1Label = new Label();
-    private final Label w2Label = new Label();
-    private final Label l1Label = new Label();
-    private final Label l2Label = new Label();
+    private final Label w1Label;
+    private final Label w2Label;
+    private final Label l1Label;
+    private final Label l2Label;
+    private final Label stockStatsTitleLabel;
+    private final Label stockSymbolLabel;
+    private final Label highestPriceLabel;
+    private final Label lowestPriceLabel;
+    private final Label currentPriceLabel;
+    private final Label stockChangeLabel;
 
 
     public MarketView() {
@@ -41,6 +47,19 @@ public class MarketView {
         this.searchField = new TextField();
         this.stockRows = new VBox(8);
         this.advanceButton = new Button("Advance to next week →");
+        this.netWorthLabel = new Label();
+        this.netWorthValueLabel = new Label();
+        this.netWorthChangeLabel = new Label();
+        this.w1Label = new Label();
+        this.w2Label = new Label();
+        this.l1Label = new Label();
+        this.l2Label = new Label();
+        this.stockStatsTitleLabel = new Label("Stock statistics");
+        this.stockSymbolLabel = new Label("Symbol: ");
+        this.highestPriceLabel = new Label("Highest price: ");
+        this.lowestPriceLabel = new Label("Lowest price: ");
+        this.currentPriceLabel = new Label("Current price: ");
+        this.stockChangeLabel = new Label("Change: ");
 
         configureLayout();
     }
@@ -60,7 +79,7 @@ public class MarketView {
                 """);
 
         HBox topCards = new HBox(24);
-        topCards.getChildren().addAll(createNetWorthCard());
+        topCards.getChildren().addAll(createNetWorthCard(), createStockStatsCard());
 
         configureSearchField();
 
@@ -188,6 +207,60 @@ public class MarketView {
         );
     }
 
+    private VBox createStockStatsCard() {
+        VBox card = new VBox(8);
+        card.setPadding(new Insets(20));
+        card.setStyle("""
+                -fx-background-color: #343D52;
+                -fx-background-radius: 22;
+                """);
+
+        stockStatsTitleLabel.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 18px;
+                """);
+
+        stockSymbolLabel.setStyle("-fx-text-fill: white;" +
+                "-fx-font-size: 16px;");
+        highestPriceLabel.setStyle("-fx-text-fill: white;" +
+                "-fx-font-size: 16px;");
+        lowestPriceLabel.setStyle("-fx-text-fill: white;" +
+                "-fx-font-size: 16px;");
+        currentPriceLabel.setStyle("-fx-text-fill: white;" +
+                "-fx-font-size: 16px;");
+        stockChangeLabel.setStyle("-fx-text-fill: white;" +
+                "-fx-font-size: 16px;");
+
+
+
+        card.getChildren().addAll(
+                stockStatsTitleLabel,
+                stockSymbolLabel,
+                highestPriceLabel,
+                lowestPriceLabel,
+                currentPriceLabel,
+                stockChangeLabel
+        );
+
+        return card;
+    }
+
+    public void updateStockStats(Stock stock) {
+
+        stockSymbolLabel.setText("Symbol: " + stock.getSymbol());
+        highestPriceLabel.setText("Highest price: " + stock.getHighestPrice() + " kr");
+        lowestPriceLabel.setText("Lowest price: " + stock.getLowestPrice() + " kr");
+        currentPriceLabel.setText("Current price: " + stock.getSalesPrice() + " kr");
+        stockChangeLabel.setText("Change: " + stock.getLatestPriceChange() + " %");
+
+        if (stock.getLatestPriceChange().compareTo(BigDecimal.ZERO) >= 0) {
+            stockChangeLabel.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 14px;");
+        } else {
+            stockChangeLabel.setStyle("-fx-text-fill: #EF4444; -fx-font-size: 14px;");
+        }
+
+    }
+
     private VBox createStockTable() {
         VBox card = createCard();
         card.setSpacing(12);
@@ -260,6 +333,7 @@ public class MarketView {
     public void updateMarket(List<Stock> stocks, Consumer<Stock> onBuy) {
         stockRows.getChildren().clear();
 
+
         for (Stock stock : stocks) {
             HBox row = new HBox(90);
             row.setAlignment(Pos.CENTER_LEFT);
@@ -286,10 +360,15 @@ public class MarketView {
             buyButton.setOnAction(event -> onBuy.accept(stock));
 
             row.getChildren().addAll(symbol, name, price, change, buyButton);
+            row.setOnMouseClicked(e -> updateStockStats(stock));
+
             stockRows.getChildren().add(row);
+
+            if (!stocks.isEmpty()) {
+                updateStockStats(stocks.get(0));
+            }
         }
     }
-
 
 
     public VBox getRoot() {

@@ -2,6 +2,7 @@ package no.ntnu.idatt2003.group22.millions.controller;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
+import javafx.stage.FileChooser;
 import no.ntnu.idatt2003.group22.millions.io.StockFileHandler;
 import no.ntnu.idatt2003.group22.millions.market.Exchange;
 import no.ntnu.idatt2003.group22.millions.model.Player;
@@ -12,6 +13,7 @@ import no.ntnu.idatt2003.group22.millions.view.MainView;
 import no.ntnu.idatt2003.group22.millions.view.dialog.BuyPopupView;
 import no.ntnu.idatt2003.group22.millions.view.dialog.SellPopupView;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.io.IOException;
 
@@ -210,16 +212,22 @@ public class GameController {
             return;
         }
 
-        try {
-            Path path = Path.of(
-                    getClass().getResource("/sp500.csv").toURI()
-            );
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose stock CSV file");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("CSV files", "*.csv")
+        );
 
-            startNewGame(name, startingMoney, path);
+        File selectedFile = fileChooser.showOpenDialog(
+                mainView.getRoot().getScene().getWindow()
+        );
 
-        } catch (Exception e) {
-            showMessage("New Game", "Could not load stock file.");
+        if (selectedFile == null) {
+            showMessage("New Game", "You must choose a stock file.");
+            return;
         }
+
+        startNewGame(name, startingMoney, selectedFile.toPath());
 
     }
 
