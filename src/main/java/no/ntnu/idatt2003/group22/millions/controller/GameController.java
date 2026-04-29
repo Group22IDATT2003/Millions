@@ -272,7 +272,7 @@ public class GameController {
                 player.getNetWorth()
         );
 
-
+        mainView.getPortfolioView().updateMoney(player.getMoney());
     }
 
     public void showDashboard() {

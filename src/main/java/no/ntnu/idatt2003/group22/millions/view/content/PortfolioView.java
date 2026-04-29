@@ -149,6 +149,10 @@ public class PortfolioView {
         }
     }
 
+    public void updateMoney(BigDecimal money) {
+        moneyValueLabel.setText("Money: " + money + " kr");
+    }
+
     public void updateSummary(BigDecimal portfolioValue, BigDecimal netWorth) {
         portfolioValueLabel.setText("Portfolio value: " + portfolioValue + " kr");
         totalNetWorthLabel.setText("Total net worth: " + netWorth + " kr");

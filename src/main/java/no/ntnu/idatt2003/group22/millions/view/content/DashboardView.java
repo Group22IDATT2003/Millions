@@ -12,6 +12,7 @@ import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 
@@ -255,19 +256,34 @@ public class DashboardView {
         stockRows.getChildren().clear();
 
 
-        for(Share share : shares) {
+        for (Share share : shares.stream().sorted((s1, s2) -> s2.getCurrentValue().compareTo(s1.getCurrentValue()))
+                .limit(3)
+                .toList()){
             HBox row = createRow();
+
+            BigDecimal changeValue = share.getPriceChangePercentage()
+                    .setScale(2, RoundingMode.HALF_UP);
+
+            String prefix = changeValue.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
+
+            Label empty = createLabel("");
             Label symbol = createLabel(share.getSymbol());
-            Label change = createLabel("+3.7%");
-            Label value = createLabel("value her");
+            Label change = createLabel(prefix + changeValue + " %");
+            Label value = createLabel(share.getCurrentValue() + " kr");
 
-            change.setStyle("""
-                -fx-text-fill: #6EE75F;
-                -fx-font-size: 14px;
-                """);
+            empty.setPrefWidth(360);
+            symbol.setPrefWidth(180);
+            change.setPrefWidth(180);
+            value.setPrefWidth(180);
 
-            row.getChildren().addAll(symbol, change, value);
 
+            if (changeValue.compareTo(BigDecimal.ZERO) >= 0) {
+                change.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 14px;");
+            } else {
+                change.setStyle("-fx-text-fill: #EF4444; -fx-font-size: 14px;");
+            }
+
+            row.getChildren().addAll(empty, symbol, change, value);
             stockRows.getChildren().add(row);
         }
     }
