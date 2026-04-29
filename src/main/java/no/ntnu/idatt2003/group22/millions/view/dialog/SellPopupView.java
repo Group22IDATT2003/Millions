@@ -34,7 +34,7 @@ public class SellPopupView {
     private final Label taxLabel;
     private final Label totalReceivedLabel;
 
-    public SellPopupView(Share share, BiConsumer<Share, Integer> onConfirmSell){
+    public SellPopupView(Share share, BiConsumer<Share, Integer> onConfirmSell) {
         this.share = share;
         this.onConfirmSell = onConfirmSell;
         this.stage = new Stage();
@@ -42,14 +42,28 @@ public class SellPopupView {
 
         this.quantityLabel = new Label();
         this.grossValueLabel = new Label();
+        grossValueLabel.setStyle("""
+                     -fx-text-fill: white;
+                     -fx-font-size: 18px;
+                     -fx-font-weight: bold;""");
         this.commisionLabel = new Label();
+        commisionLabel.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 18px;
+                -fx-font-weight: bold;
+                """);
         this.taxLabel = new Label();
+        taxLabel.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 18px;
+                -fx-font-weight: bold;
+                """);
         this.totalReceivedLabel = new Label();
 
         configureStage();
     }
 
-    private void configureStage(){
+    private void configureStage() {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Sell " + share.getSymbol());
 
@@ -70,16 +84,16 @@ public class SellPopupView {
         content.setPadding(new Insets(28, 34, 24, 34));
 
         content.getChildren().addAll(
-            createInfoRow("Current price:", createValueLabel(formatMoney(share.getStock().getSalesPrice()))),
-            createInfoRow("Owned quantity:", createValueLabel(String.valueOf(share.getQuantity()))),
-            createQuantityRow(),
-            createSpacer(26),
-            createInfoRow("Gross value:", grossValueLabel),
-            createInfoRow("Commision 0.5%:", commisionLabel),
-            createInfoRow("Tax:", taxLabel),
-            createTotalRow("Total received:", totalReceivedLabel),
-            createSpacer(8),
-            createButtonRow()
+                createInfoRow("Current price:", createValueLabel(formatMoney(share.getStock().getSalesPrice()))),
+                createInfoRow("Owned quantity:", createValueLabel(String.valueOf(share.getQuantity()))),
+                createQuantityRow(),
+                createSpacer(26),
+                createInfoRow("Gross value:", grossValueLabel),
+                createInfoRow("Commision 0.5%:", commisionLabel),
+                createInfoRow("Tax:", taxLabel),
+                createTotalRow("Total received:", totalReceivedLabel),
+                createSpacer(8),
+                createButtonRow()
         );
 
         root.getChildren().addAll(title, content);
@@ -89,7 +103,7 @@ public class SellPopupView {
         stage.setScene(scene);
     }
 
-    private HBox createQuantityRow(){
+    private HBox createQuantityRow() {
         Label label = createTextLabel("Quantity:");
 
         Button minusButton = createSmallButton("-");
@@ -102,16 +116,16 @@ public class SellPopupView {
                 -fx-text-fill: #FFFFFF;
                 -fx-font-size: 18px;
                 """);
-    
-        minusButton.setOnAction( event -> {
-            if(quantity > 1) {
+
+        minusButton.setOnAction(event -> {
+            if (quantity > 1) {
                 quantity--;
                 updateValues();
             }
         });
 
-        plusButton.setOnAction( event -> {
-            if(quantity < share.getQuantity().intValue()) {
+        plusButton.setOnAction(event -> {
+            if (quantity < share.getQuantity().intValue()) {
                 quantity++;
                 updateValues();
             }
@@ -128,7 +142,7 @@ public class SellPopupView {
         return row;
     }
 
-    private HBox createInfoRow(String labelText, Label valueLabel){
+    private HBox createInfoRow(String labelText, Label valueLabel) {
         Label label = createTextLabel(labelText);
 
         Region spacer = new Region();
@@ -139,18 +153,18 @@ public class SellPopupView {
         return row;
     }
 
-    private HBox createTotalRow(String labelText, Label valueLabel){
+    private HBox createTotalRow(String labelText, Label valueLabel) {
         Label label = createTextLabel(labelText);
         label.setStyle("""
-            -fx-text-fill: #FFFFFF;
-            -fx-font-size: 20px;
-            -fx-font-weight: bold;
+                -fx-text-fill: #FFFFFF;
+                -fx-font-size: 20px;
+                -fx-font-weight: bold;
                 """);
 
         valueLabel.setStyle("""
-            -fx-text-fill: #FFFFFF;
-            -fx-font-size: 20px;
-            -fx-font-weight: bold;
+                -fx-text-fill: #FFFFFF;
+                -fx-font-size: 20px;
+                -fx-font-weight: bold;
                 """);
 
         Region spacer = new Region();
@@ -163,7 +177,7 @@ public class SellPopupView {
         return row;
     }
 
-    private HBox createButtonRow(){
+    private HBox createButtonRow() {
         Button cancelButton = new Button("Cancel");
         Button sellButton = new Button("Sell");
 
@@ -199,52 +213,52 @@ public class SellPopupView {
         return row;
     }
 
-    private Button createSmallButton(String text){
+    private Button createSmallButton(String text) {
         Button button = new Button(text);
         button.setPrefSize(34, 24);
         button.setStyle("""
-            -fx-background-color: #566075;
-            -fx-text-fill: #FFFFFF;
-            -fx-border-color: #2A3142;
-            -fx-font-size: 14px;
+                -fx-background-color: #566075;
+                -fx-text-fill: #FFFFFF;
+                -fx-border-color: #2A3142;
+                -fx-font-size: 14px;
                 """);
 
         return button;
     }
 
-    private Label createTextLabel(String text){
+    private Label createTextLabel(String text) {
         Label label = new Label(text);
         label.setStyle("""
-            -fx-text-fill: #FFFFFF;
-            -fx-font-size: 18px;
+                -fx-text-fill: #FFFFFF;
+                -fx-font-size: 18px;
                 """);
-        return label; 
+        return label;
     }
 
-    private Label createValueLabel(String text){
+    private Label createValueLabel(String text) {
         Label label = new Label(text);
         label.setStyle("""
-            -fx-text-fill: #FFFFFF;
-            -fx-font-size: 18px;
+                -fx-text-fill: #FFFFFF;
+                -fx-font-size: 18px;
                 """);
-        return label; 
+        return label;
     }
 
-    private Region createSpacer(double height){
+    private Region createSpacer(double height) {
         Region spacer = new Region();
         spacer.setPrefHeight(height);
         return spacer;
     }
 
-    private void updateValues(){
+    private void updateValues() {
         BigDecimal gross = share.getStock().getSalesPrice().multiply(BigDecimal.valueOf(quantity));
         BigDecimal commision = gross.multiply(COMMISSION_RATE);
-        
+
         BigDecimal purchaseCost = share.getPurchasePrice().multiply(BigDecimal.valueOf(quantity));
         BigDecimal profit = gross.subtract(commision).subtract(purchaseCost);
         BigDecimal tax = profit.compareTo(BigDecimal.ZERO) > 0
-        ? profit.multiply(TAX_RATE)
-        : BigDecimal.ZERO;
+                ? profit.multiply(TAX_RATE)
+                : BigDecimal.ZERO;
 
         BigDecimal total = gross.subtract(commision).subtract(tax);
 
@@ -255,15 +269,14 @@ public class SellPopupView {
         totalReceivedLabel.setText(formatMoney(total));
     }
 
-    private String formatMoney(BigDecimal value){
+    private String formatMoney(BigDecimal value) {
         return value.setScale(2, RoundingMode.HALF_UP) + " kr";
     }
 
-    public void show(){
+    public void show() {
         stage.showAndWait();
     }
 
 
-    
 }
 

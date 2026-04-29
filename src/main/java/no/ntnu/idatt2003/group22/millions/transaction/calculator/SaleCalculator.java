@@ -15,7 +15,7 @@ import java.math.RoundingMode;
  */
 public class SaleCalculator implements TransactionCalculator {
     private static final BigDecimal COMMISION_RATE = BigDecimal.valueOf(0.01);
-    private static final BigDecimal TAX_RATE = BigDecimal.valueOf(0.30);
+    private static final BigDecimal TAX_RATE = new BigDecimal("0.22");
     
     private final BigDecimal purchasePrice;
     private final BigDecimal salePrice;
@@ -61,12 +61,11 @@ public class SaleCalculator implements TransactionCalculator {
     public BigDecimal calculateTax() {
         BigDecimal profit = calculateProfitBeforeTax();
 
-        if (profit.compareTo(BigDecimal.ZERO) <= 0){
-            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        if (profit.compareTo(BigDecimal.ZERO) <= 0) {
+            return BigDecimal.ZERO;
         }
 
-        return profit.multiply(TAX_RATE)
-        .setScale(2, RoundingMode.HALF_UP);
+        return profit.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override

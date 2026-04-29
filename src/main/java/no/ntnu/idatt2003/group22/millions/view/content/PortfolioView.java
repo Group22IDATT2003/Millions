@@ -13,6 +13,7 @@ import javafx.scene.control.ScrollPane;
 
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -189,7 +190,18 @@ public class PortfolioView {
         Label buyPrice = createCellLabel(share.getPurchasePrice() + " kr");
         Label currentPrice = createCellLabel(share.getStock().getSalesPrice() + " kr");
         Label value = createCellLabel(share.getCurrentValue() + " kr");
-        Label change = createCellLabel(share.getPriceChangePercentage() + " %");
+
+        BigDecimal changeValue = share.getPriceChangePercentage()
+                .setScale(2, RoundingMode.HALF_UP);
+
+
+        Label change = createCellLabel(formatPercent(changeValue));
+
+        if (changeValue.compareTo(BigDecimal.ZERO) >= 0) {
+            change.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 14px;");
+        } else {
+            change.setStyle("-fx-text-fill: #EF4444; -fx-font-size: 14px;");
+        }
 
         Button sellButton = new Button("Sell");
         sellButton.setStyle("""
@@ -212,6 +224,12 @@ public class PortfolioView {
         row.getChildren().addAll(symbol, name, quantity, buyPrice, currentPrice, value, change, sellButton);
         return row;
 
+    }
+
+    private String formatPercent(BigDecimal value) {
+        BigDecimal rounded = value.setScale(2, RoundingMode.HALF_UP);
+        String prefix = rounded.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
+        return prefix + rounded + " %";
     }
 
     private Label createCellLabel (String text){

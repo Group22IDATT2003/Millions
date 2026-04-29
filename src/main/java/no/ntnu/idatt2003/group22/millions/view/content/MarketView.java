@@ -140,7 +140,7 @@ public class MarketView {
         Label value = new Label("78 500 NOK");
         Label change = new Label("+3 200 (+4.2%)");
 
-        title.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
+        title.setStyle("-fx-text-fill: white; -fx-font-size: 24px;");
         value.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
         change.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 16px;");
 
@@ -218,7 +218,7 @@ public class MarketView {
 
         stockStatsTitleLabel.setStyle("""
                 -fx-text-fill: white;
-                -fx-font-size: 18px;
+                -fx-font-size: 24px;
                 """);
 
         stockSymbolLabel.setStyle("-fx-text-fill: white;" +
@@ -231,7 +231,6 @@ public class MarketView {
                 "-fx-font-size: 16px;");
         stockChangeLabel.setStyle("-fx-text-fill: white;" +
                 "-fx-font-size: 16px;");
-
 
 
         card.getChildren().addAll(

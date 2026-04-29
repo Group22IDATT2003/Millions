@@ -33,21 +33,36 @@ public class BuyPopupView {
     private final Label taxLabel;
     private final Label totalCostLabel;
 
-    public BuyPopupView(Stock stock, BiConsumer<Stock, Integer> onConfirmBuy){
+    public BuyPopupView(Stock stock, BiConsumer<Stock, Integer> onConfirmBuy) {
         this.stock = stock;
         this.onConfirmBuy = onConfirmBuy;
         this.stage = new Stage();
 
         this.quantityLabel = new Label();
         this.grossValueLabel = new Label();
+        grossValueLabel.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 18px;
+                -fx-font-weight: bold;
+                """);
         this.commisionLabel = new Label();
+        commisionLabel.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 18px;
+                -fx-font-weight: bold;
+                """);
         this.taxLabel = new Label();
+        taxLabel.setStyle("""
+                -fx-text-fill: white;
+                -fx-font-size: 18px;
+                -fx-font-weight: bold;
+                """);
         this.totalCostLabel = new Label();
 
         configureStage();
     }
 
-    private void configureStage(){
+    private void configureStage() {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Buy " + stock.getSymbol());
 
@@ -70,15 +85,15 @@ public class BuyPopupView {
         Label PriceLabel = createValueLabel(formatMoney(stock.getSalesPrice()));
 
         content.getChildren().addAll(
-            createInfoRow("CurrentPrice;", PriceLabel),
-            createQuantityRow(),
-            createSpacer(28),
-            createInfoRow("Gross value:", grossValueLabel),
-            createInfoRow("Commision 0.5%:", commisionLabel),
-            createInfoRow("Tax:", taxLabel),
-            createTotalRow("Total cost:", totalCostLabel),
-            createSpacer(8),
-            createButtonRow()
+                createInfoRow("CurrentPrice;", PriceLabel),
+                createQuantityRow(),
+                createSpacer(28),
+                createInfoRow("Gross value:", grossValueLabel),
+                createInfoRow("Commision 0.5%:", commisionLabel),
+                createInfoRow("Tax:", taxLabel),
+                createTotalRow("Total cost:", totalCostLabel),
+                createSpacer(8),
+                createButtonRow()
         );
 
         root.getChildren().addAll(title, content);
@@ -88,7 +103,7 @@ public class BuyPopupView {
         stage.setScene(scene);
     }
 
-    private HBox createQuantityRow(){
+    private HBox createQuantityRow() {
         Label label = createTextLabel("Quantity");
 
         Button minusButton = createSmallButton("-");
@@ -101,15 +116,15 @@ public class BuyPopupView {
                 -fx-text-fill: #FFFFFF;
                 -fx-font-size: 18px;
                 """);
-    
-        minusButton.setOnAction( event -> {
-            if(quantity > 1){
+
+        minusButton.setOnAction(event -> {
+            if (quantity > 1) {
                 quantity--;
                 updateValues();
             }
         });
 
-        plusButton.setOnAction( event -> {
+        plusButton.setOnAction(event -> {
             quantity++;
             updateValues();
         });
@@ -125,7 +140,7 @@ public class BuyPopupView {
         return row;
     }
 
-    private HBox createInfoRow(String labelText, Label valueLabel){
+    private HBox createInfoRow(String labelText, Label valueLabel) {
         Label label = createTextLabel(labelText);
 
         Region spacer = new Region();
@@ -136,18 +151,18 @@ public class BuyPopupView {
         return row;
     }
 
-    private HBox createTotalRow(String labelText, Label valueLabel){
+    private HBox createTotalRow(String labelText, Label valueLabel) {
         Label label = createTextLabel(labelText);
         label.setStyle("""
-            -fx-text-fill: #FFFFFF;
-            -fx-font-size: 20px;
-            -fx-font-weight: bold;
+                -fx-text-fill: #FFFFFF;
+                -fx-font-size: 20px;
+                -fx-font-weight: bold;
                 """);
 
         valueLabel.setStyle("""
-            -fx-text-fill: #FFFFFF;
-            -fx-font-size: 20px;
-            -fx-font-weight: bold;
+                -fx-text-fill: #FFFFFF;
+                -fx-font-size: 20px;
+                -fx-font-weight: bold;
                 """);
 
         Region spacer = new Region();
@@ -160,7 +175,7 @@ public class BuyPopupView {
         return row;
     }
 
-    private HBox createButtonRow(){
+    private HBox createButtonRow() {
         Button cancelButton = new Button("Cancel");
         Button buyButton = new Button("Buy");
 
@@ -196,44 +211,44 @@ public class BuyPopupView {
         return row;
     }
 
-    private Button createSmallButton(String text){
+    private Button createSmallButton(String text) {
         Button button = new Button(text);
         button.setPrefSize(34, 24);
         button.setStyle("""
-            -fx-background-color: #566075;
-            -fx-text-fill: #FFFFFF;
-            -fx-border-color: #2A3142;
-            -fx-font-size: 14px;
+                -fx-background-color: #566075;
+                -fx-text-fill: #FFFFFF;
+                -fx-border-color: #2A3142;
+                -fx-font-size: 14px;
                 """);
 
         return button;
     }
 
-    private Label createTextLabel(String text){
+    private Label createTextLabel(String text) {
         Label label = new Label(text);
         label.setStyle("""
-            -fx-text-fill: #FFFFFF;
-            -fx-font-size: 18px;
+                -fx-text-fill: #FFFFFF;
+                -fx-font-size: 18px;
                 """);
-        return label; 
+        return label;
     }
 
-    private Label createValueLabel(String text){
+    private Label createValueLabel(String text) {
         Label label = new Label(text);
         label.setStyle("""
-            -fx-text-fill: #FFFFFF;
-            -fx-font-size: 18px;
+                -fx-text-fill: #FFFFFF;
+                -fx-font-size: 18px;
                 """);
-        return label; 
+        return label;
     }
 
-    private Region createSpacer(double height){
+    private Region createSpacer(double height) {
         Region spacer = new Region();
         spacer.setPrefHeight(height);
         return spacer;
     }
 
-    private void updateValues(){
+    private void updateValues() {
         BigDecimal gross = stock.getSalesPrice().multiply(BigDecimal.valueOf(quantity));
         BigDecimal commision = gross.multiply(COMMISSION_RATE);
         BigDecimal tax = BigDecimal.ZERO;
@@ -246,14 +261,13 @@ public class BuyPopupView {
         totalCostLabel.setText(formatMoney(total));
     }
 
-    private String formatMoney(BigDecimal value){
+    private String formatMoney(BigDecimal value) {
         return value.setScale(2, RoundingMode.HALF_UP) + " kr";
     }
 
-    public void show(){
+    public void show() {
         stage.showAndWait();
     }
 
 
-    
 }

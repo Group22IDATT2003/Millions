@@ -23,22 +23,27 @@ public class DashboardView {
     private final Label moneyLabel;
     private final Label portfolioValueLabel;
     private final VBox stockRows;
-    private final Label netWorthValueLabel = new Label();
-    private final Label netWorthChangeLabel = new Label();
+    private final Label netWorthValueLabel;
+    private final Label netWorthChangeLabel;
     private LineChart<Number, Number> netWorthChart;
     private XYChart.Series<Number, Number> netWorthSeries;
-    private final Label w1Label = new Label();
-    private final Label w2Label = new Label();
-    private final Label l1Label = new Label();
-    private final Label l2Label = new Label();
+    private final Label w1Label;
+    private final Label w2Label;
+    private final Label l1Label;
+    private final Label l2Label;
 
 
     public DashboardView() {
         this.root = new VBox();
-
+        this.netWorthValueLabel = new Label();
+        this.netWorthChangeLabel = new Label();
         this.totalNetWorthLabel = new Label("Total net worth: 0kr");
         this.moneyLabel = new Label("Money: 0kr");
         this.portfolioValueLabel = new Label("Portfolio value: 0kr");
+        this.w1Label = new Label();
+        this.w2Label = new Label();
+        this.l1Label = new Label();
+        this.l2Label = new Label();
 
         this.stockRows = new VBox(3);
 
@@ -210,10 +215,20 @@ public class DashboardView {
     }
 
     public void updateMovers(List<Stock> winners, List<Stock> losers){
-        w1Label.setText("+" + winners.get(0).getSymbol() + "  " + winners.get(0).getLatestPriceChange() + "%");
+        if (winners.size() > 0) {
+            w1Label.setText("+" + winners.get(0).getSymbol() + "  " + winners.get(0).getLatestPriceChange() + "%");
+        }
 
-        if (winners.size() > 0){
+        if (winners.size() > 1) {
+            w2Label.setText("+" + winners.get(1).getSymbol() + "  " + winners.get(1).getLatestPriceChange() + "%");
+        }
 
+        if (losers.size() > 0) {
+            l1Label.setText(losers.get(0).getSymbol() + "  " + losers.get(0).getLatestPriceChange() + "%");
+        }
+
+        if (losers.size() > 1) {
+            l2Label.setText(losers.get(1).getSymbol() + "  " + losers.get(1).getLatestPriceChange() + "%");
         }
     }
 
