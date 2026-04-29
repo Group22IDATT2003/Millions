@@ -96,6 +96,11 @@ public class DashboardView {
     private VBox createSummaryCard(String title, Label valueLabel) {
         VBox card = createCard();
         card.setPrefWidth(520);
+        moneyLabel.setStyle("""
+                -fx-text-fill: #4CAF50;
+                    -fx-font-size: 24px;
+                    -fx-font-weight: bold;
+                """);
 
         Label titleLabel = new Label(title);
         titleLabel.setStyle("""
