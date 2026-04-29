@@ -66,7 +66,9 @@ public class GameController {
         mainView.getMarketView().getAdvanceButton().setOnAction(
                 e -> handleAdvanceWeek());
 
-
+        mainView.getPortfolioView().getSellAllButton().setOnAction(
+                e -> handleSellAll()
+        );
 
     }
 
@@ -331,6 +333,34 @@ public class GameController {
                         "Total: " + transaction.calculateTotal() + " kr";
 
         showMessage("Transaction receipt", message);
+    }
+
+    private void handleSellAll() {
+        if (exchange == null || player == null) {
+            showMessage("Sell all", "Start a new game first.");
+            return;
+        }
+
+        List<Share> shares = List.copyOf(player.getPortfolio().getShares());
+
+        if (shares.isEmpty()) {
+            showMessage("Sell all", "You have no shares to sell.");
+            return;
+        }
+
+        try {
+            player.setPreviousNetWorth(player.getNetWorth());
+
+            for (Share share : shares) {
+                exchange.sell(share, player);
+            }
+
+            refreshAllViews();
+            showMessage("Sell all", "Sold all shares.");
+
+        } catch (Exception e) {
+            showMessage("Sell all", e.getMessage());
+        }
     }
 
 

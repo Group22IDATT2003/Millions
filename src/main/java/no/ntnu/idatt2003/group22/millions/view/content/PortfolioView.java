@@ -24,6 +24,7 @@ public class PortfolioView {
     private final Label portfolioValueLabel;
     private final Label totalNetWorthLabel;
     private final Label moneyValueLabel;
+    private final Button sellAllButton;
 
     private final VBox shareRows;
 
@@ -34,6 +35,7 @@ public class PortfolioView {
         this.portfolioValueLabel = new Label("Portfolio value: 0 kr ");
         this.totalNetWorthLabel = new Label("Total net worth: 0 kr");
         this.moneyValueLabel = new Label("Money: 0 kr");
+        this.sellAllButton = new Button("Sell all");
 
         shareRows = new VBox();
 
@@ -100,7 +102,16 @@ public class PortfolioView {
                 -fx-padding: 20
                 """);
 
-        root.getChildren().addAll(titleLabel, moneyCard, createHoldingsCard(), spacer, summaryCard);
+        sellAllButton.setText("Sell all");
+        sellAllButton.setStyle("""
+        -fx-background-color: #C65A3D;
+        -fx-text-fill: white;
+        -fx-background-radius: 18;
+        -fx-font-size: 16px;
+        -fx-padding: 10 22 10 22;
+        """);
+
+        root.getChildren().addAll(titleLabel, moneyCard, createHoldingsCard(), sellAllButton, spacer, summaryCard);
 
 
     }
@@ -210,6 +221,10 @@ public class PortfolioView {
                     -fx-font-size: 14px;
                     """);
         return label;
+    }
+
+    public Button getSellAllButton() {
+        return sellAllButton;
     }
 
     public VBox getRoot () {
