@@ -3,8 +3,11 @@ package no.ntnu.idatt2003.group22.millions.view.content;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.transaction.Purchase;
@@ -12,6 +15,7 @@ import no.ntnu.idatt2003.group22.millions.transaction.Sale;
 import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 
 import java.util.List;
+
 
 public class TransactionView {
     private final VBox root;
@@ -50,15 +54,22 @@ public class TransactionView {
                 """);
 
 
-        root.getChildren().addAll(titleLabel, searchField, transactionRows);
+
+
+        root.getChildren().addAll(titleLabel, searchField, createTransactionCard());
 
 
     }
 
-    public void updateTransaction(List<Transaction> transactions) {
-        transactionRows.getChildren().clear();
+    private VBox createTransactionCard() {
+        VBox card = new VBox(12);
+        card.setPadding(new Insets(16));
+        card.setStyle("""
+            -fx-background-color: #343D52;
+            -fx-background-radius: 18;
+            """);
 
-        HBox header = new HBox(30);
+        HBox header = new HBox(80);
         header.getChildren().addAll(
                 createHeader("Week"),
                 createHeader("Type"),
@@ -69,7 +80,22 @@ public class TransactionView {
                 createHeader("Tax"),
                 createHeader("Total")
         );
-        transactionRows.getChildren().add(header);
+
+        ScrollPane scrollPane = new ScrollPane(transactionRows);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefHeight(360);
+        scrollPane.setStyle("""
+            -fx-background: transparent;
+            -fx-background-color: transparent;
+            -fx-border-color: transparent;
+            """);
+
+        card.getChildren().addAll(header, scrollPane);
+        return card;
+    }
+
+    public void updateTransaction(List<Transaction> transactions) {
+        transactionRows.getChildren().clear();
 
         for (Transaction transaction : transactions) {
             transactionRows.getChildren().add(createRow(transaction));
@@ -98,6 +124,15 @@ public class TransactionView {
             type.setStyle("-fx-text-fill: #E57373;");
             total.setStyle("-fx-text-fill: #E57373;");
         }
+
+        week.setPrefWidth(100);
+        type.setPrefWidth(100);
+        symbol.setPrefWidth(100);
+        quantity.setPrefWidth(100);
+        gross.setPrefWidth(100);
+        fee.setPrefWidth(100);
+        tax.setPrefWidth(100);
+        total.setPrefWidth(100);
 
         row.getChildren().addAll(week, type, symbol, quantity, gross, fee, tax, total);
         return row;

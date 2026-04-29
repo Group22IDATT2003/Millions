@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 import javafx.scene.control.ScrollPane;
@@ -21,6 +23,7 @@ public class PortfolioView {
     private final Label titleLabel;
     private final Label portfolioValueLabel;
     private final Label totalNetWorthLabel;
+    private final Label moneyValueLabel;
 
     private final VBox shareRows;
 
@@ -30,6 +33,7 @@ public class PortfolioView {
         this.titleLabel = new Label("Portfolio");
         this.portfolioValueLabel = new Label("Portfolio value: 0 kr ");
         this.totalNetWorthLabel = new Label("Total net worth: 0 kr");
+        this.moneyValueLabel = new Label("Money: 0 kr");
 
         shareRows = new VBox();
 
@@ -60,14 +64,32 @@ public class PortfolioView {
                 -fx-font-weight: bold;
                 """);
 
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+
         VBox summaryCard = new VBox(8);
         summaryCard.getChildren().addAll(portfolioValueLabel, totalNetWorthLabel);
         summaryCard.setPadding(new Insets(20));
         summaryCard.setAlignment(Pos.BOTTOM_LEFT);
         summaryCard.setStyle("""
-        -fx-background-color: #343D52;
+        -fx-background-color: #1A2332;
         -fx-background-radius: 18;
     """);
+
+        VBox moneyCard = new VBox(8);
+        moneyCard.getChildren().addAll(moneyValueLabel);
+        moneyCard.setPadding(new Insets(20));
+        moneyCard.setAlignment(Pos.TOP_RIGHT);
+        moneyCard.setStyle("""
+        -fx-background-color: #1A2332;
+        -fx-background-radius: 18;
+        
+    """);
+
+        moneyValueLabel.setStyle("""
+                -fx-text-fill: #16A34A;
+                -fx-font-size: 28px;
+                """);
 
         shareRows.setSpacing(12);
         shareRows.setPadding(new Insets(12));
@@ -78,7 +100,7 @@ public class PortfolioView {
                 -fx-padding: 20
                 """);
 
-        root.getChildren().addAll(titleLabel, summaryCard, createHoldingsCard());
+        root.getChildren().addAll(titleLabel, moneyCard, createHoldingsCard(), spacer, summaryCard);
 
 
     }
