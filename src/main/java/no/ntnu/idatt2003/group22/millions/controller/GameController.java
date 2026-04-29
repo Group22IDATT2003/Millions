@@ -224,7 +224,6 @@ public class GameController {
     }
 
     private void refreshAllViews() {
-        player.setPreviousNetWorth(player.getNetWorth());
 
         showTopBar(
                 player.getName(),
