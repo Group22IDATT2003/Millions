@@ -40,6 +40,8 @@ public class MarketView {
     private final Label lowestPriceLabel;
     private final Label currentPriceLabel;
     private final Label stockChangeLabel;
+    private List<Stock> currentStocks;
+    private Consumer<Stock> currentOnBuy;
 
 
     public MarketView() {
@@ -60,6 +62,7 @@ public class MarketView {
         this.lowestPriceLabel = new Label("Lowest price: ");
         this.currentPriceLabel = new Label("Current price: ");
         this.stockChangeLabel = new Label("Change: ");
+        this.currentStocks = List.of();
 
         configureLayout();
     }
@@ -128,7 +131,7 @@ public class MarketView {
                     -fx-background-color: #343D52;
                     -fx-background-radius: 22;
                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
-        
+                
                 """);
         card.setPrefSize(460, 180);
 
@@ -266,12 +269,23 @@ public class MarketView {
         card.setMinWidth(850);
 
         HBox header = new HBox(125);
+        Label symbolHeader = createTableHeader("Symbol:");
+        Label nameHeader = createTableHeader("Name:");
+        Label priceHeader = createTableHeader("Price:");
+        Label changeHeader = createTableHeader("Change:");
+        Label actionHeader = createTableHeader("Action:");
+
+        symbolHeader.setOnMouseClicked(e -> sortBySymbol());
+        nameHeader.setOnMouseClicked(e -> sortByName());
+        priceHeader.setOnMouseClicked(e -> sortByPrice());
+        changeHeader.setOnMouseClicked(e -> sortByChange());
+
         header.getChildren().addAll(
-                createTableHeader("Symbol:"),
-                createTableHeader("Name:"),
-                createTableHeader("Price:"),
-                createTableHeader("Change:"),
-                createTableHeader("Action:")
+                symbolHeader,
+                nameHeader,
+                priceHeader,
+                changeHeader,
+                actionHeader
         );
 
         ScrollPane scrollPane = new ScrollPane(stockRows);
@@ -329,6 +343,14 @@ public class MarketView {
 
 
     public void updateMarket(List<Stock> stocks, Consumer<Stock> onBuy) {
+        this.currentStocks = stocks;
+        this.currentOnBuy = onBuy;
+
+        renderMarketRows(stocks);
+
+    }
+
+    private void renderMarketRows(List<Stock> stocks) {
         stockRows.getChildren().clear();
 
         if (!stocks.isEmpty()) {
@@ -359,14 +381,45 @@ public class MarketView {
                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 8, 0, 0, 4);
                     """);
 
-            buyButton.setOnAction(event -> onBuy.accept(stock));
+            buyButton.setOnAction(event -> currentOnBuy.accept(stock));
 
             row.getChildren().addAll(symbol, name, price, change, buyButton);
             row.setOnMouseClicked(e -> updateStockStats(stock));
 
             stockRows.getChildren().add(row);
-
         }
+    }
+
+    private void sortBySymbol() {
+        List<Stock> sorted = currentStocks.stream()
+                .sorted((s1, s2) -> s1.getSymbol().compareToIgnoreCase(s2.getSymbol()))
+                .toList();
+
+        renderMarketRows(sorted);
+    }
+
+    private void sortByName() {
+        List<Stock> sorted = currentStocks.stream()
+                .sorted((s1, s2) -> s1.getCompany().compareToIgnoreCase(s2.getCompany()))
+                .toList();
+
+        renderMarketRows(sorted);
+    }
+
+    private void sortByPrice() {
+        List<Stock> sorted = currentStocks.stream()
+                .sorted((s1, s2) -> s2.getSalesPrice().compareTo(s1.getSalesPrice()))
+                .toList();
+
+        renderMarketRows(sorted);
+    }
+
+    private void sortByChange() {
+        List<Stock> sorted = currentStocks.stream()
+                .sorted((s1, s2) -> s2.getLatestPriceChange().compareTo(s1.getLatestPriceChange()))
+                .toList();
+
+        renderMarketRows(sorted);
     }
 
 
