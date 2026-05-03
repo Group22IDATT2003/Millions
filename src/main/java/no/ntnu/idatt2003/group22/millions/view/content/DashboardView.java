@@ -183,7 +183,9 @@ public class DashboardView {
                 -fx-text-fill: white;
                 -fx-font-size: 18px;
                 """);
-        netWorthChangeLabel.setText(change + " NOK");
+        String prefix = change.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
+
+        netWorthChangeLabel.setText(prefix + change + " NOK (this week)");
 
         if (change.compareTo(BigDecimal.ZERO) >= 0) {
             netWorthChangeLabel.setStyle("-fx-text-fill: #6EE75F;");

@@ -12,6 +12,7 @@ import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
 import no.ntnu.idatt2003.group22.millions.view.MainView;
 import no.ntnu.idatt2003.group22.millions.view.dialog.BuyPopupView;
 import no.ntnu.idatt2003.group22.millions.view.dialog.SellPopupView;
+import no.ntnu.idatt2003.group22.millions.view.dialog.TransactionReceiptView;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -322,17 +323,8 @@ public class GameController {
     }
 
     private void showTransactionReceipt(Transaction transaction) {
-        String message =
-                "Type: " + transaction.getClass().getSimpleName() + "\n" +
-                        "Week: " + transaction.getWeek() + "\n" +
-                        "Symbol: " + transaction.getShare().getSymbol() + "\n" +
-                        "Quantity: " + transaction.getShare().getQuantity() + "\n" +
-                        "Gross: " + transaction.calculateGross() + " kr\n" +
-                        "Fee: " + transaction.calculateCommission() + " kr\n" +
-                        "Tax: " + transaction.calculateTax() + " kr\n" +
-                        "Total: " + transaction.calculateTotal() + " kr";
-
-        showMessage("Transaction receipt", message);
+        TransactionReceiptView receipt = new TransactionReceiptView(transaction);
+        receipt.show();
     }
 
     private void handleSellAll() {
@@ -341,27 +333,26 @@ public class GameController {
             return;
         }
 
+    try {
+        player.setPreviousNetWorth(player.getNetWorth());
+
         List<Share> shares = List.copyOf(player.getPortfolio().getShares());
 
-        if (shares.isEmpty()) {
-            showMessage("Sell all", "You have no shares to sell.");
-            return;
+        for (Share share : shares) {
+            Transaction transaction = exchange.sell(share, player);
+
+            showTransactionReceipt(transaction); // 👈 HER!
         }
 
-        try {
-            player.setPreviousNetWorth(player.getNetWorth());
+        refreshAllViews();
 
-            for (Share share : shares) {
-                exchange.sell(share, player);
-            }
-
-            refreshAllViews();
-            showMessage("Sell all", "Sold all shares.");
-
-        } catch (Exception e) {
-            showMessage("Sell all", e.getMessage());
-        }
+    } catch (Exception e) {
+        showMessage("Sell all", e.getMessage());
     }
+
+
+    }
+
 
 
 }

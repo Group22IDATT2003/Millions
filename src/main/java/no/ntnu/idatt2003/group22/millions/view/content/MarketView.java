@@ -87,20 +87,15 @@ public class MarketView {
 
         configureAdvanceButton();
 
-        Region spacer = new Region();
-        VBox.setVgrow(spacer, Priority.ALWAYS);
-
-        HBox bottom = new HBox(advanceButton);
-        bottom.setAlignment(Pos.CENTER);
-        bottom.setPadding(new Insets(20, 0, 0, 0));
+        HBox searchRow = new HBox(24);
+        searchRow.setAlignment(Pos.CENTER_LEFT);
+        searchRow.getChildren().addAll(searchField, advanceButton);
 
         root.getChildren().addAll(
                 title,
                 topCards,
-                searchField,
-                tableCard,
-                spacer,
-                advanceButton
+                searchRow,
+                tableCard
         );
 
     }
@@ -188,7 +183,9 @@ public class MarketView {
                 -fx-text-fill: white;
                 -fx-font-size: 18px;
                 """);
-        netWorthChangeLabel.setText(change + " NOK");
+        String prefix = change.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
+
+        netWorthChangeLabel.setText(prefix + change + " NOK (this week)");
 
         if (change.compareTo(BigDecimal.ZERO) >= 0) {
             netWorthChangeLabel.setStyle("""
