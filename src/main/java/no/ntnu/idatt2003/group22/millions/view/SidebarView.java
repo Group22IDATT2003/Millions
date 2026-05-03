@@ -52,14 +52,14 @@ public class SidebarView {
         VBox.setVgrow(spacerBottom, Priority.ALWAYS);
 
         root.getChildren().addAll(
-                dashboardButton,   // topp
-                spacerTop,         // skyver ned
+                dashboardButton,
+                spacerTop,
 
-                portfolioButton,   // midt
+                portfolioButton,
                 transactionButton,
                 marketButton,
 
-                spacerBottom,      // skyver exit ned
+                spacerBottom,
                 exitGameButton
 
         );
@@ -95,9 +95,11 @@ public class SidebarView {
     }
 
     private ImageView createIcon(String path) {
-        ImageView icon = new ImageView(new Image(getClass().getResourceAsStream(path)));
-        icon.setFitWidth(28);
-        icon.setFitHeight(28);
+        ImageView icon = new ImageView(
+                new Image(getClass().getResourceAsStream(path))
+        );
+        icon.setFitWidth(24);
+        icon.setFitHeight(24);
         icon.setPreserveRatio(true);
         return icon;
     }

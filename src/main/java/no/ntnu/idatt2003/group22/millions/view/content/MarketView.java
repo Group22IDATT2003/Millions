@@ -105,15 +105,15 @@ public class MarketView {
 
     private void configureSearchField() {
         searchField.setPromptText("Search stock");
-        searchField.setPrefHeight(64);
-        searchField.setMaxWidth(360);
+        searchField.setPrefHeight(48);
+        searchField.setMaxWidth(300);
         searchField.setStyle("""
                 -fx-background-color: #343D52;
                 -fx-text-fill: white;
                 -fx-prompt-text-fill: #AAB2C5;
                 -fx-background-radius: 22;
-                -fx-font-size: 20px;
-                -fx-padding: 14 20 14 20;
+                -fx-font-size: 18px;
+                -fx-padding: 10 18 10 18;
                 -fx-border-color: #1A2332;
                     -fx-border-width: 2;
                     -fx-border-radius: 22;
@@ -133,7 +133,8 @@ public class MarketView {
                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 4);
                 
                 """);
-        card.setPrefSize(460, 180);
+        card.setPrefSize(420, 150);
+
 
         Label title = new Label("Net worth:");
         Label value = new Label("78 500 NOK");
@@ -156,6 +157,8 @@ public class MarketView {
         netWorthChart = new LineChart<>(xAxis, yAxis);
         netWorthSeries = new XYChart.Series<>();
         netWorthChart.getData().add(netWorthSeries);
+        netWorthChart.setPrefSize(130, 120);
+        netWorthChart.setMaxSize(130, 120);
 
 
         netWorthChart.setPrefSize(150, 160);
@@ -172,7 +175,6 @@ public class MarketView {
 
 
         textBox.getChildren().addAll(title, netWorthValueLabel, netWorthChangeLabel);
-        netWorthChart.getData().add(netWorthSeries);
 
         card.getChildren().addAll(textBox, netWorthChart);
 
@@ -211,6 +213,7 @@ public class MarketView {
     private VBox createStockStatsCard() {
         VBox card = new VBox(8);
         card.setPadding(new Insets(20));
+        card.setPrefSize(300, 150);
         card.setStyle("""
                 -fx-background-color: #343D52;
                 -fx-background-radius: 22;
@@ -267,6 +270,7 @@ public class MarketView {
         card.setSpacing(12);
         card.setPrefWidth(1200);
         card.setMinWidth(850);
+        card.setMaxWidth(Double.MAX_VALUE);
 
         HBox header = new HBox(125);
         Label symbolHeader = createTableHeader("Symbol:");
@@ -290,7 +294,7 @@ public class MarketView {
 
         ScrollPane scrollPane = new ScrollPane(stockRows);
         scrollPane.setFitToWidth(true);
-        scrollPane.setPrefHeight(500);
+        scrollPane.setPrefHeight(650);
         scrollPane.setStyle("""
                 -fx-background: #2C394F;
                 -fx-text-color: white;
@@ -371,7 +375,7 @@ public class MarketView {
             symbol.setPrefWidth(100);
             name.setPrefWidth(120);
             price.setPrefWidth(90);
-            change.setPrefWidth(100);
+            change.setPrefWidth(60);
             buyButton.setPrefWidth(80);
 
             buyButton.setStyle("""
