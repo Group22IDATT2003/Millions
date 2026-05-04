@@ -11,7 +11,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
 
@@ -50,6 +49,7 @@ public class MarketView {
         this.stockRows = new VBox(8);
         this.advanceButton = new Button("Advance to next week →");
         this.netWorthLabel = new Label();
+        this.netWorthSeries = new XYChart.Series<>();
         this.netWorthValueLabel = new Label();
         this.netWorthChangeLabel = new Label();
         this.w1Label = new Label();
@@ -155,11 +155,7 @@ public class MarketView {
 
 
         netWorthChart = new LineChart<>(xAxis, yAxis);
-        netWorthSeries = new XYChart.Series<>();
         netWorthChart.getData().add(netWorthSeries);
-        netWorthChart.setPrefSize(130, 120);
-        netWorthChart.setMaxSize(130, 120);
-
 
         netWorthChart.setPrefSize(150, 160);
         netWorthChart.setMaxSize(150, 160);

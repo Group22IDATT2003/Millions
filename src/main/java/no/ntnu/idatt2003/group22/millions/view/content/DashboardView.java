@@ -38,6 +38,7 @@ public class DashboardView {
         this.netWorthValueLabel = new Label();
         this.netWorthChangeLabel = new Label();
         this.totalNetWorthLabel = new Label("Total net worth: 0kr");
+        this.netWorthSeries = new XYChart.Series<>();
         this.moneyLabel = new Label("Money: 0kr");
         this.portfolioValueLabel = new Label("Portfolio value: 0kr");
         this.w1Label = new Label();
@@ -152,7 +153,6 @@ public class DashboardView {
 
 
         netWorthChart = new LineChart<>(xAxis, yAxis);
-        netWorthSeries = new XYChart.Series<>();
         netWorthChart.getData().add(netWorthSeries);
 
 
@@ -170,7 +170,6 @@ public class DashboardView {
 
 
         textBox.getChildren().addAll(title, netWorthValueLabel, netWorthChangeLabel);
-        netWorthChart.getData().add(netWorthSeries);
 
         card.getChildren().addAll(netWorthChart, textBox);
 
