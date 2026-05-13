@@ -94,10 +94,6 @@ public class Player {
         BigDecimal netWorth = getNetWorth();
         int activeWeeks = transactionArchive.countDistinctWeeks();
 
-        if (activeWeeks < 2){
-            return "NOVICE";
-        }
-
         BigDecimal ratio;
         if(startingMoney.compareTo(BigDecimal.ZERO) == 0){
             ratio = BigDecimal.ZERO;
