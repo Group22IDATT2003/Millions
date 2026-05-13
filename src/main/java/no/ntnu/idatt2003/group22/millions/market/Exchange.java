@@ -3,9 +3,9 @@ package no.ntnu.idatt2003.group22.millions.market;
 import no.ntnu.idatt2003.group22.millions.model.Player;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
-import no.ntnu.idatt2003.group22.millions.transaction.Purchase;
-import no.ntnu.idatt2003.group22.millions.transaction.Sale;
 import no.ntnu.idatt2003.group22.millions.transaction.Transaction;
+import no.ntnu.idatt2003.group22.millions.transaction.factory.TransactionFactory;
+import no.ntnu.idatt2003.group22.millions.observer.GameObservable;
 
 import java.math.RoundingMode;
 import java.math.BigDecimal;
@@ -19,11 +19,12 @@ import java.util.*;
  * It also provides methods to advance the exchange's time and
  * retrieve the top gainers and losers.
  */
-public class Exchange {
+public class Exchange extends GameObservable{
     private final String name;
     private int week;
     private final Map<String, Stock> stockMap;
     private final Random random;
+    private final TransactionFactory transactionFactory;
 
     /**
      * Constructor for Exchange.
@@ -41,6 +42,7 @@ public class Exchange {
         this.week = 1;
         this.random = new Random();
         this.stockMap = new HashMap<>();
+        this.transactionFactory = new TransactionFactory();
 
         for (Stock stock : stocks) {
             if(stock == null){
@@ -112,7 +114,11 @@ public class Exchange {
      * @throws IllegalArgumentException if the search term is null.
      */
     public List<Stock> findStocks(String searchTerm) {
-        if(searchTerm == null || searchTerm.isBlank()){
+        if(searchTerm == null){
+            throw new IllegalArgumentException("searchTerm cannot be null");
+        }
+
+        if(searchTerm.isBlank()){
             return new ArrayList<>(stockMap.values());
         }
         List<Stock> result = new ArrayList<>();
@@ -153,8 +159,11 @@ public class Exchange {
 
         Stock stock = getStock(symbol);
         Share share = new Share(stock, quantity, stock.getSalesPrice());
-        Transaction tx = new Purchase(share, week);
+
+
+        Transaction tx = transactionFactory.createPurchase(share, week);
         tx.commit(player);
+        notifyObservers();
         return tx;
     }
 
@@ -173,8 +182,63 @@ public class Exchange {
             throw new IllegalArgumentException("share cannot be null");
         }
 
-        Transaction tx = new Sale(share, week);
+        Transaction tx = transactionFactory.createSale(share, week);
         tx.commit(player);
+        notifyObservers();
+        return tx;
+    }
+
+        public Transaction sell(Share share, BigDecimal quantityToSell, Player player) {
+        if(player == null){
+            throw new IllegalArgumentException("player cannot be null");
+        }
+        if(share == null){
+            throw new IllegalArgumentException("share cannot be null");
+        }
+
+        if(quantityToSell == null){
+            throw new IllegalArgumentException("quantityToSell cannot be null");
+        }
+
+        if(quantityToSell.compareTo(BigDecimal.ZERO) <= 0){
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
+
+        if(quantityToSell.compareTo(share.getQuantity()) > 0){
+            throw new IllegalArgumentException("Cannot sell more than you own");
+        }
+
+        if(!player.getPortfolio().containsShare(share)){
+            throw new IllegalStateException("Player does not own this share");
+        }
+
+        if(quantityToSell.compareTo(share.getQuantity()) == 0){
+            return sell(share, player);
+        }
+
+        BigDecimal remainingQuantity = share.getQuantity().subtract(quantityToSell);
+
+        Share shareToSell = new Share(
+            share.getStock(),
+            quantityToSell,
+            share.getPurchasePrice()
+        );
+
+        Share remainingShare = new Share(
+            share.getStock(),
+            remainingQuantity,
+            share.getPurchasePrice()
+        );
+
+        player.getPortfolio().removeShare(share);
+        player.getPortfolio().addShare(shareToSell);
+
+        Transaction tx = transactionFactory.createSale(shareToSell, week);
+        tx.commit(player);
+
+        player.getPortfolio().addShare(remainingShare);
+        
+        notifyObservers();
         return tx;
     }
 
@@ -201,6 +265,8 @@ public class Exchange {
 
             stock.addNewSalesPrice(newPrice);
         }
+
+        notifyObservers();
     }
 
     /**

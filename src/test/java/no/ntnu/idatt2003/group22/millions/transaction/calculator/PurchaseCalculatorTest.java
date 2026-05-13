@@ -16,7 +16,7 @@ public class PurchaseCalculatorTest {
     private PurchaseCalculator calculator;
 
     @BeforeEach
-    void SetUp(){
+    void setUp(){
         Stock stock = new Stock("AAPL", "Apple Incoporations", new BigDecimal("100"));
         Share share = new Share(stock, new BigDecimal("10"), new BigDecimal("100"));
         calculator = new PurchaseCalculator(share);
@@ -26,27 +26,31 @@ public class PurchaseCalculatorTest {
     @DisplayName("calculatingGross: buying_price + amount")
     void calculateGross_validShare_returnsCorrectGross(){
         BigDecimal gross = calculator.calculateGross();
-        assertEquals(new BigDecimal("1000"), gross);
+        
+        assertEquals(0, new BigDecimal("1000").compareTo(gross));
     }
 
     @Test
     @DisplayName("calculatingCommision: 0.5% og brutto of purchase")
     void calculateCommission_validShare_returnsCorrectCommision(){
         BigDecimal commission = calculator.calculateCommission();
-        assertEquals(new BigDecimal("5.000"), commission);
+        
+        assertEquals(0, new BigDecimal("5.000").compareTo(commission));
     }
 
     @Test
     @DisplayName("CalculateTax: tax is 0 by purchase")
     void calculateTax_Purchase_ReturnsZero(){
         BigDecimal tax = calculator.calculateTax();
-        assertEquals(new BigDecimal("0.00"), tax);
+        
+        assertEquals(0, BigDecimal.ZERO.compareTo(tax));
     }
 
     @Test
     @DisplayName("calculateTotal: brutto + tax + ")
     void calculateTotal_validShare_returnsGrossPlusFees(){
         BigDecimal total = calculator.calculateTotal();
+        
         assertEquals(0, new BigDecimal("1005.00").compareTo(total));
 
     }

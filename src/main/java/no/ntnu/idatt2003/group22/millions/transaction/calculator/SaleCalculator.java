@@ -14,8 +14,8 @@ import java.math.RoundingMode;
  * or if the transaction is committed more than once.
  */
 public class SaleCalculator implements TransactionCalculator {
-    private static final BigDecimal COMMISION_RATE = BigDecimal.valueOf(0.01);
-    private static final BigDecimal TAX_RATE = new BigDecimal("0.22");
+    private static final BigDecimal COMMISION_RATE = new BigDecimal("0.01");
+    private static final BigDecimal TAX_RATE = new BigDecimal("0.30");
     
     private final BigDecimal purchasePrice;
     private final BigDecimal salePrice;
@@ -62,7 +62,7 @@ public class SaleCalculator implements TransactionCalculator {
         BigDecimal profit = calculateProfitBeforeTax();
 
         if (profit.compareTo(BigDecimal.ZERO) <= 0) {
-            return BigDecimal.ZERO;
+            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
         }
 
         return profit.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);

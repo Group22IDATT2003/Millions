@@ -160,8 +160,11 @@ public class PortfolioTest {
     void getNetWorth_returnsSaleValueOfAllShares() {
         portfolio.addShare(appleShare1); 
         portfolio.addShare(samsungShare); 
+
+        BigDecimal expected = new BigDecimal("294.60");
+        BigDecimal actual = portfolio.getNetWorth();
         
-        assertEquals(0, new BigDecimal("294.60").compareTo(portfolio.getNetWorth()));
+        assertEquals(0, expected.compareTo(actual));
     }
 
 }

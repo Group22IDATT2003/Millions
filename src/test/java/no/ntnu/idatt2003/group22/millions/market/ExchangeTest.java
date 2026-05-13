@@ -178,4 +178,83 @@ public class ExchangeTest {
                 () -> exchange.getLosers(-1));
     }
 
+    @Test
+    @DisplayName("sell: selling part of a share keeps remaining quantity")
+    void sell_partialQuantity_keepsRemainingShares(){
+
+        Stock stock = exchange.getStock("AAPL");
+
+        Share share = new Share(stock, new BigDecimal("10"), new BigDecimal("90"));
+
+        player.getPortfolio().addShare(share);
+
+        Transaction tx = exchange.sell(share, new BigDecimal("3"), player);
+
+        assertNotNull(tx);
+        assertTrue(tx.isCommitted());
+
+        BigDecimal remainingQuantity = player.getPortfolio()
+        .getShares("AAPL")
+        .stream()
+        .map(Share::getQuantity)
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        assertEquals(Integer.valueOf(0), new BigDecimal("7").compareTo(remainingQuantity));
+
+    }
+
+    @Test
+    @DisplayName("sell: throws exception when selling more than owned")
+    void sell_more_than_owned_throwsException(){
+
+        Stock stock = exchange.getStock("AAPL");
+
+        Share share = new Share(stock, new BigDecimal("5"), new BigDecimal("90")
+    );
+
+    player.getPortfolio().addShare(share);
+
+    assertThrows(IllegalArgumentException.class, () -> exchange.sell(
+        share, 
+        new BigDecimal("10"), 
+        player)
+    );
+    }
+
+    @Test
+    @DisplayName("sell: throws exception when quantity is zero")
+    void sell_zeroQuantity_throwsException(){
+
+        Stock stock = exchange.getStock("AAPL");
+
+        Share share = new Share(stock, new BigDecimal("5"), new BigDecimal("90")
+    );
+
+    player.getPortfolio().addShare(share);
+
+    assertThrows(IllegalArgumentException.class, () -> exchange.sell(
+        share, 
+        BigDecimal.ZERO, 
+        player)
+    );
+    }
+
+    @Test
+    @DisplayName("sell: throws exception when quantity is negative")
+    void sell_negativeQuantity_throwsException(){
+        Stock stock = exchange.getStock("AAPL");
+
+        Share share = new Share(stock, new BigDecimal("5"), new BigDecimal("90")
+    );
+
+    player.getPortfolio().addShare(share);
+
+    assertThrows(IllegalArgumentException.class, () -> exchange.sell(
+        share, 
+        new BigDecimal("-1"), 
+        player)
+    );
+        
+    }
+
 }

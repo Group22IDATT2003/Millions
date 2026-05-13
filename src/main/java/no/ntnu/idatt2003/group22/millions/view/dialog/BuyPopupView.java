@@ -256,7 +256,7 @@ public class BuyPopupView {
 
         quantityLabel.setText(String.valueOf(quantity));
         grossValueLabel.setText(formatMoney(gross));
-        commisionLabel.setText(formatMoney(tax));
+        commisionLabel.setText(formatMoney(commision));
         taxLabel.setText(formatMoney(tax));
         totalCostLabel.setText(formatMoney(total));
     }

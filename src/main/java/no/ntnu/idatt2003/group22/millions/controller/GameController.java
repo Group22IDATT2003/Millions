@@ -81,7 +81,6 @@ public class GameController {
 
         player.setPreviousNetWorth(player.getNetWorth());
         exchange.advance();
-        refreshAllViews();
     }
 
     public void startNewGame(String name, BigDecimal startingMoney, Path path) {
@@ -91,7 +90,9 @@ public class GameController {
             List<Stock> stocks = handler.readStocksFromFile(path);
 
             this.player = new Player(name, startingMoney);
+            
             this.exchange = new Exchange("NASDAQ", stocks);
+            exchange.addObserver(this::refreshAllViews);
 
             refreshAllViews();
             showMessage("Game started", "Welcome " + player.getName());
@@ -118,7 +119,6 @@ public class GameController {
                         player
                 );
 
-                refreshAllViews();
                 showTransactionReceipt(transaction);
 
             } catch (Exception e) {
@@ -132,7 +132,7 @@ public class GameController {
 
     private void handleSell(Share share) {
         if (exchange == null || player == null) {
-            showMessage("Sell", "Start a new game before sell.");
+            showMessage("Sell", "Start a new game before selling.");
             return;
         }
 
@@ -140,9 +140,8 @@ public class GameController {
             try {
                 player.setPreviousNetWorth(player.getNetWorth());
 
-                Transaction transaction = exchange.sell(selectedShare, player);
+                Transaction transaction = exchange.sell(selectedShare, BigDecimal.valueOf(quantityToSell), player);
 
-                refreshAllViews();
                 showTransactionReceipt(transaction);
 
             } catch (Exception e) {
@@ -235,6 +234,9 @@ public class GameController {
     }
 
     private void refreshAllViews() {
+        if(player == null || exchange == null){
+            return;
+        }
 
         showTopBar(
                 player.getName(),
@@ -293,8 +295,6 @@ public class GameController {
                 player.getPortfolio().getNetWorth(),
                 player.getNetWorth()
         );
-
-
     }
 
     public void showMarket(List<Stock> stocks) {
@@ -341,19 +341,14 @@ public class GameController {
         for (Share share : shares) {
             Transaction transaction = exchange.sell(share, player);
 
-            showTransactionReceipt(transaction); // 👈 HER!
+            showTransactionReceipt(transaction); 
         }
-
-        refreshAllViews();
 
     } catch (Exception e) {
         showMessage("Sell all", e.getMessage());
     }
 
-
     }
-
-
 
 }
 
