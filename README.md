@@ -32,22 +32,28 @@ Et askjemarkedssimuleringspill utviklet i Java som en del av Programmering 2 (ID
 - Checkstyle
 
 ## Prosjekt Struktur
-src/
-├── main/
-│   ├── java/
-│   │   └── no/ntnu/idatt2003/group22/millions/
-│   │       ├── controller/
-│   │       ├── model/
-│   │       ├── transaction/
-│   │       ├── market/
-│   │       ├── io/
-│   │       ├── observer/
-│   │       ├── factory/
-│   │       └── view/
-│   └── resources/
+```text
+src
+├── main
+│   ├── java
+│   │   └── no
+│   │       └── ntnu
+│   │           └── idatt2003
+│   │               └── group22
+│   │                   └── millions
+│   │                       ├── controller
+│   │                       ├── model
+│   │                       ├── transaction
+│   │                       ├── market
+│   │                       ├── io
+│   │                       ├── observer
+│   │                       ├── factory
+│   │                       └── view
+│   └── resources
 │
-└── test/
-    └── java/
+└── test
+    └── java
+```
 
 ## Design
 Prosjektet bruker flere designmønstre:
