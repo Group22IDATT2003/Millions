@@ -80,11 +80,13 @@ Transaksjoner opprettes gjennom en transaksjonsfabrikk for å forenkle objektopp
 ## CSV fil formaat
 Aksje data filen må følge denne formaten:
 
-AAPL,Apple Inc.,276.43
-MSFT,Microsoft,404.68
-NVDA,Nvidia,191.27
+| Symbol | Navn | Pris |
+|--------|----------|------|
+| AAPL | Apple Inc. | 276.43 |
+| MSFT | Microsoft | 404.68 |
+| NVDA | Nvidia | 191.27 |
 
-Format: *symbol,name,price*
+Format: *symbol,navn,pris*
 
 ## Testing
 Prosjektet inkluderer både positive og negative enhetstester for forretningskritisk funskjonalitet som:
