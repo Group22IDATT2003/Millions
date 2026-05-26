@@ -80,8 +80,8 @@ public class TransactionReceiptView {
         Label label = createTextLabel(labelText);
         Label value = createValueLabel(valueText);
 
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;");
-        value.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;");
+        label.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 20px; -fx-font-weight: bold;");
+        value.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 20px; -fx-font-weight: bold;");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
@@ -110,13 +110,13 @@ public class TransactionReceiptView {
 
     private Label createTextLabel(String text) {
         Label label = new Label(text);
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+        label.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
         return label;
     }
 
     private Label createValueLabel(String text) {
         Label label = new Label(text);
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+        label.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
         return label;
     }
 

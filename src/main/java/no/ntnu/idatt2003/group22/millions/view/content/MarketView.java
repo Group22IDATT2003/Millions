@@ -77,8 +77,9 @@ public class MarketView {
 
         Label title = new Label("Market");
         title.setStyle("""
-                -fx-text-fill: white; 
+                -fx-text-fill: #FFFFFF; 
                 -fx-font-size: 34px;
+                -fx-font-weight: bold;
                 """);
 
         HBox topCards = new HBox(24);
@@ -109,7 +110,7 @@ public class MarketView {
         searchField.setMaxWidth(300);
         searchField.setStyle("""
                 -fx-background-color: #343D52;
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-prompt-text-fill: #AAB2C5;
                 -fx-background-radius: 22;
                 -fx-font-size: 18px;
@@ -140,8 +141,8 @@ public class MarketView {
         Label value = new Label("78 500 NOK");
         Label change = new Label("+3 200 (+4.2%)");
 
-        title.setStyle("-fx-text-fill: white; -fx-font-size: 24px;");
-        value.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+        title.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 24px;");
+        value.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
         change.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 16px;");
 
 
@@ -181,7 +182,7 @@ public class MarketView {
     public void updateNetWorth(BigDecimal netWorth, BigDecimal change) {
         netWorthValueLabel.setText(netWorth + " NOK");
         netWorthValueLabel.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 18px;
                 """);
         String prefix = change.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
@@ -217,19 +218,20 @@ public class MarketView {
                 """);
 
         stockStatsTitleLabel.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 24px;
+                -fx-font-weight: bold;
                 """);
 
-        stockSymbolLabel.setStyle("-fx-text-fill: white;" +
+        stockSymbolLabel.setStyle("-fx-text-fill: #FFFFFF;" +
                 "-fx-font-size: 16px;");
-        highestPriceLabel.setStyle("-fx-text-fill: white;" +
+        highestPriceLabel.setStyle("-fx-text-fill: #FFFFFF;" +
                 "-fx-font-size: 16px;");
-        lowestPriceLabel.setStyle("-fx-text-fill: white;" +
+        lowestPriceLabel.setStyle("-fx-text-fill: #FFFFFF;" +
                 "-fx-font-size: 16px;");
-        currentPriceLabel.setStyle("-fx-text-fill: white;" +
+        currentPriceLabel.setStyle("-fx-text-fill: #FFFFFF;" +
                 "-fx-font-size: 16px;");
-        stockChangeLabel.setStyle("-fx-text-fill: white;" +
+        stockChangeLabel.setStyle("-fx-text-fill: #FFFFFF;" +
                 "-fx-font-size: 16px;");
 
 
@@ -293,7 +295,7 @@ public class MarketView {
         scrollPane.setPrefHeight(650);
         scrollPane.setStyle("""
                 -fx-background: #2C394F;
-                -fx-text-color: white;
+                -fx-text-color: #FFFFFF;
                 -fx-font-size: 14px;
                 """);
 
@@ -304,8 +306,9 @@ public class MarketView {
     private Label createTableHeader(String text) {
         Label label = new Label(text);
         label.setStyle("""
-                -fx-text-fill: white; 
+                -fx-text-fill: #FFFFFF; 
                 -fx-font-size: 22px;
+                -fx-font-weight: bold;
                 """);
         return label;
     }
@@ -313,7 +316,7 @@ public class MarketView {
     private Label createCellLabel(String text) {
         Label label = new Label(text);
         label.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 16px;
                 """);
         return label;

@@ -37,15 +37,16 @@ public class TransactionView {
         root.setStyle("-fx-background-color: #1A2332;");
 
         titleLabel.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 34px;
+                -fx-font-weight: bold;
                 """);
 
         searchField.setPromptText("Search/filter");
         searchField.setMaxWidth(300);
         searchField.setStyle("""
                 -fx-background-color: #343D52;
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-prompt-text-fill: #AAB2C5;
                 -fx-background-radius: 22;
                 -fx-font-size: 20px;
@@ -76,6 +77,7 @@ public class TransactionView {
         card.setStyle("""
             -fx-background-color: #343D52;
             -fx-background-radius: 18;
+            -fx-effect: dropshadow(gaussian, rgba(80,80,80,0.18), 8, 0, 0, 4);
             """);
 
         HBox header = new HBox(80);
@@ -150,7 +152,7 @@ public class TransactionView {
     private Label createHeader(String text) {
         Label label = new Label(text);
         label.setStyle("""
-                    -fx-text-fill: white;
+                    -fx-text-fill: #FFFFFF;
                     -fx-font-size: 14px;
                     -fx-font-weight: bold;
                 """);

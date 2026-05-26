@@ -41,19 +41,19 @@ public class BuyPopupView {
         this.quantityLabel = new Label();
         this.grossValueLabel = new Label();
         grossValueLabel.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 18px;
                 -fx-font-weight: bold;
                 """);
         this.commisionLabel = new Label();
         commisionLabel.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 18px;
                 -fx-font-weight: bold;
                 """);
         this.taxLabel = new Label();
         taxLabel.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 18px;
                 -fx-font-weight: bold;
                 """);

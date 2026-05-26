@@ -52,17 +52,18 @@ public class PortfolioView {
                 """);
 
         titleLabel.setStyle("""
-               -fx-text-fill: white; 
+               -fx-text-fill: #FFFFFF; 
                -fx-font-size: 34px;
+               -fx-font-weight: bold;
                """);
 
         portfolioValueLabel.setStyle("""
-                -fx-text-fill: white; 
+                -fx-text-fill: #FFFFFF; 
                 -fx-font-size: 22px;
                 """);
 
         totalNetWorthLabel.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 28px;
                 -fx-font-weight: bold;
                 """);
@@ -77,6 +78,7 @@ public class PortfolioView {
         summaryCard.setStyle("""
         -fx-background-color: #1A2332;
         -fx-background-radius: 18;
+        -fx-effect: dropshadow(gaussian, rgba(80,80,80,0.18), 8, 0, 0, 4);
     """);
 
         VBox moneyCard = new VBox(8);
@@ -86,7 +88,7 @@ public class PortfolioView {
         moneyCard.setStyle("""
         -fx-background-color: #1A2332;
         -fx-background-radius: 18;
-        
+        -fx-effect: dropshadow(gaussian, rgba(80,80,80,0.18), 8, 0, 0, 4);
     """);
 
         moneyValueLabel.setStyle("""
@@ -144,7 +146,7 @@ public class PortfolioView {
         scrollPane.setPrefHeight(360);
         scrollPane.setStyle("""
                 -fx-background: #2C394F;
-                -fx-text-color: white;
+                -fx-text-color: #FFFFFF;
                 -fx-font-size: 14px;
                 """);
 
@@ -174,7 +176,7 @@ public class PortfolioView {
     private Label createHeaderLabel(String text) {
         Label label = new Label(text);
         label.setStyle("""
-            -fx-text-fill: white;
+            -fx-text-fill: #FFFFFF;
             -fx-font-size: 16px;
             -fx-font-weight: bold;
             """);
@@ -183,7 +185,6 @@ public class PortfolioView {
 
     private HBox createShareRow(Share share, Consumer<Share> onSell) {
         HBox row = new HBox(35);
-        row.setAlignment(Pos.CENTER_LEFT);
 
         Label symbol = createCellLabel(share.getSymbol());
         Label name = createCellLabel(share.getStock().getCompany());
@@ -237,7 +238,7 @@ public class PortfolioView {
     private Label createCellLabel (String text){
         Label label = new Label(text);
         label.setStyle("""
-                    -fx-text-fill: white;
+                    -fx-text-fill: #FFFFFF;
                     -fx-font-size: 14px;
                     """);
         return label;

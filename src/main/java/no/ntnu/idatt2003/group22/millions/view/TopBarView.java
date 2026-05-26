@@ -1,18 +1,17 @@
 package no.ntnu.idatt2003.group22.millions.view;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
-import javafx.scene.control.Label;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-
-import java.math.BigDecimal;
-import java.util.Objects;
 
 public class TopBarView {
     private final HBox root;
@@ -63,7 +62,7 @@ public class TopBarView {
 
         newGameButton.setStyle("""
                 -fx-background-color: #38BDF8;
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 14px;
                 -fx-font-weight: bold;
                 -fx-background-radius: 16;
@@ -85,7 +84,7 @@ public class TopBarView {
 
     private void styleInfoLabel(Label label) {
         label.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                  -fx-font-size: 12px;
                  -fx-font-weight: bold;
                 """);
@@ -103,7 +102,7 @@ public class TopBarView {
 
     private void styleStatusLabel(Label label) {
         label.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-padding: 4 12 4 12;
                 -fx-font-size: 14px;
                 -fx-font-weight: bold;

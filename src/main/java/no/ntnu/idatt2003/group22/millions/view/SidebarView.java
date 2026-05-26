@@ -87,7 +87,7 @@ public class SidebarView {
         button.setAlignment(Pos.CENTER_LEFT);
         button.setStyle("""
                 -fx-background-color: transparent;
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 16px;
                 -fx-background-radius: 14;
                 -fx-padding: 10 14 10 14;

@@ -1,5 +1,9 @@
 package no.ntnu.idatt2003.group22.millions.view.content;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
@@ -10,10 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import no.ntnu.idatt2003.group22.millions.model.Share;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.List;
 
 
 public class DashboardView {
@@ -60,7 +60,7 @@ public class DashboardView {
 
         Label title = new Label("Dashboard");
         title.setStyle("""
-                -fx-text-fill: white; 
+                -fx-text-fill: #FFFFFF; 
                 -fx-font-size: 34px;
                 """);
 
@@ -105,11 +105,11 @@ public class DashboardView {
 
         Label titleLabel = new Label(title);
         titleLabel.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 14px;
                 """);
         valueLabel.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 22px;
                 -fx-font-weight: bold;
                 """);
@@ -137,8 +137,8 @@ public class DashboardView {
         Label value = new Label("78 500 NOK");
         Label change = new Label("+3 200 (+4.2%)");
 
-        title.setStyle("-fx-text-fill: white; -fx-font-size: 24px;");
-        value.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
+        title.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 24px;");
+        value.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 18px;");
         change.setStyle("-fx-text-fill: #6EE75F; -fx-font-size: 18px;");
 
         card.setAlignment(Pos.BOTTOM_LEFT);
@@ -148,8 +148,8 @@ public class DashboardView {
         xAxis.setLabel("Weeks");
         yAxis.setLabel("Net Worth");
 
-        xAxis.lookup(".axis-label").setStyle("-fx-text-fill: white;");
-        yAxis.lookup(".axis-label").setStyle("-fx-text-fill: white;");
+        xAxis.lookup(".axis-label").setStyle("-fx-text-fill: #FFFFFF;");
+        yAxis.lookup(".axis-label").setStyle("-fx-text-fill: #FFFFFF;");
 
 
         netWorthChart = new LineChart<>(xAxis, yAxis);
@@ -179,7 +179,7 @@ public class DashboardView {
     public void updateNetWorth(BigDecimal netWorth, BigDecimal change) {
         netWorthValueLabel.setText(netWorth + " NOK");
         netWorthValueLabel.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 18px;
                 """);
         String prefix = change.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
@@ -207,8 +207,8 @@ public class DashboardView {
         Label winners = new Label("Weekly winners:");
         Label losers = new Label("Weekly losers:");
 
-        winners.setStyle("-fx-text-fill: white; -fx-font-size: 22px;");
-        losers.setStyle("-fx-text-fill: white; -fx-font-size: 22px;");
+        winners.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 22px;");
+        losers.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 22px;");
 
         w1Label.setStyle("-fx-text-fill: #6EE75F;");
         l1Label.setStyle("-fx-text-fill: #EF4444;");
@@ -261,8 +261,9 @@ public class DashboardView {
     private Label createTableHeader(String text) {
         Label label = new Label(text);
         label.setStyle("""
-                -fx-text-fill: white; 
+                -fx-text-fill: #FFFFFF; 
                 -fx-font-size: 22px;
+                -fx-font-weight: bold;
                 """);
         return label;
     }
@@ -312,7 +313,7 @@ public class DashboardView {
     private Label createLabel(String text){
         Label label = new Label(text);
         label.setStyle("""
-                -fx-text-fill: white;
+                -fx-text-fill: #FFFFFF;
                 -fx-font-size: 14px;
                 """);
         return label;
