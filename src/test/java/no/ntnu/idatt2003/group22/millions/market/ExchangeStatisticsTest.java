@@ -1,6 +1,8 @@
 package no.ntnu.idatt2003.group22.millions.market;
 
 import no.ntnu.idatt2003.group22.millions.model.Stock;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -9,7 +11,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ExchangeStatisticsTest {
+
     @Test
+    @DisplayName(" Get gainers returns stocks sorted by gain. ")
     void getGainers_returnsSortedList() {
         Stock s1 = new Stock("A", "A", new BigDecimal("100"));
         Stock s2 = new Stock("B", "B", new BigDecimal("100"));
@@ -25,6 +29,7 @@ public class ExchangeStatisticsTest {
     }
 
     @Test
+    @DisplayName(" Get losers returns stocks sorted by loss. ")
     void getLosers_returnsSortedList() {
         Stock s1 = new Stock("A", "A", new BigDecimal("100"));
         Stock s2 = new Stock("B", "B", new BigDecimal("100"));

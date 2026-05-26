@@ -6,9 +6,16 @@ import javafx.stage.Stage;
 import no.ntnu.idatt2003.group22.millions.controller.GameController;
 import no.ntnu.idatt2003.group22.millions.view.MainView;
 
-
+/**
+ * Main entry point for the Millions application
+ */
 public class Main extends Application {
 
+    /**
+     * Starts the JavaFX application
+     * 
+     * @param stage the primary application stage
+     */
     @Override
     public void start(Stage stage) {
         MainView mainView = new MainView();
@@ -20,6 +27,11 @@ public class Main extends Application {
         stage.show();
     }
 
+    /**
+     * Launches the application 
+     * 
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }

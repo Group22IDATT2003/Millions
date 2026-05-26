@@ -146,17 +146,20 @@ public class PortfolioTest {
     }
 
     @Test
+    @DisplayName(" New portfolio is empty. ")
     void isEmpty_newPortfolio_returnsTrue() {
         assertTrue(portfolio.isEmpty());
     }
 
     @Test
+    @DisplayName(" Portfolio is not empty after adding a share. ")
     void isEmpty_afterAddingShare_returnsFalse() {
         portfolio.addShare(appleShare1);
         assertFalse(portfolio.isEmpty());
     }
 
     @Test
+    @DisplayName(" Get net worth returns total sale value of all shares. ")
     void getNetWorth_returnsSaleValueOfAllShares() {
         portfolio.addShare(appleShare1); 
         portfolio.addShare(samsungShare); 
