@@ -1,6 +1,6 @@
 # Millions
 
-Et askjemarkedssimuleringspill utviklet i Java som en del av Programmering 2 (IDATT2003) ved NTNU. Applikasjonen lar spillere kjøpr og selge akjser, administrere en portefølje, spore transaskjoner, analysere markedsstatistikk og gå gjennom simulerte handelsuker.
+Et askjemarkedssimuleringspill utviklet i Java som en del av Programmering 2 (IDATT2003) ved NTNU. Applikasjonen lar spillere kjøpe og selge akjser, administrere en portefølje, spore transaskjoner, analysere markedsstatistikk og gå gjennom simulerte handelsuker.
 
 ## Spillutviklere
 * Cathrine Kristiansen, Kandidatnummer: 10101
