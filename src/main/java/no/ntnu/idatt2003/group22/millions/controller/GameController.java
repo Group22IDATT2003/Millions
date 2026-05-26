@@ -1,5 +1,12 @@
 package no.ntnu.idatt2003.group22.millions.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
@@ -14,25 +21,29 @@ import no.ntnu.idatt2003.group22.millions.view.dialog.BuyPopupView;
 import no.ntnu.idatt2003.group22.millions.view.dialog.SellPopupView;
 import no.ntnu.idatt2003.group22.millions.view.dialog.TransactionReceiptView;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.io.IOException;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-
+/**
+ * Controller for handling game logic and UI interaction
+ */
 public class GameController {
     private Player player;
     private Exchange exchange;
     private final MainView mainView;
 
+    /**
+     * Creates a game controller
+     * 
+     * @param mainView the main application view
+     */
     public GameController(MainView mainView) {
 
         this.mainView = mainView;
         configureActions();
     }
 
+    /**
+     * Configures UI event handlers
+     * 
+     */
     private void configureActions() {
         mainView.getMarketView().getSearchField().textProperty().addListener(
                 (obs, oldValue, newValue) -> handleSearch(newValue)
@@ -73,6 +84,9 @@ public class GameController {
 
     }
 
+    /**
+     * Advances the game to the next week
+     */
     private void handleAdvanceWeek() {
         if (exchange == null || player == null) {
             showMessage("Advance", "Start a new game first.");
@@ -83,6 +97,13 @@ public class GameController {
         exchange.advance();
     }
 
+    /**
+     * Starts a new game
+     * 
+     * @param name the player name
+     * @param startingMoney the starting balance
+     * @param path the stock file path
+     */
     public void startNewGame(String name, BigDecimal startingMoney, Path path) {
         StockFileHandler handler = new StockFileHandler();
 
@@ -103,6 +124,11 @@ public class GameController {
 
     }
 
+    /**
+     * Handles stock purchases
+     * 
+     * @param stock the stock to buy
+     */
     private void handleBuy(Stock stock) {
         if (exchange == null || player == null) {
             showMessage("Buy", "Start a new game before buying.");
@@ -130,6 +156,11 @@ public class GameController {
 
     }
 
+    /**
+     * Handles selling shares
+     * 
+     * @param share the share to sell
+     */
     private void handleSell(Share share) {
         if (exchange == null || player == null) {
             showMessage("Sell", "Start a new game before selling.");
@@ -151,6 +182,11 @@ public class GameController {
         popup.show();
     }
 
+    /**
+     * Handles market search input
+     * 
+     * @param searchText the search text
+     */
     private void handleSearch(String searchText) {
         if (exchange == null) {
             return;
@@ -160,6 +196,11 @@ public class GameController {
         showMarket(results);
     }
 
+    /**
+     * Handle transaction search input
+     * 
+     * @param searchText the search text
+     */
     private void handleTransactionSearch(String searchText) {
         if (player == null) {
             return;
@@ -172,6 +213,9 @@ public class GameController {
         showTransaction(results);
     }
 
+    /**
+     * Opens dialogs and starts a new game.
+     */
     private void handleStartNewGame() {
 
         TextInputDialog nameDialog = new TextInputDialog();
@@ -233,6 +277,9 @@ public class GameController {
 
     }
 
+    /**
+     * Refreshes all UI views with updated data.
+     */
     private void refreshAllViews() {
         if(player == null || exchange == null){
             return;
@@ -287,6 +334,9 @@ public class GameController {
         mainView.getPortfolioView().updateMoney(player.getMoney());
     }
 
+    /**
+     * Dislpays the dashboard views
+     */
     public void showDashboard() {
         mainView.showDashboard();
 
@@ -297,23 +347,52 @@ public class GameController {
         );
     }
 
+    /**
+     * Displays stocks in the market view
+     * 
+     * @param stocks the stocks to display
+     */
     public void showMarket(List<Stock> stocks) {
         mainView.getMarketView().updateMarket(stocks, this::handleBuy);
     }
 
+    /**
+     * Displays shares in the portfolio view 
+     * 
+     * @param shares the shares to display
+     */
     public void showPortfolio(List<Share> shares) {
         mainView.getPortfolioView().updatePortfolio(shares, this::handleSell);
     }
 
+    /**
+     * Displays transactions in the transaction view
+     * 
+     * @param transactions the transactions to display
+     */
     public void showTransaction(List<Transaction> transactions) {
         mainView.getTransactionView().updateTransaction(transactions);
     }
 
-    public void showTopBar(String playerName, int week, BigDecimal money,
-                           BigDecimal netWorth, String status) {
+    /**
+     * Updates the top bar with player information
+     * 
+     * @param playerName the player name
+     * @param week the current week
+     * @param money the players balance
+     * @param netWorth the players net worth
+     * @param status the players status
+     */
+    public void showTopBar(String playerName, int week, BigDecimal money, BigDecimal netWorth, String status) {
         mainView.getTopBarView().updatePlayerInfo(playerName, week, money, netWorth, status);
     }
 
+    /**
+     * Shows an information message dialog
+     * 
+     * @param title the dialog title
+     * @param message the dialog message
+     */
     public void showMessage(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -322,11 +401,19 @@ public class GameController {
         alert.showAndWait();
     }
 
+    /**
+     * Shows a transaction receipt dialog
+     * 
+     * @param transaction the completed transaction
+     */
     private void showTransactionReceipt(Transaction transaction) {
         TransactionReceiptView receipt = new TransactionReceiptView(transaction);
         receipt.show();
     }
 
+    /**
+     * Sells all shares in the players portfolio
+     */
     private void handleSellAll() {
         if (exchange == null || player == null) {
             showMessage("Sell all", "Start a new game first.");

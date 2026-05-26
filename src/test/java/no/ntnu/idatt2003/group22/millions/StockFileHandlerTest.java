@@ -10,6 +10,8 @@ import java.util.List;
 
 import no.ntnu.idatt2003.group22.millions.io.StockFileHandler;
 import no.ntnu.idatt2003.group22.millions.model.Stock;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -20,6 +22,7 @@ public class StockFileHandlerTest {
     private final StockFileHandler handler = new StockFileHandler();
 
     @Test
+    @DisplayName(" Verifies that valid stock data is read from file. ")
     void readStocksFromFile_validFile_returnsStocks() throws IOException {
         Path file = tempDir.resolve("stocks.csv");
         Files.writeString(file,
@@ -37,12 +40,14 @@ public class StockFileHandlerTest {
     }
 
     @Test
+    @DisplayName(" Verifies that null path throws an exception when reading. ")
     void readStocksFromFile_nullPath_throwsException() {
         assertThrows(IllegalArgumentException.class,
                 () -> handler.readStocksFromFile(null));
     }
 
     @Test
+    @DisplayName(" Verifies that invalid field count throws an exception. ")
     void readStocksFromFile_invalidFieldCount_throwsException() throws IOException {
         Path file = tempDir.resolve("invalid.csv");
         Files.writeString(file, "AAPL,Apple\n");
@@ -52,6 +57,7 @@ public class StockFileHandlerTest {
     }
 
     @Test
+    @DisplayName(" Verifies that blank symbol throws an exception. ")
     void readStocksFromFile_blankSymbol_throwsException() throws IOException {
         Path file = tempDir.resolve("invalid.csv");
         Files.writeString(file, ",Apple,100.00\n");
@@ -61,6 +67,7 @@ public class StockFileHandlerTest {
     }
 
     @Test
+    @DisplayName("Verifies that blank company throws an exception. ")
     void readStocksFromFile_blankCompany_throwsException() throws IOException {
         Path file = tempDir.resolve("invalid.csv");
         Files.writeString(file, "AAPL,,100.00\n");
@@ -70,6 +77,7 @@ public class StockFileHandlerTest {
     }
 
     @Test
+    @DisplayName(" Verifies that invalid price throws an exception. ")
     void readStocksFromFile_invalidPrice_throwsException() throws IOException {
         Path file = tempDir.resolve("invalid.csv");
         Files.writeString(file, "AAPL,Apple,abc\n");
@@ -79,6 +87,7 @@ public class StockFileHandlerTest {
     }
 
     @Test
+    @DisplayName(" Verifies that stocks are written to file. ")
     void writeStocksToFile_validInput_writesFile() throws IOException {
         Path file = tempDir.resolve("out.csv");
         List<Stock> stocks = List.of(
@@ -94,6 +103,7 @@ public class StockFileHandlerTest {
     }
 
     @Test
+    @DisplayName(" Verifies that null path throws an exception when writing. ")
     void writeStocksToFile_nullPath_throwsException() {
         List<Stock> stocks = List.of(new Stock("AAPL", "Apple", new BigDecimal("100.00")));
 
@@ -102,6 +112,7 @@ public class StockFileHandlerTest {
     }
 
     @Test
+    @DisplayName(" Verifies that null stock list throws an exception. ")
     void writeStocksToFile_nullStocks_throwsException() {
         Path file = tempDir.resolve("out.csv");
 
@@ -110,6 +121,7 @@ public class StockFileHandlerTest {
     }
 
     @Test
+    @DisplayName(" Verifies that a stock list containing null throws an exception")
     void writeStocksToFile_listContainingNull_throwsException() {
         Path file = tempDir.resolve("out.csv");
         List<Stock> stocks = java.util.Arrays.asList(
