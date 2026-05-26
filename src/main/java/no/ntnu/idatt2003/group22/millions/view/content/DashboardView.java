@@ -62,6 +62,7 @@ public class DashboardView {
         title.setStyle("""
                 -fx-text-fill: #FFFFFF; 
                 -fx-font-size: 34px;
+                -fx-font-weight: bold;
                 """);
 
         HBox summaryCards = new HBox(24);
