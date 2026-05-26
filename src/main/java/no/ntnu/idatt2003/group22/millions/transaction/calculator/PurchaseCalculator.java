@@ -7,10 +7,7 @@ import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
- * Represents a calculator for purchase transactions.
- * This class implements the TransactionCalculator interface and provides
- * methods to calculate the gross amount, commission, tax, and total cost
- * of a purchase transaction based on the purchase price and quantity of the share.
+ * Calculates values for purchase transactions
  */
 public final class PurchaseCalculator implements TransactionCalculator {
     private static final BigDecimal COMMISION_RATE = BigDecimal.valueOf(0.005);
@@ -19,10 +16,10 @@ public final class PurchaseCalculator implements TransactionCalculator {
     private final BigDecimal quantity;
 
     /**
-     * Constructor for PurchaseCalculator.
-     * Initializes the calculator with the purchase price and quantity of the share being purchased.
+     * Creates a purchase calculator fr a share
      *
-     * @param share the share being purchased. Must not be null.
+     * @param share the purchased share
+     * @throws NullPointerException if share is null
      */
     public PurchaseCalculator(Share share) {
         Objects.requireNonNull(share, "share can not be null");
@@ -31,6 +28,11 @@ public final class PurchaseCalculator implements TransactionCalculator {
     }
 
 
+    /**
+     * Returns the gross purchase value
+     * 
+     * @return the gross value
+     */
     @Override
     public BigDecimal calculateGross() {
 
@@ -38,6 +40,11 @@ public final class PurchaseCalculator implements TransactionCalculator {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
+    /**
+     * Returns the purchase commission
+     * 
+     * @return the commission
+     */
     @Override
     public BigDecimal calculateCommission() {
         return calculateGross()
@@ -45,12 +52,21 @@ public final class PurchaseCalculator implements TransactionCalculator {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
-
+    /**
+     * Returns the purchase tax
+     * 
+     * @return the tax value
+     */
     @Override
     public BigDecimal calculateTax(){
         return BigDecimal.ZERO.setScale(2);
     }
 
+    /**
+     * Returns the total purchase cost
+     * 
+     * @retun the total cost
+     */
     @Override
     public BigDecimal calculateTotal() {
         return calculateGross()

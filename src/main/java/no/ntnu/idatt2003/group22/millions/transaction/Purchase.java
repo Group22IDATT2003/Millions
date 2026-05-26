@@ -6,16 +6,27 @@ import no.ntnu.idatt2003.group22.millions.model.Share;
 
 import java.math.BigDecimal;
 
- /**
- *
+/**
+ * Represents a purchase transaaction
  */
 public class Purchase extends Transaction {
+
+    /**
+     * Creates a purchase transaction
+     * 
+     * @param share the purchased share
+     * @param week the transaction week
+     */
     public Purchase(Share share, int week) {
         super(share, week, new PurchaseCalculator(share));
     }
 
     /**
-     * Executes the purchase logic for this transaction.
+     * Completes the purchase transaction
+     * 
+     * @param player the player making the purchase
+     * @throws IllegalArgumentException if player is null
+     * @throws IllegalStateException if the player lacks funds
      */
     @Override
     protected void doCommit(Player player) {
@@ -23,21 +34,16 @@ public class Purchase extends Transaction {
             throw new IllegalArgumentException("player cannot be null");
         }
 
-        // find the total cost of the purchase
         BigDecimal totalCost = getCalculator().calculateTotal();
 
-        // checks if the user has enough money to complete the purchase
         if (player.getMoney().compareTo(totalCost) < 0) {
             throw new IllegalStateException("Not enough cash to complete purchase");
         }
 
-        // trekker penger
         player.withdrawMoney(totalCost);
 
-        // places the share in the player's portfolio
         player.getPortfolio().addShare(getShare());
 
-        // place the transaction in the player's transaction archive
         player.getTransactionArchive()
         .add(this);
     }

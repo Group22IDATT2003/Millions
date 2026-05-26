@@ -12,12 +12,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /**
- * Represents an exchange where players can buy and sell shares.
- * This class manages the stocks available for trading,
- * tracks the current week,
- * and provides methods to buy and sell shares.
- * It also provides methods to advance the exchange's time and
- * retrieve the top gainers and losers.
+ * Represents a stock exchange for trading shares
  */
 public class Exchange extends GameObservable{
     private final String name;
@@ -27,9 +22,11 @@ public class Exchange extends GameObservable{
     private final TransactionFactory transactionFactory;
 
     /**
-     * Constructor for Exchange.
-     * @param name the name of the exchange.
-     * @param stocks the list of stocks available for trading.
+     * Creates an exchange with a name and stocks
+     * 
+     * @param name the exchange name
+     * @param stocks the available stocks
+     * @throws IllegalArgumentException if values are invalid
      */
     public Exchange(String name, List<Stock> stocks) {
         if(name == null){
@@ -60,28 +57,29 @@ public class Exchange extends GameObservable{
     }
 
     /**
-     * Returns the name of the exchange.
-     * @return the name of the exchange.
-     * @throws IllegalStateException if the name is not set.
+     * Returns the exchange name
+     * 
+     * @return the exchange name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Returns the current week of the exchange.
-     * @return the current week.
-     * @throws IllegalArgumentException if the week is not set or negative.
+     * Returns the current exchange week
+     * 
+     * @return the current week
      */
     public int getWeek() {
         return week;
     }
 
     /**
-     * Checks if the exchange has a stock with the given symbol.
-     * @param symbol the symbol of the stock to check.
-     * @return true if the exchange has the stock, false otherwise.
-     * @throws IllegalArgumentException if the symbol is null.
+     * Checks if a stock exists on the exchange
+     * 
+     * @param symbol the stock symbol
+     * @return true if the stock exists
+     * @throws IllegalArgumentException if the symbol is null
      */
     public boolean hasStock(String symbol) {
         if(symbol == null){
@@ -91,10 +89,11 @@ public class Exchange extends GameObservable{
     }
 
     /**
-     * Returns the stock with the given symbol.
-     * @param symbol the symbol of the stock to retrieve.
-     * @return the stock with the given symbol.
-     * @throws IllegalArgumentException if the symbol is null or the exchange does not have the stock.
+     * Returns the stock with the given symbol
+     * 
+     * @param symbol the stock symbol
+     * @return the matching stock
+     * @throws IllegalArgumentException if symbol is invalid
      */
     public Stock getStock(String symbol) {
         if(symbol == null){
@@ -108,10 +107,10 @@ public class Exchange extends GameObservable{
     }
 
     /**
-     * Finds stocks that contain the search term in their symbol or company name.
-     * @param searchTerm the term to search for in stock symbols and company names.
-     * @return a list of stocks that contain the search term.
-     * @throws IllegalArgumentException if the search term is null.
+     * Finds stocks matching a search team
+     * 
+     * @param searchTerm the search term
+     * @return a list of matching stocks
      */
     public List<Stock> findStocks(String searchTerm) {
         if(searchTerm == null){
@@ -136,12 +135,13 @@ public class Exchange extends GameObservable{
     }
 
     /**
-     * Buys shares of a stock with the given symbol and quantity.
-     * @param symbol the symbol of the stock to buy.
-     * @param quantity the quantity of shares to buy.
-     * @param player the player who is buying the shares.
-     * @return the transaction object representing the purchase.
-     * @throws IllegalArgumentException if the symbol is null, the player is null, or the quantity is negative.
+     * Buys shares of a stock
+     * 
+     * @param symbol the stock symbol
+     * @param quantity the share quantity
+     * @param player the player buying shares
+     * @return the completed shares
+     * @throws IllegalArgumentException if values are invalid
      */
     public Transaction buy(String symbol, BigDecimal quantity, Player player) {
         if(symbol == null){
@@ -168,11 +168,12 @@ public class Exchange extends GameObservable{
     }
 
     /**
-     * Sells a share of a stock.
-     * @param share 1 share of a stock.
-     * @param player the player who is selling the share.
-     * @return the transaction object representing the sale.
-     * @throws IllegalArgumentException if the player is null or the share is null.
+     * Sells a share
+     * 
+     * @param share the share to sell
+     * @param player the player selling the share
+     * @return the completed transaction
+     * @throws IllegalArgumentException if values are invalid
      */
     public Transaction sell(Share share, Player player) {
         if(player == null){
@@ -243,9 +244,8 @@ public class Exchange extends GameObservable{
     }
 
     /**
-     * Advances the exchange's time by one week.
-     * This method updates the stock prices and the week number.
-     * It also calculates the latest price change for each stock.
+     * Advances the exchange to the next week
+     * Updates all stock prices randomly
      */
     public void advance() {
         week++;
@@ -270,10 +270,11 @@ public class Exchange extends GameObservable{
     }
 
     /**
-     * Returns the top gainers in the exchange.
-     * @param limit the number of stocks to return.
-     * @return a list of the top gainers.
-     * @throws IllegalArgumentException if the limit is less than or equal to 0.
+     * Returns the top gaining stocks
+     * 
+     * @param limit maximum number of stocks
+     * @return list of the top gainers.
+     * @throws IllegalArgumentException of limit is invalid
      */
     public List<Stock> getGainers(int limit) {
         if(limit <= 0){
@@ -295,10 +296,11 @@ public class Exchange extends GameObservable{
     }
 
     /**
-     * Returns the top losers in the exchange.
-     * @param limit the number of stocks to return.
-     * @return a list of the top losers.
-     * @throws IllegalArgumentException if the limit is less than or equal to 0.
+     * Returns the top losing stocks
+     * 
+     * @param limit maximum number of stocks
+     * @return list of the top losers.
+     * @throws IllegalArgumentException if limit is invalid
      */
     public List<Stock> getLosers(int limit) {
         if(limit <= 0){

@@ -7,24 +7,26 @@ import no.ntnu.idatt2003.group22.millions.model.Share;
 import java.math.BigDecimal;
 
 /**
- * Represents a sale transaction where a player sells a share.
- * A sale adds the share to the player's portfolio,
- * calculates the total cost of the transaction,
- * and deducts the total cost from the player's balance.
+ * Represents a sale transaction 
  */
 public class Sale extends Transaction {
+
+    /**
+     * Creates a sale transaction 
+     * 
+     * @param share the sold share
+     * @param week the transaction week
+     */
     public Sale(Share share, int week){
         super(share, week, new SaleCalculator(share));
     }
 
     /**
-     * Executes the sale logic for this transaction.
-     * This method checks that the player owns the share to be sold,
-     * removes the share from the player's portfolio,
-     * calculates the total cost of the transaction,
-     * and deducts the total cost from the player's balance.
-     * If any of these steps fail, an exception is thrown.
-     * @param player the player involved in the transaction.
+     * Completes the sale transaction
+     * 
+     * @param player the player making the sale
+     * @throws IllegalArgumentException if player is null
+     * @throws IllegalStateException if the player does not own the share
      */
     @Override
     protected void doCommit(Player player){
@@ -41,13 +43,10 @@ public class Sale extends Transaction {
             throw new IllegalStateException("Failed to remove share from portfolio");
         }
 
-        // calculate the total cost of the transaction
         BigDecimal payout = getCalculator().calculateTotal();
 
-        // add money to player
         player.addMoney(payout);
-
-        // add transaction to the archive
+        
         player.getTransactionArchive().add(this);
     }
 }

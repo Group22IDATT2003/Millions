@@ -6,12 +6,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Represents a sale transaction where a player sells a share.
- * A sale adds the share to the player's portfolio,
- * calculates the total cost of the transaction,
- * and deducts the total cost from the player's balance.
- * An exception is thrown if the player does not own the share being sold
- * or if the transaction is committed more than once.
+ * Calculates values for sale transactions
  */
 public class SaleCalculator implements TransactionCalculator {
     private static final BigDecimal COMMISION_RATE = new BigDecimal("0.01");
@@ -22,11 +17,10 @@ public class SaleCalculator implements TransactionCalculator {
     private final BigDecimal quantity;
 
     /**
-     * Constructor for SaleCalculator.
-     * Initializes the calculator with the purchase price,
-     * sale price, and quantity of the share being sold.
+     * Creates a sale calculator for a share
      *
-     * @param share the share being sold. Must not be null.
+     * @param share the sold share
+     * @throws IllegalArgumentException is share is null
      */
     public SaleCalculator(Share share) {
         if(share == null){
@@ -37,11 +31,21 @@ public class SaleCalculator implements TransactionCalculator {
         this.quantity = share.getQuantity();
     }
 
+    /**
+     * Returns the gross sale value
+     * 
+     * @return the gross value
+     */
     @Override
     public BigDecimal calculateGross() {
         return salePrice.multiply(quantity).setScale(2, RoundingMode.HALF_UP);
     }
 
+    /**
+     * Returns the sale commission
+     * 
+     * @return the sale commission
+     */
     @Override
     public BigDecimal calculateCommission() {
         return calculateGross()
@@ -49,6 +53,11 @@ public class SaleCalculator implements TransactionCalculator {
         .setScale(2, RoundingMode.HALF_UP);
     }
 
+    /**
+     * Calculates profit before tax
+     * 
+     * @return the profit before tax
+     */
     private BigDecimal calculateProfitBeforeTax(){
         BigDecimal purchaseCost = purchasePrice.multiply(quantity);
         return calculateGross()
@@ -57,6 +66,10 @@ public class SaleCalculator implements TransactionCalculator {
         .setScale(2, RoundingMode.HALF_UP);
     }
 
+    /**
+     * Returns the tax on the sale profit
+     * @return the tax amount
+     */
     @Override
     public BigDecimal calculateTax() {
         BigDecimal profit = calculateProfitBeforeTax();
@@ -68,6 +81,11 @@ public class SaleCalculator implements TransactionCalculator {
         return profit.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
     }
 
+    /**
+     * Returns the total sale payout
+     * 
+     * @return the total payout
+     */
     @Override
     public BigDecimal calculateTotal() {
         return calculateGross()
