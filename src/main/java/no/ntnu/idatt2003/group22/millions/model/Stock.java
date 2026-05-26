@@ -6,10 +6,6 @@ import java.util.List;
 
 /**
  * Represents a stock in the financial market.
- * This class stores the symbol, company name, and historical sales prices of a stock.
- * It provides methods to retrieve the latest sales price,
- * the highest and lowest prices,
- * and the price change since the last trading day.
  */
 public class Stock {
     private final String symbol;
@@ -17,12 +13,12 @@ public class Stock {
     private final List<BigDecimal> prices;
 
     /**
-     * Constructor for Stock.
-     * @param symbol the unique symbol of the stock.
-     * @param company the name of the company that owns the stock.
-     * @param salesPrice the current sales price of the stock.
-     *
-     * @throws IllegalArgumentException if the symbol, company, or salesPrice is null or not greater than zero.
+     * Creates a stock with symbol, company name and start price.
+     * 
+     * @param symbol the stock symbol
+     * @param company the cmpany name
+     * @param salesPrice the starting sales price
+     * @throws IllegalArgumentException if values are invalid
      */
     public Stock(String symbol, String company, BigDecimal salesPrice) {
         if (symbol == null) {
@@ -51,33 +47,37 @@ public class Stock {
     }
 
     /**
-     * Gets the symbol of the stock.
-     * @return the symbol of the stock.
+     * Returns the stock symbol
+     * 
+     * @return the stock symbol.
      */
     public String getSymbol() {
         return symbol;
     }
 
     /**
-     * Gets the company name of the stock.
-     * @return the company name of the stock.
+     * Returns the company name
+     * 
+     * @return the company name.
      */
     public String getCompany() {
         return company;
     }
 
     /**
-     * Gets the latest sales price of the stock.
-     * @return the latest sales price of the stock.
+     * Returns the latest sales price
+     * 
+     * @return the latest sales price.
      */
     public BigDecimal getSalesPrice() {
         return prices.get(prices.size() - 1);
     }
 
     /**
-     * Adds a new sales price to the stock's historical prices.
-     * @param price the sales price to add.
-     * @throws IllegalArgumentException if the price is null or not greater than zero.
+     * Adds a new sales price to the history
+     * 
+     * @param price the new sales price
+     * @throws IllegalArgumentException if the price is NULL or not greater than zero.
      */
     public void addNewSalesPrice(BigDecimal price) {
         if (price == null) {
@@ -90,16 +90,18 @@ public class Stock {
     }
 
     /**
-     * Gets a copy of the stock's historical prices.
-     * @return a copy of the stock's historical prices.
+     * Returns all historical prices.
+     * 
+     * @return a immutable list og prices
      */
     public List<BigDecimal> getHistoricalPrices(){
         return List.copyOf(prices);
     }
 
     /**
-     * Gets the highest sales price of the stock.
-     * @return the highest sales price of the stock.
+     * Returns the highest registered price
+     * 
+     * @return the highest price
      */
     public BigDecimal getHighestPrice(){
         return prices.stream()
@@ -108,8 +110,9 @@ public class Stock {
     }
 
     /**
-     * Gets the lowest sales price of the stock.
-     * @return the lowest sales price of the stock.
+     * Returns the lowest registered price
+     * 
+     * @return the lowest price
      */
     public BigDecimal getLowestPrice(){
         return prices.stream()
@@ -118,8 +121,9 @@ public class Stock {
     }
 
     /**
-     * Gets the price change since the last trading day.
-     * @return the price change since the last trading day.
+     * Returns the price change from the previous week
+     * 
+     * @return the latest price difference
      */
     public BigDecimal getLatestPriceChange(){
         if(prices.size() < 2){
