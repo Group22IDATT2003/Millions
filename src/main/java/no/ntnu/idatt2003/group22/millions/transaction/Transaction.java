@@ -7,11 +7,7 @@ import no.ntnu.idatt2003.group22.millions.model.Share;
 import java.math.BigDecimal;
 
 /**
- * Abstract class representing a financial transaction involving shares.
- * This class provides a template for specific types of transactions,
- * such as purchases and sales,
- * and ensures that all transactions adhere to a consistent structure and behavior.
- *
+ * Represents a financial transaction involving shares
  */
 public abstract class Transaction {
     private final Share share;
@@ -20,14 +16,12 @@ public abstract class Transaction {
     protected boolean committed;
 
     /**
-     * Constructor for Transaction.
-     * This constructor initializes the transaction with the specified share, week, and calculator.
-     * The constructor performs validation to ensure that the share and calculator are not null
-     * and that the week is greater than or equal to 1.
+     * Creates a transaction with share, week and calculator
      *
-     * @param share      the share involved in the transaction. Cannot be null.
-     * @param week       the week of the transaction. Must be >= 1.
-     * @param calculator the calculator to compute the transaction's financial details. Cannot be null.
+     * @param share the share involved
+     * @param week the transaction week
+     * @param calculator the transaction calculator
+     * @throws IllegalArgumentException if values are invalid
      */
     protected Transaction(Share share, int week, TransactionCalculator calculator) {
         if(share == null){
@@ -48,17 +42,11 @@ public abstract class Transaction {
     }
 
     /**
-     * Commits the transaction.
-     * This method checks if the transaction has already been committed
-     * and throws an exception if it has.
-     * Otherwise, it calls the doCommit method to perform the actual commit logic.
-     * The doCommit method is implemented by subclasses
-     * to define specific commit behavior for different transaction types.
-     * After the commit logic is executed, the transaction is marked as committed.
+     * Commits the transaction
      *
-     * @param player the player involved in the transaction. Cannot be null.
-     * @throws IllegalStateException if the transaction has already been committed.
-     * @throws NullPointerException  if the player is null.
+     * @param player the player performing the transaction
+     * @throws IllegalArgumentException if palyer is null
+     * @throws IllegalStateException if transaction is already committed
      */
     public final void commit(Player player) {
         if(player == null){
@@ -72,37 +60,26 @@ public abstract class Transaction {
     }
 
 
-     /**
-     * This method is an abstract method that subclasses must implement
-     * to define the specific logic for committing the transaction.
-     * The commit method calls the doCommit method after it checks that the transaction
-     * has not already been committed.
-     * Subclasses will implement this method to perform the necessary actions
-     * to complete the transaction, such as updating the player's portfolio,
-     * adjusting their cash balance, and recording the transaction in their transaction history.
+    /**
+     * Executes transaction spesific logic
      *
-     * @param player the player involved in the transaction.
+     * @param player the player performing the transaction.
      */
     protected abstract void doCommit(Player player);
 
-     /**
-     * Returns the share involved in the transaction.
-     * This method provides access to the share associated with the transaction,
-     * allowing subclasses and external code to retrieve information about the share.
+    /**
+     * Returns the transaction share
      *
-     * @return the share involved in the transaction.
+     * @return the share
      */
     public final Share getShare(){
         return share;
     }
 
     /**
-     * This method provides access to the week of the transaction.
-     * It allows subclasses and external code to retrieve the timing of the transaction,
-     * which can be important for calculating the transaction's financial details
-     * and for tracking the player's activities over time.
+     * Returns the transaction week
      *
-     * @return the week of the transaction.
+     * @return the week number
      */
     public final int getWeek() {
         return week;
@@ -110,42 +87,55 @@ public abstract class Transaction {
 
 
     /**
-     * Returns the calculator used to compute the transaction's financial details.
-     * This method allows subclasses to access the calculator instance
-     * used to compute the transaction details.
+     * Returns the transaction calculator
      *
-     * @return the calculator used for this transaction.
+     * @return the calculator
      */
     public final TransactionCalculator getCalculator() {
         return calculator;
     }
 
     /**
-     * Returns true if the transaction has been committed, false otherwise.
-     * This method allows subclasses to check whether the transaction
-     * has already been committed.
-     * This method is intended to be used by subclasses
-     * to ensure that certain actions are only performed on committed transactions
-     * or to prevent actions from being performed on transactions that have not yet been committed.
+     * Checks if the transaction is committed
      *
-     * @return true if the transaction has been committed, false otherwise.
+     * @return true if committed
      */
     public final boolean isCommitted() {
         return committed;
     }
 
+    /**
+     * Returns the gross transaction value
+     * 
+     * @return the gross value
+     */
     public final BigDecimal calculateGross(){
         return calculator.calculateGross();
     }
 
+    /**
+     * Returns the transaction commission
+     * 
+     * @return the commission
+     */
     public final BigDecimal calculateCommission() {
         return calculator.calculateCommission();
     }
 
+    /**
+     * Returns the transaction tax
+     * 
+     * @return the tax
+     */
     public final BigDecimal calculateTax(){
         return calculator.calculateTax();
     }
 
+    /**
+     * Returns the total transaction value
+     * 
+     * @return the total value
+     */
     public final BigDecimal calculateTotal(){
         return calculator.calculateTotal();
     }
